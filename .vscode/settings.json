@@ -1,0 +1,24 @@
+{
+	"files.associations": {
+		"global.h": "c",
+		"errno.h": "c",
+		"env.h": "c",
+		"signals.h": "c",
+		"lexer.h": "c",
+		"ft_string.h": "c",
+		"tokenizer.h": "c",
+		"stdio.h": "c",
+		"signal.h": "c",
+		"environment.h": "c",
+		"deque.h": "c",
+		"exit_status.h": "c",
+		"libft.h": "c",
+		"history.h": "c",
+		"signal_handler.h": "c",
+		"error.h": "c",
+		"limits.h": "c",
+		"parser.h": "c",
+		"linked_list.h": "c",
+		"readline.h": "c"
+	}
+}
