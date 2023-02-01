@@ -6,13 +6,13 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:02:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/01/31 03:51:44 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/01 20:32:59 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include <readline/history.h>
-#include <readline/readline.h>
+#include "readline/history.h"
+#include "readline/readline.h"
 
 #include "global.h"
 #include "environment/environment.h"
@@ -46,7 +46,7 @@ int	main(void)
 	}
 	printf("\nexit\n");
 	env_destroy();
-	rl_clear_history();
+	clear_history();
 	return (EXIT_SUCCESS);
 }
 
@@ -62,6 +62,7 @@ static void	process(char *input)
 	if (parse(&commands, &tokens) == false)
 		return ;
 	print_tokens(&tokens);
+	printf("---------------------------------------------------------------\n");
 	print_commands(&commands);
 	destroy_tokens(&tokens);
 	destroy_commands(&commands);

@@ -6,7 +6,7 @@
 #    By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 19:25:02 by juwkim            #+#    #+#              #
-#    Updated: 2023/02/01 04:39:49 by juwkim           ###   ########.fr        #
+#    Updated: 2023/02/01 20:48:28 by juwkim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,9 @@
 
 CC					:=	cc
 CFLAGS				:=	-Wall -Wextra -Werror -march=native -O2 -pipe -fsanitize=address
-CPPFLAGS			:= -I includes -I libft/includes -I data_structures/includes
+CPPFLAGS			:= -I includes -I libft/includes -I data_structures/includes -I/Users/juwkim/.brew/opt/readline/include
 DEPFLAGS			= -MMD -MP -MF $(BUILD_DIR)/$(DEP_DIR)/$*.d
-LDFLAGS				:= -L libft -L data_structures
+LDFLAGS				:= -L libft -L data_structures -L/Users/juwkim/.brew/opt/readline/lib
 LDLIBS				:= -l ft -l magic -l readline
 
 ifeq ($(shell uname -s), Linux)
@@ -73,7 +73,7 @@ DEPS				:=	$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/$(DEP_DIR)/%.d, $(SRCS))
 #	Define the variables for progress bar									   #
 # ---------------------------------------------------------------------------- #
 
-TOTAL_FILES			:=	$(shell find $(SRC_DIR) -type f -name "*.c" | wc -l)
+TOTAL_FILES			:=	$(shell echo $(SRCS) | wc -w)
 COMPILED_FILES		:=	0
 STEP				:=	100
 
@@ -93,7 +93,7 @@ all:
 	@$(MAKE) -j $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LDLIBS)
+	@$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LDLIBS)
 	@printf "\n$(MAGENTA)[$(NAME)] Linking Success\n$(DEF_COLOR)"
 	
 $(BUILD_DIR)/$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c | dir_guard

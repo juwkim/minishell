@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:01:43 by juwkim            #+#    #+#             */
-/*   Updated: 2023/01/29 03:25:08 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/01 07:08:07 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <signal.h>
 # include <unistd.h>
+# include <readline/history.h>
 # include <readline/readline.h>
 
 # include "global.h"
