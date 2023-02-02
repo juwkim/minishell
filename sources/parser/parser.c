@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 00:55:19 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/03 01:08:39 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/03 06:21:40 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	destroy_commands(t_deque *commands)
 	cur = commands->head;
 	while (cur != commands->tail)
 	{
-		command = get_command(commands, cur);
+		command = commands->items[cur];
 		list_destroy(&command->argv);
 		free(command->in);
 		free(command->out);
@@ -75,27 +75,22 @@ void	destroy_commands(t_deque *commands)
 	}
 }
 
-t_command	*get_command(t_deque *commands, int cur)
+char	*get_connected_str(t_deque *tokens, int *cur)
 {
-	return ((t_command *) commands->items[cur]);
-}
+	t_token	*token;
+	char	*str;
 
-void	remove_comma(char *str)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (true)
+	str = NULL;
+	while (*cur != tokens->tail)
 	{
-		while (str[i] != '\0' && (str[i] == '\'' || str[i] == '\"'))
-			++i;
-		if (str[i] == '\0')
+		token = get_token(tokens, *cur);
+		if (token->types & TOK_D_QUOTE)
+			str = ft_strjoin(str, expand_double_quote(token->str, token->len));
+		else
+			str = ft_strjoin(str, ft_strndup(token->str, token->len));
+		if ((token->types & TOK_CONNECTED) == 0)
 			break ;
-		str[j] = str[i];
-		++i;
-		++j;
+		*cur = (*cur + 1) % QUEUE_SIZE;
 	}
-	str[j] = '\0';
+	return (str);
 }

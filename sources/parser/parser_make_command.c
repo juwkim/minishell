@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 00:12:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/01 20:49:08 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/03 06:06:26 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ void	make_complex_command(t_command *command, t_deque *tokens, int *cur)
 		if (token->types & TOK_REDIR)
 			parse_redirection(command, tokens, cur);
 		else
-			list_push_back(&command->argv, \
-					ft_strndup(token->str, token->len));
+			list_push_back(&command->argv, get_connected_str(tokens, cur));
 		*cur += 1;
 	}
 }

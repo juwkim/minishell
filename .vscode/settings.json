@@ -21,6 +21,7 @@
 		"linked_list.h": "c",
 		"readline.h": "c",
 		"expander.h": "c",
-		"executor.h": "c"
+		"executor.h": "c",
+		"hash_table.h": "c"
 	}
 }

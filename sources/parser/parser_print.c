@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 00:39:03 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/03 04:53:38 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/03 05:57:06 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	print_commands(t_deque *commands)
 	printf(RED"Parsing:\t\t"DEF_COLOR);
 	while (cur != commands->tail)
 	{
-		command = get_command(commands, cur);
+		command = commands->items[cur];
 		if (command->types & (TOK_O_PARENTHESIS | TOK_C_PARENTHESIS))
 			printf(CYAN"%s "DEF_COLOR, list_front(&command->argv));
 		else if (command->types & TOK_BIN_OP)

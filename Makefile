@@ -6,7 +6,7 @@
 #    By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 19:25:02 by juwkim            #+#    #+#              #
-#    Updated: 2023/02/03 04:09:20 by juwkim           ###   ########.fr        #
+#    Updated: 2023/02/03 07:14:01 by juwkim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ SRCS				:= $(addprefix $(SRC_DIR)/, main.c)
 # SRCS				+= $(addprefix $(SRC_DIR)/$(CMD_DIR)/, cmd.c scmd.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(ENVIRONMENT_DIR)/, environment.c)
 # SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, exec.c exec_pipeline.c exec_pipeline_pipes.c exec_scmd.c exec_scmd_path.c exec_wait.c exec_group.c exec_exit_status.c)
-# SRCS				+= $(addprefix $(SRC_DIR)/$(EXPANDER_DIR)/, expander.c)
+SRCS				+= $(addprefix $(SRC_DIR)/$(EXPANDER_DIR)/, expander.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(LEXER_DIR)/, lexer.c lexer_utils.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(PARSER_DIR)/, parser.c parser_make_command.c parser_redirection.c parser_print.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(SIGNAL_HANDLER_DIR)/, signal_handler.c)

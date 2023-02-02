@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 00:12:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/03 01:14:03 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/03 06:03:13 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,9 @@ void	parse_redirection(t_command *command, t_deque *tokens, int *cur)
 {
 	char	*str;
 	int		redirection_type;
-	t_token	*token;
 
-	str = NULL;
-	redirection_type = get_token(tokens, *cur)->types;
-	while ((++*cur) != tokens->tail)
-	{
-		token = get_token(tokens, *cur);
-		str = ft_strjoin(str, ft_strndup(token->str, token->len));
-		if ((token->types & TOK_CONNECTED) == 0)
-			break ;
-	}
+	redirection_type = get_token(tokens, (*cur)++)->types;
+	str = get_connected_str(tokens, cur);
 	if (redirection_type & (TOK_REDIR_IN | TOK_REDIR_HEREDOC))
 	{
 		free(command->in);

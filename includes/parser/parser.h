@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 00:56:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/03 01:08:13 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/03 06:13:38 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "global.h"
 # include "signal_handler/signal_handler.h"
 # include "tokenizer/tokenizer.h"
+# include "expander/expander.h"
 
 # define CMD			1
 # define CMD_AND		2
@@ -39,8 +40,7 @@ typedef struct s_command
 // parser.c
 bool		parse(t_deque *commands, t_deque *tokens);
 void		destroy_commands(t_deque *commands);
-t_command	*get_command(t_deque *commands, int cur);
-void		remove_comma(char *str);
+char		*get_connected_str(t_deque *tokens, int *cur);
 
 // parser_make_command.c
 void		make_simple_command(t_command *command, t_deque *tokens, int *cur);

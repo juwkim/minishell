@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:02:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/03 04:57:39 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/03 07:08:05 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #include "parser/parser.h"
 #include "expander/expander.h"
 
-t_deque	g_env;
+t_hash_table	g_env;
 
 static void	process(char *input);
 

@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:01:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/03 04:25:04 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/03 07:17:21 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 # include "libft.h"
 # include "deque.h"
+# include "hash_table.h"
 # include "linked_list.h"
 # include "utils/error.h"
 
@@ -38,6 +39,6 @@
 # define CYAN		"\033[1;96m"
 # define WHITE		"\033[1;97m"
 
-extern t_deque	g_env;
+extern t_hash_table	g_env;
 
 #endif // GLOBAL_H

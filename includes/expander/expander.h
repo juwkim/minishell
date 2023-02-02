@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:19:48 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/03 02:40:19 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/03 06:20:48 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@
 # include "executor/executor.h"
 
 bool	expand(t_deque *commands);
+char	*expand_double_quote(char *str, int len);
 
 #endif // EXPANDER_H

@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:08:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/01/28 23:43:28 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/03 07:36:25 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,24 @@
 bool	env_init(void)
 {
 	extern char	**environ;
-	char		*tmp;
+	t_key		key;
+	t_value		value;
+	int			idx;
 
-	dq_init(&g_env);
+	hash_table_init(&g_env);
 	while (*environ)
 	{
-		tmp = ft_strdup(*environ);
-		if (tmp == NULL)
+		idx = ft_strfind(*environ, '=');
+		key = ft_strndup(*environ, idx);
+		value = ft_strdup(*environ + idx + 1);
+		if (key == NULL || value == NULL)
 		{
+			free(key);
+			free(value);
 			env_destroy();
 			return (print_error(NULL, NULL, strerror(ENOMEM)));
 		}
-		dq_push_back(&g_env, tmp);
+		hash_table_insert(&g_env, key, value);
 		++environ;
 	}
 	return (true);
@@ -34,14 +40,7 @@ bool	env_init(void)
 
 void	env_destroy(void)
 {
-	int	cur;
-
-	cur = g_env.head;
-	while (cur != g_env.tail)
-	{
-		free(g_env.items[cur]);
-		cur = (cur + 1) % QUEUE_SIZE;
-	}
+	hash_table_destroy(&g_env);
 }
 
 // char	*env_get_value(char *name)
