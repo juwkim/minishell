@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 00:55:19 by juwkim            #+#    #+#             */
-/*   Updated: 2023/01/31 03:52:21 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/03 01:08:39 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static t_command	*init_command(void)
 	list_init(&cmd->argv);
 	cmd->in = NULL;
 	cmd->out = NULL;
-	cmd->outapp = NULL;
-	cmd->err = NULL;
+	cmd->is_in_heredoc = false;
+	cmd->is_out_append = false;
 	return (cmd);
 }
 
@@ -70,8 +70,6 @@ void	destroy_commands(t_deque *commands)
 		list_destroy(&command->argv);
 		free(command->in);
 		free(command->out);
-		free(command->outapp);
-		free(command->err);
 		free(command);
 		cur = (cur + 1) % QUEUE_SIZE;
 	}

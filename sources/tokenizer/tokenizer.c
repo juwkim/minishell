@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:56:06 by juwkim            #+#    #+#             */
-/*   Updated: 2023/01/30 16:55:48 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/03 04:57:57 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,26 +83,21 @@ t_token	*get_token(t_deque *tokens, int cur)
 void	print_tokens(t_deque *tokens)
 {
 	int			cur;
-	int			flag;
 	t_token		*token;
-	const char	*text[15] = {"TEXT", "BIN_OP", "PIPE", "S_QUOTE", "D_QUOTE", \
-	"CONNECTED", "O_PARENTHESIS", "C_PARENTHESIS", "REDIR", "REDIR_OUT", \
-	"REDIR_OUT_APP", "REDIR_IN", "REDIR_HEREDOC", "WILDCARD"};
 
 	cur = tokens->head;
-	flag = 0;
-	while (cur != tokens->tail)
+	write(STDIN_FILENO, RED"Token:\t\t\t"DEF_COLOR, 23);
+	while (cur != tokens->tail - 1)
 	{
 		token = tokens->items[cur];
-		write(1, token->str, token->len);
-		while (flag <= 14)
-		{
-			if (token->types & (1 << flag))
-				printf(" %s", text[flag]);
-			++flag;
-		}
-		printf("\n");
-		flag = 0;
+		write(STDIN_FILENO, token->str, token->len);
+		if (token->types & TOK_CONNECTED)
+			write(STDIN_FILENO, GREEN" + "DEF_COLOR, 17);
+		else
+			write(STDIN_FILENO, GREEN" : "DEF_COLOR, 17);
 		cur = (cur + 1) % QUEUE_SIZE;
 	}
+	token = tokens->items[cur];
+	write(STDIN_FILENO, token->str, token->len);
+	write(STDIN_FILENO, "\n", 1);
 }

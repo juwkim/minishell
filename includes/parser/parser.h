@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 00:56:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/01/31 02:54:07 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/03 01:08:13 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ typedef struct s_command
 	t_linked_list	argv;
 	char			*in;
 	char			*out;
-	char			*outapp;
-	char			*err;
+	bool			is_in_heredoc;
+	bool			is_out_append;
 }	t_command;
 
 // parser.c

@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:01:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/01 20:44:04 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/03 04:25:04 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@
 
 # define PROMPT 	"minishell$ "
 # define SHELL_NAME	"minishell"
+
+# define DEF_COLOR	"\033[0;39m"
+# define GRAY		"\033[1;90m"
+# define RED		"\033[1;91m"
+# define GREEN		"\033[1;92m"
+# define YELLOW		"\033[1;93m"
+# define BLUE		"\033[1;94m"
+# define MAGENTA	"\033[1;95m"
+# define CYAN		"\033[1;96m"
+# define WHITE		"\033[1;97m"
 
 extern t_deque	g_env;
 

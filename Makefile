@@ -6,7 +6,7 @@
 #    By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 19:25:02 by juwkim            #+#    #+#              #
-#    Updated: 2023/02/01 20:48:28 by juwkim           ###   ########.fr        #
+#    Updated: 2023/02/03 04:09:20 by juwkim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 
 CC					:=	cc
 CFLAGS				:=	-Wall -Wextra -Werror -march=native -O2 -pipe -fsanitize=address
-CPPFLAGS			:= -I includes -I libft/includes -I data_structures/includes -I/Users/juwkim/.brew/opt/readline/include
+CPPFLAGS			:= -I includes -I libft/includes -I data_structures/includes -I Users/juwkim/.brew/opt/readline/include
 DEPFLAGS			= -MMD -MP -MF $(BUILD_DIR)/$(DEP_DIR)/$*.d
 LDFLAGS				:= -L libft -L data_structures -L/Users/juwkim/.brew/opt/readline/lib
 LDLIBS				:= -l ft -l magic -l readline
@@ -57,11 +57,9 @@ SRCS				:= $(addprefix $(SRC_DIR)/, main.c)
 # SRCS				+= $(addprefix $(SRC_DIR)/$(CMD_DIR)/, cmd.c scmd.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(ENVIRONMENT_DIR)/, environment.c)
 # SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, exec.c exec_pipeline.c exec_pipeline_pipes.c exec_scmd.c exec_scmd_path.c exec_wait.c exec_group.c exec_exit_status.c)
-# SRCS				+= $(addprefix $(SRC_DIR)/$(EXPANDER_DIR)/, expand.c expand_wildcard.c expand_wildcard_utils.c expand_var.c expand_var_split.c)
+# SRCS				+= $(addprefix $(SRC_DIR)/$(EXPANDER_DIR)/, expander.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(LEXER_DIR)/, lexer.c lexer_utils.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(PARSER_DIR)/, parser.c parser_make_command.c parser_redirection.c parser_print.c)
-# SRCS				+= $(addprefix $(SRC_DIR)/$(PRINTER_DIR)/, printer_token.c printer_scmd.c printer_cmd.c)
-# SRCS				+= $(addprefix $(SRC_DIR)/$(REDIRECTION_DIR)/, redir.c redir_undo.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(SIGNAL_HANDLER_DIR)/, signal_handler.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(TOKENIZER_DIR)/, tokenizer.c tokenizer_utils.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(UTILS_DIR)/, error.c)

@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 00:16:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/01/31 00:51:58 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/03 04:42:14 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ void	list_print(t_linked_list *list)
 	t_node	*cur;
 
 	cur = list->head->next;
-	printf("arguments:");
+	printf(YELLOW"%s "DEF_COLOR, cur->item);
+	cur = cur->next;
 	while (cur != NULL)
 	{
-		printf(" %s", cur->item);
+		printf(GREEN"%s "DEF_COLOR, cur->item);
 		cur = cur->next;
 	}
-	printf("\n");
 }
 
 void	list_reverse(t_linked_list *list)

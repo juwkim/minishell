@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:02:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/01 20:32:59 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/03 04:57:39 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "tokenizer/tokenizer.h"
 #include "lexer/lexer.h"
 #include "parser/parser.h"
+#include "expander/expander.h"
 
 t_deque	g_env;
 
@@ -59,10 +60,14 @@ static void	process(char *input)
 		return ;
 	if (lexical_analyze(&tokens) == false)
 		return ;
+	print_tokens(&tokens);
 	if (parse(&commands, &tokens) == false)
 		return ;
-	print_tokens(&tokens);
-	printf("---------------------------------------------------------------\n");
+	printf("Before expand--------------------------------------------------\n");
+	print_commands(&commands);
+	// if (expand(&commands) == false)
+	// 	return ;
+	printf("After expand---------------------------------------------------\n");
 	print_commands(&commands);
 	destroy_tokens(&tokens);
 	destroy_commands(&commands);

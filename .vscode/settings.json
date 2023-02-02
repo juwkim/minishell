@@ -19,6 +19,8 @@
 		"limits.h": "c",
 		"parser.h": "c",
 		"linked_list.h": "c",
-		"readline.h": "c"
+		"readline.h": "c",
+		"expander.h": "c",
+		"executor.h": "c"
 	}
 }
