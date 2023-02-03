@@ -15,8 +15,11 @@
 
 # include <stdio.h>
 # include <stddef.h>
+# include <stdlib.h>
 # include <stdbool.h>
 
+# include "libft_header/ft_string.h"
+# include "libft_header/ft_memory.h"
 # define QUEUE_SIZE 100000
 
 typedef void *	t_dq_data;
@@ -30,6 +33,7 @@ typedef struct s_deque
 
 // utils.c
 void		dq_init(t_deque *dq);
+void		dq_destroy(t_deque *dq);
 bool		dq_is_empty(t_deque *dq);
 bool		dq_is_full(t_deque *dq);
 size_t		dq_size(t_deque *dq);
@@ -50,5 +54,6 @@ t_dq_data	dq_get_back_item(t_deque *dq, int pos);
 
 // operation.c
 void		dq_print(t_deque *dq);
+char		*dq_strjoin(t_deque *dq);
 
 #endif // DEQUE_H

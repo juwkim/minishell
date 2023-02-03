@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 00:55:19 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/03 06:21:40 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/03 23:40:43 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,19 +78,19 @@ void	destroy_commands(t_deque *commands)
 char	*get_connected_str(t_deque *tokens, int *cur)
 {
 	t_token	*token;
-	char	*str;
+	t_deque	dq;
 
-	str = NULL;
+	dq_init(&dq);
 	while (*cur != tokens->tail)
 	{
 		token = get_token(tokens, *cur);
-		if (token->types & TOK_D_QUOTE)
-			str = ft_strjoin(str, expand_double_quote(token->str, token->len));
+		if (token->types & TOK_S_QUOTE)
+			dq_push_back(&dq, ft_strndup(token->str, token->len));
 		else
-			str = ft_strjoin(str, ft_strndup(token->str, token->len));
+			dq_push_back(&dq, expand_env_variable(token->str, token->len));
 		if ((token->types & TOK_CONNECTED) == 0)
 			break ;
 		*cur = (*cur + 1) % QUEUE_SIZE;
 	}
-	return (str);
+	return (dq_strjoin(&dq));
 }

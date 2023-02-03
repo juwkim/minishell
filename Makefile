@@ -6,7 +6,7 @@
 #    By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 19:25:02 by juwkim            #+#    #+#              #
-#    Updated: 2023/02/03 07:14:01 by juwkim           ###   ########.fr        #
+#    Updated: 2023/02/03 20:55:14 by juwkim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CFLAGS				:=	-Wall -Wextra -Werror -march=native -O2 -pipe -fsanitize=address
 CPPFLAGS			:= -I includes -I libft/includes -I data_structures/includes -I Users/juwkim/.brew/opt/readline/include
 DEPFLAGS			= -MMD -MP -MF $(BUILD_DIR)/$(DEP_DIR)/$*.d
 LDFLAGS				:= -L libft -L data_structures -L/Users/juwkim/.brew/opt/readline/lib
-LDLIBS				:= -l ft -l magic -l readline
+LDLIBS				:= -l ft -l magic -l ft -l readline
 
 ifeq ($(shell uname -s), Linux)
 	CFLAGS += -Wno-unused-result -fsanitize=leak
@@ -56,7 +56,7 @@ SRCS				:= $(addprefix $(SRC_DIR)/, main.c)
 # SRCS				+= $(addprefix $(SRC_DIR)/$(BUILTIN_DIR)/, builtin_echo.c builtin_cd.c builtin_exit.c builtin_pwd.c builtin_env.c builtin_export.c builtin_unset.c builtin.c)
 # SRCS				+= $(addprefix $(SRC_DIR)/$(CMD_DIR)/, cmd.c scmd.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(ENVIRONMENT_DIR)/, environment.c)
-# SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, exec.c exec_pipeline.c exec_pipeline_pipes.c exec_scmd.c exec_scmd_path.c exec_wait.c exec_group.c exec_exit_status.c)
+SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, executor_exit_status.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(EXPANDER_DIR)/, expander.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(LEXER_DIR)/, lexer.c lexer_utils.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(PARSER_DIR)/, parser.c parser_make_command.c parser_redirection.c parser_print.c)

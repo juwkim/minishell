@@ -4,8 +4,9 @@ build/obj/parser/parser_make_command.o: \
  libft/includes/ft_printf.h libft/includes/ft_math.h \
  libft/includes/ft_is.h libft/includes/ft_string.h \
  libft/includes/ft_memory.h data_structures/includes/deque.h \
+ data_structures/includes/libft_header/ft_string.h \
+ data_structures/includes/libft_header/ft_memory.h \
  data_structures/includes/hash_table.h \
- data_structures/includes/libft/ft_string.h \
  data_structures/includes/murmurhash3_x86_32.h \
  data_structures/includes/linked_list.h includes/utils/error.h \
  includes/signal_handler/signal_handler.h includes/tokenizer/tokenizer.h \
@@ -21,8 +22,9 @@ libft/includes/ft_is.h:
 libft/includes/ft_string.h:
 libft/includes/ft_memory.h:
 data_structures/includes/deque.h:
+data_structures/includes/libft_header/ft_string.h:
+data_structures/includes/libft_header/ft_memory.h:
 data_structures/includes/hash_table.h:
-data_structures/includes/libft/ft_string.h:
 data_structures/includes/murmurhash3_x86_32.h:
 data_structures/includes/linked_list.h:
 includes/utils/error.h:

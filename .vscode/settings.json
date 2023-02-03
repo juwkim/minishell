@@ -22,6 +22,8 @@
 		"readline.h": "c",
 		"expander.h": "c",
 		"executor.h": "c",
-		"hash_table.h": "c"
+		"hash_table.h": "c",
+		"ft_memory.h": "c",
+		"stdlib.h": "c"
 	}
 }

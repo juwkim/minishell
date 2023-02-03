@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 00:47:18 by juwkim            #+#    #+#             */
-/*   Updated: 2023/01/31 02:59:56 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/03 20:32:43 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,4 @@ int		ft_strlen(const char *s);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
 
-#endif
+#endif //FT_STRING_H

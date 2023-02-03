@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 06:23:04 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/03 07:43:29 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/03 23:34:57 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ void	hash_table_init(t_hash_table *table)
 
 	i = 0;
 	while (i < TABLE_SIZE)
-		table->items[i++].key = NULL;
+	{
+		table->items[i].key = NULL;
+		table->items[i].value = NULL;
+		++i;
+	}
 }
 
 void	hash_table_destroy(t_hash_table *table)
@@ -28,8 +32,9 @@ void	hash_table_destroy(t_hash_table *table)
 	i = 0;
 	while (i < TABLE_SIZE)
 	{
-		free(table->items[i++].key);
-		free(table->items[i++].value);
+		free(table->items[i].key);
+		free(table->items[i].value);
+		++i;
 	}
 }
 
@@ -63,26 +68,20 @@ void	hash_table_remove(t_hash_table *table, t_key key)
 	const uint32_t	hash = murmurhash3_x86_32(key, ft_strlen(key), INT32_MAX);
 	uint32_t		start;
 	uint32_t		cur;
-	bool			is_find;
 
 	start = hash % TABLE_SIZE;
 	cur = start;
-	is_find = true;
-	while (ft_strncmp(table->items[cur].key, key, ft_strlen(key)) != 0)
+	while (table->items[cur].key != NULL && \
+		ft_strncmp(table->items[cur].key, key, ft_strlen(key)) != 0)
 	{
 		cur = (cur + 1) % TABLE_SIZE;
 		if (cur == start)
-		{
-			is_find = false;
-			break ;
-		}
+			return ;
 	}
-	if (is_find)
-	{
-		free(table->items[cur].key);
-		free(table->items[cur].value);
-		table->items[cur].key = NULL;
-	}
+	free(table->items[cur].key);
+	free(table->items[cur].value);
+	table->items[cur].key = NULL;
+	table->items[cur].value = NULL;
 }
 
 t_value	hash_table_search(t_hash_table *table, t_key key)
@@ -90,22 +89,15 @@ t_value	hash_table_search(t_hash_table *table, t_key key)
 	const uint32_t	hash = murmurhash3_x86_32(key, ft_strlen(key), INT32_MAX);
 	uint32_t		start;
 	uint32_t		cur;
-	bool			is_find;
 
 	start = hash % TABLE_SIZE;
 	cur = start;
-	is_find = true;
-	while (ft_strncmp(table->items[cur].key, key, ft_strlen(key)) != 0)
+	while (table->items[cur].key != NULL && \
+		ft_strncmp(table->items[cur].key, key, ft_strlen(key)) != 0)
 	{
 		cur = (cur + 1) % TABLE_SIZE;
 		if (cur == start)
-		{
-			is_find = false;
-			break ;
-		}
+			return (NULL);
 	}
-	if (is_find)
-		return (table->items[cur].value);
-	else
-		return (NULL);
+	return (table->items[cur].value);
 }
