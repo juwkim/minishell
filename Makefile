@@ -6,7 +6,7 @@
 #    By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 19:25:02 by juwkim            #+#    #+#              #
-#    Updated: 2023/02/06 00:02:32 by juwkim           ###   ########.fr        #
+#    Updated: 2023/02/06 00:16:03 by juwkim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,10 +16,13 @@
 
 CC					:=	cc
 CFLAGS				:=	-Wall -Wextra -Werror -march=native -O2 -pipe -fsanitize=address
-CPPFLAGS			:= -I includes -I libft/includes -I data-structures/includes -I Users/juwkim/.brew/opt/readline/include
+CPPFLAGS			= -I includes -I $(libft)/includes -I $(data-structures)/includes -I Users/juwkim/.brew/opt/readline/include
 DEPFLAGS			= -MMD -MP -MF $(BUILD_DIR)/$(DEP_DIR)/$*.d
-LDFLAGS				:= -L libft -L data-structures -L/Users/juwkim/.brew/opt/readline/lib
-LDLIBS				:= -l ft -l magic -l ft -l readline
+LDFLAGS				= -L $(libft) -L $(data-structures) -L/Users/juwkim/.brew/opt/readline/lib
+LDLIBS				:= -l ft -l datastructure -l ft -l readline
+
+libft				:= libft
+data-structures		:= data-structures
 
 ifeq ($(shell uname -s), Linux)
 	CFLAGS += -Wno-unused-result -fsanitize=leak
@@ -82,8 +85,8 @@ NAME				:=	minishell
 # ---------------------------------------------------------------------------- #
 
 all:
-	@$(MAKE) -C libft
-	@$(MAKE) -C data-structures
+	@$(MAKE) -C $(libft)
+	@$(MAKE) -C $(data-structures)
 	@$(MAKE) -j $(NAME)
 
 $(NAME): $(OBJS)
@@ -98,21 +101,21 @@ $(BUILD_DIR)/$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c | dir_guard
 	@printf "$(YELLOW)[$(NAME)] [%02d/%02d] ( %3d %%) Compiling $<\r$(DEF_COLOR)" $(COMPILED_FILES) $(TOTAL_FILES) $(PROGRESS)
 
 clean:
-	@$(MAKE) -C libft clean
-	@$(MAKE) -C data-structures clean
+	@$(MAKE) -C $(libft) clean
+	@$(MAKE) -C $(data-structures) clean
 	@$(RM) -r $(BUILD_DIR)
 	@printf "$(BLUE)[$(NAME)] obj. dep. files$(DEF_COLOR)$(GREEN)	=> Cleaned!\n$(DEF_COLOR)"
 
 fclean:
-	@$(MAKE) -C libft fclean
-	@$(MAKE) -C data-structures fclean
+	@$(MAKE) -C $(libft) fclean
+	@$(MAKE) -C $(data-structures) fclean
 	@$(RM) -r $(BUILD_DIR) $(NAME)
 	@printf "$(BLUE)[$(NAME)] obj. dep. files$(DEF_COLOR)$(GREEN)	=> Cleaned!\n$(DEF_COLOR)"
 	@printf "$(CYAN)[$(NAME)] exec. files$(DEF_COLOR)$(GREEN)	=> Cleaned!\n$(DEF_COLOR)"
 
 re: fclean
-	@$(MAKE) -C libft
-	@$(MAKE) -C data-structures
+	@$(MAKE) -C $(libft)
+	@$(MAKE) -C $(data-structures)
 	@$(MAKE) all
 	@printf "$(GREEN)[$(NAME)] Cleaned and rebuilt everything!\n$(DEF_COLOR)"
 
