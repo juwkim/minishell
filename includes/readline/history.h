@@ -19,39 +19,21 @@
    along with History.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _HISTORY_H_
-#define _HISTORY_H_
+#ifndef HISTORY_H
+# define HISTORY_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+# include <time.h>		/* XXX - for history timestamp code */
 
-#include <time.h>		/* XXX - for history timestamp code */
+# include <readline/rlstdc.h>
+# include <readline/rltypedefs.h>
 
-#if defined READLINE_LIBRARY
-#  include "rlstdc.h"
-#  include "rltypedefs.h"
-#else
-#  include <readline/rlstdc.h>
-#  include <readline/rltypedefs.h>
-#endif
-
-#ifdef __STDC__
-typedef void *histdata_t;
-#else
-typedef char *histdata_t;
-#endif
-
-/* Let's not step on anyone else's define for now, since we don't use this yet. */
-#ifndef HS_HISTORY_VERSION
-#  define HS_HISTORY_VERSION 0x0802	/* History 8.2 */
-#endif
+typedef void   *t_histdata;
 
 /* The structure used to store a history entry. */
 typedef struct _hist_entry {
   char *line;
   char *timestamp;		/* char * rather than time_t for read/write */
-  histdata_t data;
+  t_histdata data;
 } HIST_ENTRY;
 
 /* Size of the history-library-managed space in history entry HS. */
@@ -107,12 +89,12 @@ extern HIST_ENTRY *copy_history_entry (HIST_ENTRY *);
 
 /* Free the history entry H and return any application-specific data
    associated with it. */
-extern histdata_t free_history_entry (HIST_ENTRY *);
+extern t_histdata free_history_entry (HIST_ENTRY *);
 
 /* Make the history entry at WHICH have LINE and DATA.  This returns
    the old entry so you can dispose of the data.  In the case of an
    invalid WHICH, a NULL pointer is returned. */
-extern HIST_ENTRY *replace_history_entry (int, const char *, histdata_t);
+extern HIST_ENTRY *replace_history_entry (int, const char *, t_histdata);
 
 /* Clear the history list and start over. */
 extern void clear_history (void);
@@ -284,8 +266,4 @@ extern int max_input_history;
    application and not expanded. */
 extern rl_linebuf_func_t *history_inhibit_expansion_function;
 
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* !_HISTORY_H_ */
+#endif /* HISTORY_H */
