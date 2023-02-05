@@ -6,7 +6,7 @@
 #    By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 19:25:02 by juwkim            #+#    #+#              #
-#    Updated: 2023/02/04 06:47:45 by juwkim           ###   ########.fr        #
+#    Updated: 2023/02/06 00:02:32 by juwkim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,9 @@
 
 CC					:=	cc
 CFLAGS				:=	-Wall -Wextra -Werror -march=native -O2 -pipe -fsanitize=address
-CPPFLAGS			:= -I includes -I libft/includes -I data_structures/includes -I Users/juwkim/.brew/opt/readline/include
+CPPFLAGS			:= -I includes -I libft/includes -I data-structures/includes -I Users/juwkim/.brew/opt/readline/include
 DEPFLAGS			= -MMD -MP -MF $(BUILD_DIR)/$(DEP_DIR)/$*.d
-LDFLAGS				:= -L libft -L data_structures -L/Users/juwkim/.brew/opt/readline/lib
+LDFLAGS				:= -L libft -L data-structures -L/Users/juwkim/.brew/opt/readline/lib
 LDLIBS				:= -l ft -l magic -l ft -l readline
 
 ifeq ($(shell uname -s), Linux)
@@ -52,7 +52,7 @@ DEP_DIR				:=	dep
 SRCS				:= $(addprefix $(SRC_DIR)/, main.c)
 # SRCS				+= $(addprefix $(SRC_DIR)/$(BUILTIN_DIR)/, builtin_echo.c builtin_cd.c builtin_exit.c builtin_pwd.c builtin_env.c builtin_export.c builtin_unset.c builtin.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(ENVIRONMENT_DIR)/, environment.c)
-SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, executor.c executor_exit_status.c executor_operator_skip.c)
+# SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, executor.c executor_exit_status.c executor_operator_skip.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(EXPANDER_DIR)/, expander.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(LEXER_DIR)/, lexer.c lexer_utils.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(PARSER_DIR)/, parser.c parser_make_command.c parser_redirection.c parser_print.c)
@@ -83,7 +83,7 @@ NAME				:=	minishell
 
 all:
 	@$(MAKE) -C libft
-	@$(MAKE) -C data_structures
+	@$(MAKE) -C data-structures
 	@$(MAKE) -j $(NAME)
 
 $(NAME): $(OBJS)
@@ -99,20 +99,20 @@ $(BUILD_DIR)/$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c | dir_guard
 
 clean:
 	@$(MAKE) -C libft clean
-	@$(MAKE) -C data_structures clean
+	@$(MAKE) -C data-structures clean
 	@$(RM) -r $(BUILD_DIR)
 	@printf "$(BLUE)[$(NAME)] obj. dep. files$(DEF_COLOR)$(GREEN)	=> Cleaned!\n$(DEF_COLOR)"
 
 fclean:
 	@$(MAKE) -C libft fclean
-	@$(MAKE) -C data_structures fclean
+	@$(MAKE) -C data-structures fclean
 	@$(RM) -r $(BUILD_DIR) $(NAME)
 	@printf "$(BLUE)[$(NAME)] obj. dep. files$(DEF_COLOR)$(GREEN)	=> Cleaned!\n$(DEF_COLOR)"
 	@printf "$(CYAN)[$(NAME)] exec. files$(DEF_COLOR)$(GREEN)	=> Cleaned!\n$(DEF_COLOR)"
 
 re: fclean
 	@$(MAKE) -C libft
-	@$(MAKE) -C data_structures
+	@$(MAKE) -C data-structures
 	@$(MAKE) all
 	@printf "$(GREEN)[$(NAME)] Cleaned and rebuilt everything!\n$(DEF_COLOR)"
 

@@ -5,7 +5,7 @@
             "includePath": [
                 "${workspaceFolder}/includes",
                 "${workspaceFolder}/libft/includes",
-                "${workspaceFolder}/data_structures/includes"
+                "${workspaceFolder}/data-structures/includes"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
