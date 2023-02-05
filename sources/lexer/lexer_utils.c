@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 04:05:10 by juwkim            #+#    #+#             */
-/*   Updated: 2023/01/31 01:14:31 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/04 03:59:57 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ bool	bin_pipe_open_analyze(t_deque *tokens)
 {
 	int			cur;
 	bool		prev_bin_pipe_open;
-	const int	bin_pipe_open = TOK_BIN_OP | TOK_PIPE | TOK_O_PARENTHESIS;
-	const int	bin_pipe_close = TOK_BIN_OP | TOK_PIPE | TOK_C_PARENTHESIS;
+	const int	bin_pipe_open = AND | OR | PIPE | O_PARENTHESIS;
+	const int	bin_pipe_close = AND | OR | PIPE | C_PARENTHESIS;
 	t_token		*token;
 
 	token = NULL;
@@ -44,14 +44,14 @@ bool	bin_pipe_open_analyze(t_deque *tokens)
 bool	close_analyze(t_deque *tokens)
 {
 	int			cur;
-	const int	text_redir_open = TOK_TEXT | TOK_REDIR | TOK_O_PARENTHESIS;
+	const int	text_redir_open = TEXT | REDIR | O_PARENTHESIS;
 	t_token		*token;
 
 	cur = tokens->head;
 	while (cur != tokens->tail - 1)
 	{
 		token = get_token(tokens, cur);
-		if ((token->types & TOK_C_PARENTHESIS) && \
+		if ((token->types & C_PARENTHESIS) && \
 			(get_token(tokens, cur + 1)->types & text_redir_open))
 		{
 			*(token->str + token->len) = '\0';
@@ -71,8 +71,8 @@ bool	text_analyze(t_deque *tokens)
 	while (cur != tokens->tail - 1)
 	{
 		token = get_token(tokens, cur);
-		if ((token->types & TOK_TEXT) && \
-			(get_token(tokens, cur + 1)->types & TOK_O_PARENTHESIS))
+		if ((token->types & TEXT) && \
+			(get_token(tokens, cur + 1)->types & O_PARENTHESIS))
 		{
 			*(token->str + token->len) = '\0';
 			return (print_error(ERR_SYNTAX, NULL, token->str));
@@ -93,9 +93,9 @@ bool	parenthesis_analyze(t_deque *tokens)
 	while (cur != tokens->tail)
 	{
 		token = get_token(tokens, cur);
-		if (token->types & TOK_O_PARENTHESIS)
+		if (token->types & O_PARENTHESIS)
 			++opened;
-		if (token->types & TOK_C_PARENTHESIS)
+		if (token->types & C_PARENTHESIS)
 			--opened;
 		if (opened < 0)
 			break ;
@@ -122,15 +122,15 @@ bool	redirection_analyze(t_deque *tokens)
 		token = get_token(tokens, cur);
 		if (prev_redirection == true)
 		{
-			if ((token->types & TOK_TEXT) == 0 || \
-				(token->types & TOK_O_PARENTHESIS))
+			if ((token->types & TEXT) == 0 || \
+				(token->types & O_PARENTHESIS))
 			{
 				token = get_token(tokens, cur - 1);
 				*(token->str + token->len) = '\0';
 				return (print_error(ERR_SYNTAX, NULL, token->str));
 			}
 		}
-		prev_redirection = (get_token(tokens, cur)->types & TOK_REDIR) != 0;
+		prev_redirection = (get_token(tokens, cur)->types & REDIR) != 0;
 		cur = (cur + 1) % QUEUE_SIZE;
 	}
 	if (prev_redirection == true)

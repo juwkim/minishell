@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 22:25:43 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/03 01:09:14 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/04 03:56:23 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,6 @@
 
 # include "global.h"
 # include "lexer/lexer.h"
-
-# define TOK_TEXT			1
-# define TOK_BIN_OP			2
-# define TOK_PIPE			4
-
-# define TOK_S_QUOTE		8
-# define TOK_D_QUOTE		16
-# define TOK_CONNECTED		32
-
-# define TOK_O_PARENTHESIS	64
-# define TOK_C_PARENTHESIS	128
-
-# define TOK_REDIR			256
-# define TOK_REDIR_OUT		512
-# define TOK_REDIR_OUT_APP	1024
-# define TOK_REDIR_IN		2048
-# define TOK_REDIR_HEREDOC	4096
-
-# define TOK_WILDCARD		8192
 
 typedef struct s_token
 {

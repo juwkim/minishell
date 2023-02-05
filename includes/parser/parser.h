@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 00:56:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/03 06:13:38 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/04 06:57:35 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,6 @@
 # include "signal_handler/signal_handler.h"
 # include "tokenizer/tokenizer.h"
 # include "expander/expander.h"
-
-# define CMD			1
-# define CMD_AND		2
-# define CMD_OR			4
-# define CMD_PIPE		8
-# define CMD_PIPELINE	64
-# define CMD_GROUP		128
-# define CMD_L_SCMD		256
-# define CMD_L_CMD		512
 
 typedef struct s_command
 {
@@ -41,6 +32,7 @@ typedef struct s_command
 bool		parse(t_deque *commands, t_deque *tokens);
 void		destroy_commands(t_deque *commands);
 char		*get_connected_str(t_deque *tokens, int *cur);
+t_command	*get_command(t_deque *commands, int cur);
 
 // parser_make_command.c
 void		make_simple_command(t_command *command, t_deque *tokens, int *cur);
@@ -51,5 +43,6 @@ void		parse_redirection(t_command *command, t_deque *tokens, int *cur);
 
 // parser_print.c
 void		print_commands(t_deque *commands);
+void		print_commands_structure(t_deque *commands);
 
 #endif // PARSER_H

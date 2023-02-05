@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 00:55:19 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/03 23:40:43 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/04 06:57:23 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ bool	parse(t_deque *commands, t_deque *tokens)
 			return (false);
 		}
 		token = get_token(tokens, cur);
-		if (token->types & \
-			(TOK_PIPE | TOK_BIN_OP | TOK_O_PARENTHESIS | TOK_C_PARENTHESIS))
+		if (token->types & (AND | OR | PIPE | O_PARENTHESIS | C_PARENTHESIS))
 			make_simple_command(command, tokens, &cur);
 		else
 			make_complex_command(command, tokens, &cur);
@@ -84,13 +83,18 @@ char	*get_connected_str(t_deque *tokens, int *cur)
 	while (*cur != tokens->tail)
 	{
 		token = get_token(tokens, *cur);
-		if (token->types & TOK_S_QUOTE)
+		if (token->types & SINGLE_QUOTE)
 			dq_push_back(&dq, ft_strndup(token->str, token->len));
 		else
 			dq_push_back(&dq, expand_env_variable(token->str, token->len));
-		if ((token->types & TOK_CONNECTED) == 0)
+		if ((token->types & CONNECTED) == 0)
 			break ;
 		*cur = (*cur + 1) % QUEUE_SIZE;
 	}
 	return (dq_strjoin(&dq));
+}
+
+t_command	*get_command(t_deque *commands, int cur)
+{
+	return (commands->items[cur]);
 }

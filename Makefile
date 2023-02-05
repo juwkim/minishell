@@ -6,7 +6,7 @@
 #    By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 19:25:02 by juwkim            #+#    #+#              #
-#    Updated: 2023/02/03 20:55:14 by juwkim           ###   ########.fr        #
+#    Updated: 2023/02/04 06:47:45 by juwkim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,14 +32,11 @@ endif
 SRC_DIR				:=	sources
 
 BUILTIN_DIR			:=	builtin
-CMD_DIR				:=	cmd
 ENVIRONMENT_DIR		:=	environment
 EXECUTOR_DIR		:=	executor
 EXPANDER_DIR		:=	expander
 LEXER_DIR			:=	lexer
 PARSER_DIR			:=	parser
-PRINTER_DIR			:=	printer
-REDIRECTION_DIR		:=	redirection
 SIGNAL_HANDLER_DIR	:=	signal_handler
 TOKENIZER_DIR		:=	tokenizer
 UTILS_DIR			:=	utils
@@ -54,9 +51,8 @@ DEP_DIR				:=	dep
 
 SRCS				:= $(addprefix $(SRC_DIR)/, main.c)
 # SRCS				+= $(addprefix $(SRC_DIR)/$(BUILTIN_DIR)/, builtin_echo.c builtin_cd.c builtin_exit.c builtin_pwd.c builtin_env.c builtin_export.c builtin_unset.c builtin.c)
-# SRCS				+= $(addprefix $(SRC_DIR)/$(CMD_DIR)/, cmd.c scmd.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(ENVIRONMENT_DIR)/, environment.c)
-SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, executor_exit_status.c)
+SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, executor.c executor_exit_status.c executor_operator_skip.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(EXPANDER_DIR)/, expander.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(LEXER_DIR)/, lexer.c lexer_utils.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(PARSER_DIR)/, parser.c parser_make_command.c parser_redirection.c parser_print.c)

@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 04:52:26 by juwkim            #+#    #+#             */
-/*   Updated: 2023/01/31 03:04:13 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/04 03:22:44 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_strlcpy(char *dest, const char *src, size_t size)
 	{
 		while (*src && --size)
 			*dest++ = *src++;
-		*dest = '\0';
 	}
+	*dest = '\0';
 	return (1);
 }

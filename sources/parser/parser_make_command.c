@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 00:12:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/03 06:06:26 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/04 05:52:54 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	make_complex_command(t_command *command, t_deque *tokens, int *cur)
 	{
 		token = get_token(tokens, *cur);
 		if (token->types & \
-			(TOK_PIPE | TOK_BIN_OP | TOK_O_PARENTHESIS | TOK_C_PARENTHESIS))
+			(AND | OR | PIPE | O_PARENTHESIS | C_PARENTHESIS))
 			break ;
-		if (token->types & TOK_REDIR)
+		if (token->types & REDIR)
 			parse_redirection(command, tokens, cur);
 		else
 			list_push_back(&command->argv, get_connected_str(tokens, cur));

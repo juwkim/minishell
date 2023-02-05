@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:56:06 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/03 04:57:57 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/04 03:59:00 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	print_tokens(t_deque *tokens)
 	{
 		token = tokens->items[cur];
 		write(STDIN_FILENO, token->str, token->len);
-		if (token->types & TOK_CONNECTED)
+		if (token->types & CONNECTED)
 			write(STDIN_FILENO, GREEN" + "DEF_COLOR, 17);
 		else
 			write(STDIN_FILENO, GREEN" : "DEF_COLOR, 17);

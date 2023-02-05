@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 00:12:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/03 06:03:13 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/04 03:59:57 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@ void	parse_redirection(t_command *command, t_deque *tokens, int *cur)
 
 	redirection_type = get_token(tokens, (*cur)++)->types;
 	str = get_connected_str(tokens, cur);
-	if (redirection_type & (TOK_REDIR_IN | TOK_REDIR_HEREDOC))
+	if (redirection_type & (REDIR_IN | REDIR_HEREDOC))
 	{
 		free(command->in);
 		command->in = str;
-		command->is_in_heredoc = (redirection_type & TOK_REDIR_HEREDOC) != 0;
+		command->is_in_heredoc = (redirection_type & REDIR_HEREDOC) != 0;
 	}
 	else
 	{
 		free(command->out);
 		command->out = str;
-		command->is_out_append = (redirection_type & TOK_REDIR_OUT_APP) != 0;
+		command->is_out_append = (redirection_type & REDIR_OUT_APP) != 0;
 	}
 }
 
@@ -39,20 +39,19 @@ void	parse_redirection(t_command *command, t_deque *tokens, int *cur)
 // {
 // 	const int	fd = dup(STDIN_FILENO);
 // 	char		*str;
-// 	char		*readed;
+// 	t_deque		dq;
 
-// 	readed = NULL;
+// 	dq_init(&dq);
 // 	signal(SIGINT, sigint_heredoc_handler);
-// 	remove_comma(delimiter);
 // 	while (true)
 // 	{
 // 		str = readline("> ");
 // 		if (str == NULL || !ft_strncmp(str, delimiter, ft_strlen(delimiter)))
 // 			break ;
-// 		readed = ft_strnewlinejoin(readed, str);
+// 		dq_push_back(&dq, str);
+// 		dq_push_back(&dq, ft_strdup("\n"));
 // 	}
-// 	list_push_back(arguments, readed);
-// 	free(str);
+// 	list_push_back(arguments, dq_strjoin(&dq));
 // 	free(delimiter);
 // 	dup2(fd, STDIN_FILENO);
 // 	close(fd);

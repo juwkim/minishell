@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:01:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/03 07:17:21 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/04 05:52:08 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,25 @@
 # define MAGENTA	"\033[1;95m"
 # define CYAN		"\033[1;96m"
 # define WHITE		"\033[1;97m"
+
+# define TEXT			1
+# define AND			2
+# define OR				4
+# define PIPE			8
+# define SINGLE_QUOTE	16
+# define DOUBLE_QUOTE	32
+# define CONNECTED		64
+
+# define O_PARENTHESIS	128
+# define C_PARENTHESIS	256
+
+# define REDIR			512
+# define REDIR_OUT		1024
+# define REDIR_OUT_APP	2048
+# define REDIR_IN		4096
+# define REDIR_HEREDOC	8192
+
+# define CMD			16384
 
 extern t_hash_table	g_env;
 

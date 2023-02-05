@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 04:50:12 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/03 07:25:00 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/04 03:24:11 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 
 char	*ft_strdup(const char *s)
 {
-	char			*buf;
-	const size_t	len = ft_strlen(s);
+	char	*buf;
+	size_t	len;
 
+	if (s == NULL)
+		len = 0;
+	else
+		len = ft_strlen(s);
 	buf = (char *) malloc(sizeof(char) * (len + 1));
 	if (buf == NULL)
 		return (NULL);

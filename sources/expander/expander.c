@@ -6,18 +6,13 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:19:27 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/03 23:38:34 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/04 03:24:17 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander/expander.h"
 
 static char	*get_env_variable(char *str, int *i, int len);
-
-// bool	expand(t_deque *commands)
-// {
-// 	return (true);
-// }
 
 char	*expand_env_variable(char *str, int len)
 {
@@ -59,10 +54,7 @@ static char	*get_env_variable(char *str, int *i, int len)
 	val = hash_table_search(&g_env, key);
 	free(key);
 	--(*i);
-	if (val == NULL)
-		return (NULL);
-	else
-		return (ft_strdup(val));
+	return (ft_strdup(val));
 }
 
 // static char	*expand_wildcard(char *str)

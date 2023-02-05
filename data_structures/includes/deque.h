@@ -20,7 +20,7 @@
 
 # include "libft_header/ft_string.h"
 # include "libft_header/ft_memory.h"
-# define QUEUE_SIZE 100000
+# define QUEUE_SIZE 10000
 
 typedef void *	t_dq_data;
 

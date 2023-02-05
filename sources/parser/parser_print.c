@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 00:39:03 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/03 05:57:06 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/04 04:13:20 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,17 @@ void	print_commands(t_deque *commands)
 	t_command	*command;
 
 	cur = commands->head;
-	printf(RED"Parsing:\t\t"DEF_COLOR);
+	printf(RED"Commands:\t\t"DEF_COLOR);
 	while (cur != commands->tail)
 	{
 		command = commands->items[cur];
-		if (command->types & (TOK_O_PARENTHESIS | TOK_C_PARENTHESIS))
+		if (list_is_empty(&command->argv))
+			break ;
+		if (command->types & (O_PARENTHESIS | C_PARENTHESIS))
 			printf(CYAN"%s "DEF_COLOR, list_front(&command->argv));
-		else if (command->types & TOK_BIN_OP)
+		else if (command->types & (AND | OR))
 			printf(MAGENTA"%s "DEF_COLOR, list_front(&command->argv));
-		else if (command->types & TOK_PIPE)
+		else if (command->types & PIPE)
 			printf(BLUE"%s "DEF_COLOR, list_front(&command->argv));
 		else
 		{
@@ -56,4 +58,29 @@ static void	print_redirection(t_command *command)
 		else
 			printf(WHITE"> "BLUE"%s "DEF_COLOR, command->out);
 	}
+}
+
+void	print_commands_structure(t_deque *commands)
+{
+	int			cur;
+	t_command	*command;
+
+	cur = commands->head;
+	printf(RED"Commands Structure:\t"DEF_COLOR);
+	while (cur != commands->tail)
+	{
+		command = commands->items[cur];
+		if (list_is_empty(&command->argv))
+			break ;
+		if (command->types & (O_PARENTHESIS | C_PARENTHESIS))
+			printf(CYAN"%s "DEF_COLOR, list_front(&command->argv));
+		else if (command->types & (AND | OR))
+			printf(MAGENTA"%s "DEF_COLOR, list_front(&command->argv));
+		else if (command->types & PIPE)
+			printf(BLUE"%s "DEF_COLOR, list_front(&command->argv));
+		else
+			printf(YELLOW"CMD "DEF_COLOR);
+		cur = (cur + 1) % QUEUE_SIZE;
+	}
+	printf("\n");
 }
