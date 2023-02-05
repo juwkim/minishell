@@ -6,13 +6,13 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:02:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/06 05:08:21 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/06 06:15:47 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "readline/history.h"
-#include "readline/readline.h"
+#include "../../../readline/history.h"
+#include "../../../readline/readline.h"
 
 #include "global.h"
 #include "environment/environment.h"

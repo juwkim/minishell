@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/includes",
                 "${workspaceFolder}/libft/includes",
-                "${workspaceFolder}/data-structures/includes"
+                "${workspaceFolder}/data-structures/includes",
+                "/Users/juwkim/Desktop/readline"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
