@@ -6,7 +6,7 @@
 #    By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 19:25:02 by juwkim            #+#    #+#              #
-#    Updated: 2023/02/06 00:16:03 by juwkim           ###   ########.fr        #
+#    Updated: 2023/02/06 00:17:42 by juwkim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,12 +21,16 @@ DEPFLAGS			= -MMD -MP -MF $(BUILD_DIR)/$(DEP_DIR)/$*.d
 LDFLAGS				= -L $(libft) -L $(data-structures) -L/Users/juwkim/.brew/opt/readline/lib
 LDLIBS				:= -l ft -l datastructure -l ft -l readline
 
-libft				:= libft
-data-structures		:= data-structures
-
 ifeq ($(shell uname -s), Linux)
 	CFLAGS += -Wno-unused-result -fsanitize=leak
 endif
+
+# ---------------------------------------------------------------------------- #
+#	Define the libraries													   #
+# ---------------------------------------------------------------------------- #
+
+libft				:= libft
+data-structures		:= data-structures
 
 # ---------------------------------------------------------------------------- #
 #	Define the directories													   #
