@@ -27,21 +27,22 @@
 # include <readline/rlstdc.h>
 # include <readline/rltypedefs.h>
 
-typedef void   *t_histdata;
+typedef void	*t_histdata;
 
 /* The structure used to store a history entry. */
-typedef struct _hist_entry {
-  char *line;
-  char *timestamp;		/* char * rather than time_t for read/write */
-  t_histdata data;
-} HIST_ENTRY;
+typedef struct _hist_entry
+{
+	char		*line;
+	char		*timestamp;
+	t_histdata	data;
+}	t_hist_entry;
 
 /* Size of the history-library-managed space in history entry HS. */
 #define HISTENT_BYTES(hs)	(strlen ((hs)->line) + strlen ((hs)->timestamp))
 
 /* A structure used to pass the current state of the history stuff around. */
 typedef struct _hist_state {
-  HIST_ENTRY **entries;		/* Pointer to the entries themselves. */
+  t_hist_entry **entries;		/* Pointer to the entries themselves. */
   int offset;			/* The location pointer within this array. */
   int length;			/* Number of elements within this array. */
   int size;			/* Number of slots allocated to this array. */
@@ -75,26 +76,26 @@ extern void add_history_time (const char *);
 
 /* Remove an entry from the history list.  WHICH is the magic number that
    tells us which element to delete.  The elements are numbered from 0. */
-extern HIST_ENTRY *remove_history (int);
+extern t_hist_entry *remove_history (int);
 
 /* Remove a set of entries from the history list: FIRST to LAST, inclusive */
-extern HIST_ENTRY **remove_history_range (int, int);
+extern t_hist_entry **remove_history_range (int, int);
 
 /* Allocate a history entry consisting of STRING and TIMESTAMP and return
    a pointer to it. */
-extern HIST_ENTRY *alloc_history_entry (char *, char *);
+extern t_hist_entry *alloc_history_entry (char *, char *);
 
 /* Copy the history entry H, but not the (opaque) data pointer */
-extern HIST_ENTRY *copy_history_entry (HIST_ENTRY *);
+extern t_hist_entry *copy_history_entry (t_hist_entry *);
 
 /* Free the history entry H and return any application-specific data
    associated with it. */
-extern t_histdata free_history_entry (HIST_ENTRY *);
+extern t_histdata free_history_entry (t_hist_entry *);
 
 /* Make the history entry at WHICH have LINE and DATA.  This returns
    the old entry so you can dispose of the data.  In the case of an
    invalid WHICH, a NULL pointer is returned. */
-extern HIST_ENTRY *replace_history_entry (int, const char *, t_histdata);
+extern t_hist_entry *replace_history_entry (int, const char *, t_histdata);
 
 /* Clear the history list and start over. */
 extern void clear_history (void);
@@ -115,7 +116,7 @@ extern int history_is_stifled (void);
 /* Return a NULL terminated array of HIST_ENTRY which is the current input
    history.  Element 0 of this list is the beginning of time.  If there
    is no history, return NULL. */
-extern HIST_ENTRY **history_list (void);
+extern t_hist_entry **history_list (void);
 
 /* Returns the number which says what history element we are now
    looking at.  */
@@ -123,15 +124,15 @@ extern int where_history (void);
   
 /* Return the history entry at the current position, as determined by
    history_offset.  If there is no entry there, return a NULL pointer. */
-extern HIST_ENTRY *current_history (void);
+extern t_hist_entry *current_history (void);
 
 /* Return the history entry which is logically at OFFSET in the history
    array.  OFFSET is relative to history_base. */
-extern HIST_ENTRY *history_get (int);
+extern t_hist_entry *history_get (int);
 
 /* Return the timestamp associated with the HIST_ENTRY * passed as an
    argument */
-extern time_t history_get_time (HIST_ENTRY *);
+extern time_t history_get_time (t_hist_entry *);
 
 /* Return the number of bytes that the primary history entries are using.
    This just adds up the lengths of the_history->lines. */
@@ -145,12 +146,12 @@ extern int history_set_pos (int);
 /* Back up history_offset to the previous history entry, and return
    a pointer to that entry.  If there is no previous entry, return
    a NULL pointer. */
-extern HIST_ENTRY *previous_history (void);
+extern t_hist_entry *previous_history (void);
 
 /* Move history_offset forward to the next item in the input_history,
    and return the a pointer to that entry.  If there is no next entry,
    return a NULL pointer. */
-extern HIST_ENTRY *next_history (void);
+extern t_hist_entry *next_history (void);
 
 /* Searching the history list. */
 
