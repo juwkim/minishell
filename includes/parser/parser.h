@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 00:56:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/06 14:02:04 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/06 16:18:37 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ typedef struct s_commands_tree
 {
 	int						type;
 	t_command				*cmd;
-	struct s_commands_tree	*sibling;
-	struct s_commands_tree	*child;
+	t_commands_tree			*sibling;
+	t_commands_tree			*child;
 }	t_commands_tree;
 
 // parser.c

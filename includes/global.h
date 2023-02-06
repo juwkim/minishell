@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:01:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/06 08:55:27 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/06 15:54:59 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,27 @@
 # define WHITE		"\033[1;97m"
 
 # define TEXT			1
-# define AND			2
-# define OR				4
-# define PIPE			8
-# define SINGLE_QUOTE	16
-# define DOUBLE_QUOTE	32
-# define CONNECTED		64
+# define PIPE			2
+# define SINGLE_QUOTE	4
+# define DOUBLE_QUOTE	8
+# define CONNECTED		16
 
-# define O_PARENTHESIS	128
-# define C_PARENTHESIS	256
+# define O_PARENTHESIS	32
+# define C_PARENTHESIS	64
 
-# define REDIR			512
-# define REDIR_OUT		1024
-# define REDIR_OUT_APP	2048
-# define REDIR_IN		4096
-# define REDIR_HEREDOC	8192
+# define REDIR			128
+# define REDIR_OUT		256
+# define REDIR_OUT_APP	512
+# define REDIR_IN		1024
+# define REDIR_HEREDOC	2048
 
-# define CMD			16384
+# define CMD			4096
+
+# define AND			8192
+# define OR				16384
+# define SCMD			32768
+# define GROUP			65536
+# define PIPELINE		131072
 
 extern t_hash_table	g_env;
 
