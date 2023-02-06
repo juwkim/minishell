@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:35:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/04 07:36:12 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/06 07:51:49 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	exit_status_set(int status);
 
 // executor_operator_skip.c
 int		get_operator_skipped_idx(t_deque *commands, int idx);
-bool	is_operator_skip(int command_type);
+int		get_parenthesis_skipped_idx(t_deque *commands, int idx);
+int		get_pipe_skipped_idx(t_deque *commands, int idx);
 
 #endif // EXECUTOR_H

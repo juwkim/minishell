@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:02:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/06 06:15:47 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/06 08:57:21 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,9 @@ int	main(void)
 
 static void	process(char *input)
 {
-	t_deque	tokens;
-	t_deque	commands;
+	t_deque			tokens;
+	t_deque			commands;
+	t_commands_tree	*commands_tree;
 
 	if (tokenize(&tokens, input) == false)
 		return ;
@@ -64,9 +65,14 @@ static void	process(char *input)
 	print_tokens(&tokens);
 	if (parse(&commands, &tokens) == false)
 		return ;
+	destroy_tokens(&tokens);
 	print_commands(&commands);
 	print_commands_structure(&commands);
-	// execute(&commands, commands.head, commands.tail, false);
-	destroy_tokens(&tokens);
+	commands_tree = make_commands_tree(&commands_tree, &commands);
+	if (commands_tree == NULL)
+		print_error(NULL, NULL, strerror(ENOMEM));
+	// else
+	// 	execute(&commands, commands.head, commands.tail, false);
 	destroy_commands(&commands);
+	destroy_commands_tree(commands_tree);
 }
