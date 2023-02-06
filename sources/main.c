@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:02:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/06 08:57:21 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/06 13:53:48 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	process(char *input)
 	destroy_tokens(&tokens);
 	print_commands(&commands);
 	print_commands_structure(&commands);
-	commands_tree = make_commands_tree(&commands_tree, &commands);
+	commands_tree = make_commands_tree(&commands, commands.head, commands.tail);
 	if (commands_tree == NULL)
 		print_error(NULL, NULL, strerror(ENOMEM));
 	// else

@@ -6,24 +6,27 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 08:43:39 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/06 09:03:26 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/06 14:01:59 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser/parser.h"
 
-// bool	make_commands_tree(t_linked_list *commands_tree, t_deque *commands)
-// {
-// 	list_init(&12	)
-// }
+t_commands_tree	*make_commands_tree(t_deque *commands, int start, int end)
+{
+	int	bin_op_idx;
+
+	bin_op_idx = start + 1;
+	while (bin_op_idx != end && \
+				(get_command(commands, bin_op_idx)->types & (AND | OR)) == 0)
+		++bin_op_idx;
+}
 
 void	destroy_commands_tree(t_commands_tree *cmd_tree)
 {
-	t_linked_list	*list;
-
-	list = &cmd_tree->cmd_list;
-	while (list->head->next != NULL)
-		list_pop_front(list);
-	free(list->head);
-	list_destroy(&cmd_tree->cmd_list);
+	if (cmd_tree->sibling != NULL)
+		destroy_commands_tree(cmd_tree->sibling);
+	if (cmd_tree->child != NULL)
+		destroy_commands_tree(cmd_tree->child);
+	free(cmd_tree);
 }
