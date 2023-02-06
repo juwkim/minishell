@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:02:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/06 16:21:06 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/07 01:45:58 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "lexer/lexer.h"
 #include "parser/parser.h"
 #include "expander/expander.h"
+#include "command_tree/command_tree.h"
 #include "executor/executor.h"
 
 t_hash_table	g_env;
@@ -56,7 +57,7 @@ static void	process(char *input)
 {
 	t_deque			tokens;
 	t_deque			commands;
-	t_commands_tree	*commands_tree;
+	t_tree_node		*commands_tree;
 
 	if (tokenize(&tokens, input) == false)
 		return ;
@@ -75,5 +76,5 @@ static void	process(char *input)
 	// else
 	// 	execute(&commands, commands.head, commands.tail, false);
 	destroy_commands(&commands);
-	destroy_commands_tree(commands_tree);
+	tree_destroy(commands_tree);
 }

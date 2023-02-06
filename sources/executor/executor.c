@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 03:11:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/06 08:01:37 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/07 00:35:33 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,31 @@ static int	execute_pipeline(t_deque *commands, int start, int end)
 // 	else if (WIFEXITED(status))
 // 		status = WEXITSTATUS(status);
 // 	return (status);
+// }
+
+// static bool	is_operator_skip(int command_type);
+
+// int	get_operator_skipped_idx(t_deque *commands, int idx)
+// {
+// 	t_command	*cmd;
+
+// 	cmd = commands->items[idx];
+// 	while (idx != commands->tail && is_operator_skip(cmd->types) == true)
+// 	{
+// 		++idx;
+// 		if (get_command(commands, idx)->types == O_PARENTHESIS)
+// 			idx = get_parenthesis_skipped_idx(commands, idx);
+// 		else if (idx + 1 != commands->tail && \
+// 						get_command(commands, idx + 1)->types == PIPE)
+// 			idx = get_pipe_skipped_idx(commands, idx);
+// 		else
+// 			idx += 2;
+// 	}
+// 	return (idx);
+// }
+
+// static bool	is_operator_skip(int command_type)
+// {
+// 	return (((command_type & AND) && exit_status_get() != 0) || \
+// 			((command_type & OR) && exit_status_get() == 0));
 // }

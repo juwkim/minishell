@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.h                                         :+:      :+:    :+:   */
+/*   command_tree.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/03 02:35:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/06 21:49:25 by juwkim           ###   ########.fr       */
+/*   Created: 2023/02/07 00:22:35 by juwkim            #+#    #+#             */
+/*   Updated: 2023/02/07 01:51:40 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTOR_H
-# define EXECUTOR_H
+#ifndef COMMAND_TREE_H
+# define COMMAND_TREE_H
 
 # include "global.h"
 # include "parser/parser.h"
 
-// executor.c
-int		execute(t_deque *commands, int start, int end, bool is_subshell);
+typedef struct s_tree_tree
+{
+	int					type;
+	t_command			*cmd;
+	struct s_tree_tree	*child;
+}	t_tree_node;
 
-// executor_exit_status.c
-int		exit_status_get(void);
-void	exit_status_set(int status);
+// command_tree.c
+t_tree_node	*make_commands_tree(t_deque *commands, int start, int end);
+void		tree_destroy(t_tree_node *cmd_tree);
 
-#endif // EXECUTOR_H
+// command_tree_utils.c
+int			get_group_end_idx(t_deque *commands, int start);
+
+#endif // COMMAND_TREE_H

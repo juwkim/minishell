@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 00:56:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/06 16:18:37 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/07 00:29:58 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,6 @@ typedef struct s_command
 	bool			is_out_append;
 }	t_command;
 
-typedef struct s_commands_tree
-{
-	int						type;
-	t_command				*cmd;
-	t_commands_tree			*sibling;
-	t_commands_tree			*child;
-}	t_commands_tree;
-
 // parser.c
 bool			parse(t_deque *commands, t_deque *tokens);
 void			destroy_commands(t_deque *commands);
@@ -55,9 +47,5 @@ void			parse_redirection(t_command *command, \
 // parser_print.c
 void			print_commands(t_deque *commands);
 void			print_commands_structure(t_deque *commands);
-
-// parser_make_commands_tree.c
-t_commands_tree	*make_commands_tree(t_deque *commands, int start, int end);
-void			destroy_commands_tree(t_commands_tree *cmd_tree);
 
 #endif // PARSER_H
