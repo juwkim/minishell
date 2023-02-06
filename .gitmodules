@@ -1,6 +1,3 @@
 [submodule "libft"]
 	path = libft
 	url = https://github.com/juwkim/libft.git
-[submodule "data-structures"]
-	path = data-structures
-	url = https://github.com/juwkim/data-structures.git
