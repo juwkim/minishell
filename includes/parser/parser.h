@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 00:56:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/07 23:48:52 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/08 06:14:44 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,6 @@
 # include "signal_handler/signal_handler.h"
 # include "tokenizer/tokenizer.h"
 # include "expander/expander.h"
-
-typedef struct s_command
-{
-	int				types;
-	t_list			argv;
-	char			*in;
-	char			*out;
-	bool			is_in_heredoc;
-	bool			is_out_append;
-}	t_command;
 
 // parser.c
 bool		parse(t_list *commands, const t_list *tokens);

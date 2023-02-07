@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 00:39:03 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/07 23:48:06 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/08 00:20:48 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	print_commands(const t_list *commands)
 		command = cur->item;
 		if (list_is_empty(&command->argv))
 			break ;
-		if (command->types & (O_PARENTHESIS | C_PARENTHESIS))
+		if (command->type & (O_PARENTHESIS | C_PARENTHESIS))
 			printf(CYAN"%s "DEF_COLOR, (char *) list_front(&command->argv));
-		else if (command->types & (AND | OR))
+		else if (command->type & (AND | OR))
 			printf(MAGENTA"%s "DEF_COLOR, (char *) list_front(&command->argv));
-		else if (command->types & PIPE)
+		else if (command->type & PIPE)
 			printf(BLUE"%s "DEF_COLOR, (char *) list_front(&command->argv));
 		else
 		{
@@ -72,15 +72,15 @@ void	print_commands_structure(const t_list *commands)
 		command = cur->item;
 		if (list_is_empty(&command->argv))
 			break ;
-		if (command->types & (O_PARENTHESIS | C_PARENTHESIS))
+		if (command->type & (O_PARENTHESIS | C_PARENTHESIS))
 			printf(CYAN"%s "DEF_COLOR, (char *) list_front(&command->argv));
-		else if (command->types & (AND | OR))
+		else if (command->type & (AND | OR))
 			printf(MAGENTA"%s "DEF_COLOR, (char *) list_front(&command->argv));
-		else if (command->types & PIPE)
+		else if (command->type & PIPE)
 			printf(BLUE"%s "DEF_COLOR, (char *) list_front(&command->argv));
-		else if (command->types & GROUP)
+		else if (command->type & GROUP)
 			printf(YELLOW"GR "DEF_COLOR);
-		else if (command->types & PIPELINE)
+		else if (command->type & PIPELINE)
 			printf(YELLOW"PL "DEF_COLOR);
 		else
 			printf(YELLOW"CMD "DEF_COLOR);

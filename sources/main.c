@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:02:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/07 23:53:24 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/08 06:17:50 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,9 @@ static void	process(const char *input)
 	if (parse(&commands, &tokens) == false)
 		return ;
 	print_tokens(&tokens);
+	list_destroy(&tokens, free);
 	print_commands(&commands);
 	make_commands_tree(&commands);
-	list_destroy(&tokens, free);
+	execute(&commands, false);
 	list_destroy(&commands, destroy_command);
 }

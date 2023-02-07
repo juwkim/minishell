@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:01:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/07 04:06:33 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/08 06:14:39 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,16 @@
 # define CMD			16384
 # define GROUP			32768
 # define PIPELINE		65536
+
+typedef struct s_command
+{
+	int				type;
+	t_list			argv;
+	char			*in;
+	char			*out;
+	bool			is_in_heredoc;
+	bool			is_out_append;
+}	t_command;
 
 extern t_hash_table	g_env;
 

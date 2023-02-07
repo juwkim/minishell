@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 00:12:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/07 23:48:30 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/08 00:20:48 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	make_simple_command(t_command *command, const t_token *token)
 {
-	command->types = token->types;
+	command->type = token->types;
 	list_push_back(&command->argv, ft_strndup(token->str, token->len));
 }
 
@@ -22,7 +22,7 @@ void	make_complex_command(t_command *command, t_node **cur)
 {
 	t_token	*token;
 
-	command->types = CMD;
+	command->type = CMD;
 	while (*cur != NULL)
 	{
 		token = (*cur)->item;

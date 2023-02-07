@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 06:41:30 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/07 23:25:53 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/08 00:20:48 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static bool	group_merge(t_list *commands)
 	if (start_node == NULL)
 		return (false);
 	cmd = start_node->item;
-	cmd->types = GROUP;
+	cmd->type = GROUP;
 	free(cmd->argv.head->next->item);
 	free(cmd->argv.head->next);
 	cmd->argv.head->next = start_node->next;
@@ -74,11 +74,11 @@ static void	group_search(const t_list *commands, \
 	while (cur != NULL)
 	{
 		cmd = cur->item;
-		if (cmd->types == PIPE)
+		if (cmd->type == PIPE)
 			*start_node = NULL;
-		else if (cmd->types == O_PARENTHESIS)
+		else if (cmd->type == O_PARENTHESIS)
 			*start_node = cur;
-		else if (cmd->types == C_PARENTHESIS)
+		else if (cmd->type == C_PARENTHESIS)
 		{
 			*end_prev_node = prev;
 			return ;
@@ -100,7 +100,7 @@ static bool	pipeline_merge(t_list *commands)
 	if (start_prev_node == NULL)
 		return (false);
 	cmd = create_command();
-	cmd->types = PIPELINE;
+	cmd->type = PIPELINE;
 	cmd->argv.head->next = start_prev_node->next;
 	cmd->argv.size = 1;
 	start_prev_node->next = list_create_node(cmd);
@@ -119,9 +119,9 @@ static void	pipeline_search(const t_list *commands, \
 	prev = commands->head;
 	cur = commands->head->next;
 	while (cur->next != NULL && \
-			!(((t_command *)cur->item)->types & flags && \
-			((t_command *)cur->next->item)->types & PIPE && \
-			((t_command *)cur->next->next->item)->types & flags))
+			!(((t_command *)cur->item)->type & flags && \
+			((t_command *)cur->next->item)->type & PIPE && \
+			((t_command *)cur->next->next->item)->type & flags))
 	{
 		prev = cur;
 		cur = cur->next;
@@ -130,9 +130,9 @@ static void	pipeline_search(const t_list *commands, \
 		return ;
 	*start_prev_node = prev;
 	while (cur->next != NULL && \
-			((t_command *)cur->item)->types & flags && \
-			((t_command *)cur->next->item)->types & PIPE && \
-			((t_command *)cur->next->next->item)->types & flags)
+			((t_command *)cur->item)->type & flags && \
+			((t_command *)cur->next->item)->type & PIPE && \
+			((t_command *)cur->next->next->item)->type & flags)
 		cur = cur->next->next;
 	*end_node = cur;
 }

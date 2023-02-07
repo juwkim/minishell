@@ -6,7 +6,7 @@
 #    By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 19:25:02 by juwkim            #+#    #+#              #
-#    Updated: 2023/02/07 06:43:16 by juwkim           ###   ########.fr        #
+#    Updated: 2023/02/08 02:56:28 by juwkim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,7 @@ SRCS				+= $(addprefix $(SRC_DIR)/$(TOKENIZER_DIR)/, tokenizer.c tokenizer_utils
 SRCS				+= $(addprefix $(SRC_DIR)/$(LEXER_DIR)/, lexer.c lexer_utils.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(PARSER_DIR)/, parser.c parser_make_command.c parser_redirection.c parser_print.c parser_make_commands_tree.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(EXPANDER_DIR)/, expander.c)
-SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, executor_exit_status.c)
+SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, executor.c executor_cmd.c executor_group.c executor_pipeline.c executor_exit_status.c)
 # SRCS				+= $(addprefix $(SRC_DIR)/$(BUILTIN_DIR)/, builtin_echo.c builtin_cd.c builtin_exit.c builtin_pwd.c builtin_env.c builtin_export.c builtin_unset.c builtin.c)
 
 OBJS				:=	$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/$(OBJ_DIR)/%.o, $(SRCS))
@@ -124,12 +124,12 @@ re: fclean
 	@printf "$(GREEN)[$(NAME)] Cleaned and rebuilt everything!\n$(DEF_COLOR)"
 
 dir_guard:
-	@mkdir -p $(addprefix $(BUILD_DIR)/$(OBJ_DIR)/, $(BUILTIN_DIR) \
-	$(CMD_DIR) $(ENVIRONMENT_DIR) $(EXECUTOR_DIR) $(EXPANDER_DIR) $(COMMAND_TREE_DIR) $(LEXER_DIR) \
-	$(PARSER_DIR) $(PRINTER_DIR) $(REDIRECTION_DIR) $(SIGNAL_HANDLER_DIR) $(TOKENIZER_DIR) $(UTILS_DIR))
-	@mkdir -p $(addprefix $(BUILD_DIR)/$(DEP_DIR)/, $(BUILTIN_DIR) \
-	$(CMD_DIR) $(ENVIRONMENT_DIR) $(EXECUTOR_DIR) $(EXPANDER_DIR) $(COMMAND_TREE_DIR) $(LEXER_DIR) \
-	$(PARSER_DIR) $(PRINTER_DIR) $(REDIRECTION_DIR) $(SIGNAL_HANDLER_DIR) $(TOKENIZER_DIR) $(UTILS_DIR))
+	@mkdir -p $(addprefix $(BUILD_DIR)/$(OBJ_DIR)/, $(ENVIRONMENT_DIR) \
+	$(SIGNAL_HANDLER_DIR) $(UTILS_DIR) $(TOKENIZER_DIR) $(LEXER_DIR) \
+	$(PARSER_DIR) $(EXPANDER_DIR) $(EXECUTOR_DIR) $(BUILTIN_DIR))
+	@mkdir -p $(addprefix $(BUILD_DIR)/$(DEP_DIR)/, $(ENVIRONMENT_DIR) \
+	$(SIGNAL_HANDLER_DIR) $(UTILS_DIR) $(TOKENIZER_DIR) $(LEXER_DIR) \
+	$(PARSER_DIR) $(EXPANDER_DIR) $(EXECUTOR_DIR) $(BUILTIN_DIR))
 
 norm:
 	@(norminette | grep Error) || (printf "$(GREEN)[$(NAME)] Norminette Success\n$(DEF_COLOR)")

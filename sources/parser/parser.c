@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 00:55:19 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/07 23:47:07 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/08 00:20:48 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	destroy_command(void *command)
 	t_command	*cmd;
 
 	cmd = command;
-	if (cmd->types & (GROUP | PIPELINE))
+	if (cmd->type & (GROUP | PIPELINE))
 		list_destroy(&cmd->argv, destroy_command);
 	else
 	{
