@@ -6,41 +6,42 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 00:55:19 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/04 06:57:23 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/07 23:47:07 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser/parser.h"
 
-static t_command	*init_command(void);
-
-bool	parse(t_deque *commands, t_deque *tokens)
+bool	parse(t_list *commands, const t_list *tokens)
 {
-	int			cur;
-	t_command	*command;
+	t_node		*cur;
 	t_token		*token;
+	t_command	*command;
 
-	cur = 0;
-	dq_init(commands);
-	while (cur != tokens->tail)
+	cur = tokens->head->next;
+	list_init(commands);
+	while (cur != NULL)
 	{
-		command = init_command();
+		command = create_command();
 		if (command == NULL)
 		{
-			destroy_commands(commands);
+			list_destroy(commands, destroy_command);
 			return (false);
 		}
-		token = get_token(tokens, cur);
+		token = cur->item;
 		if (token->types & (AND | OR | PIPE | O_PARENTHESIS | C_PARENTHESIS))
-			make_simple_command(command, tokens, &cur);
+		{
+			make_simple_command(command, token);
+			cur = cur->next;
+		}
 		else
-			make_complex_command(command, tokens, &cur);
-		dq_push_back(commands, command);
+			make_complex_command(command, &cur);
+		list_push_back(commands, command);
 	}
 	return (true);
 }
 
-static t_command	*init_command(void)
+t_command	*create_command(void)
 {
 	t_command *const	cmd = malloc(sizeof(t_command));
 
@@ -57,44 +58,38 @@ static t_command	*init_command(void)
 	return (cmd);
 }
 
-void	destroy_commands(t_deque *commands)
+void	destroy_command(void *command)
 {
-	int			cur;
-	t_command	*command;
+	t_command	*cmd;
 
-	cur = commands->head;
-	while (cur != commands->tail)
+	cmd = command;
+	if (cmd->types & (GROUP | PIPELINE))
+		list_destroy(&cmd->argv, destroy_command);
+	else
 	{
-		command = commands->items[cur];
-		list_destroy(&command->argv);
-		free(command->in);
-		free(command->out);
-		free(command);
-		cur = (cur + 1) % QUEUE_SIZE;
+		free(cmd->in);
+		free(cmd->out);
+		list_destroy(&cmd->argv, free);
 	}
+	free(command);
 }
 
-char	*get_connected_str(t_deque *tokens, int *cur)
+char	*get_connected_str(t_node **cur)
 {
 	t_token	*token;
-	t_deque	dq;
+	t_list	list;
 
-	dq_init(&dq);
-	while (*cur != tokens->tail)
+	list_init(&list);
+	while (*cur != NULL)
 	{
-		token = get_token(tokens, *cur);
+		token = (*cur)->item;
 		if (token->types & SINGLE_QUOTE)
-			dq_push_back(&dq, ft_strndup(token->str, token->len));
+			list_push_back(&list, ft_strndup(token->str, token->len));
 		else
-			dq_push_back(&dq, expand_env_variable(token->str, token->len));
+			list_push_back(&list, expand_env_variable(token->str, token->len));
 		if ((token->types & CONNECTED) == 0)
 			break ;
-		*cur = (*cur + 1) % QUEUE_SIZE;
+		*cur = (*cur)->next;
 	}
-	return (dq_strjoin(&dq));
-}
-
-t_command	*get_command(t_deque *commands, int cur)
-{
-	return (commands->items[cur]);
+	return (list_strjoin(&list));
 }

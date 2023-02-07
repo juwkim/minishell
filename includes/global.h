@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:01:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/06 15:54:59 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/07 04:06:33 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,12 @@
 # define REDIR_IN		1024
 # define REDIR_HEREDOC	2048
 
-# define CMD			4096
+# define AND			4096
+# define OR				8192
 
-# define AND			8192
-# define OR				16384
-# define SCMD			32768
-# define GROUP			65536
-# define PIPELINE		131072
+# define CMD			16384
+# define GROUP			32768
+# define PIPELINE		65536
 
 extern t_hash_table	g_env;
 

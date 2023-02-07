@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:41:18 by juwkim            #+#    #+#             */
-/*   Updated: 2023/01/28 18:09:50 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/07 23:43:32 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include "global.h"
 
-bool	print_error(char *s1, char *s2, char *message);
+bool	print_error(const char *s1, const char *s2, const char *message);
 
 #endif // ERROR_H

@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:02:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/07 01:45:58 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/07 23:53:24 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,11 @@
 #include "lexer/lexer.h"
 #include "parser/parser.h"
 #include "expander/expander.h"
-#include "command_tree/command_tree.h"
 #include "executor/executor.h"
 
 t_hash_table	g_env;
 
-static void	process(char *input);
+static void	process(const char *input);
 
 int	main(void)
 {
@@ -53,28 +52,20 @@ int	main(void)
 	return (EXIT_SUCCESS);
 }
 
-static void	process(char *input)
+static void	process(const char *input)
 {
-	t_deque			tokens;
-	t_deque			commands;
-	t_tree_node		*commands_tree;
+	t_list	tokens;
+	t_list	commands;
 
 	if (tokenize(&tokens, input) == false)
 		return ;
 	if (lexical_analyze(&tokens) == false)
 		return ;
-	print_tokens(&tokens);
 	if (parse(&commands, &tokens) == false)
 		return ;
-	destroy_tokens(&tokens);
+	print_tokens(&tokens);
 	print_commands(&commands);
-	print_commands_structure(&commands);
-	commands_tree = make_commands_tree(&commands, commands.head, \
-													commands.tail - 1);
-	if (commands_tree == NULL)
-		print_error(NULL, NULL, strerror(ENOMEM));
-	// else
-	// 	execute(&commands, commands.head, commands.tail, false);
-	destroy_commands(&commands);
-	tree_destroy(commands_tree);
+	make_commands_tree(&commands);
+	list_destroy(&tokens, free);
+	list_destroy(&commands, destroy_command);
 }

@@ -6,43 +6,43 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 00:39:03 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/04 04:13:20 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/07 23:48:06 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser/parser.h"
 
-static void	print_redirection(t_command *command);
+static void	print_redirection(const t_command *command);
 
-void	print_commands(t_deque *commands)
+void	print_commands(const t_list *commands)
 {
-	int			cur;
+	t_node		*cur;
 	t_command	*command;
 
-	cur = commands->head;
+	cur = commands->head->next;
 	printf(RED"Commands:\t\t"DEF_COLOR);
-	while (cur != commands->tail)
+	while (cur != NULL)
 	{
-		command = commands->items[cur];
+		command = cur->item;
 		if (list_is_empty(&command->argv))
 			break ;
 		if (command->types & (O_PARENTHESIS | C_PARENTHESIS))
-			printf(CYAN"%s "DEF_COLOR, list_front(&command->argv));
+			printf(CYAN"%s "DEF_COLOR, (char *) list_front(&command->argv));
 		else if (command->types & (AND | OR))
-			printf(MAGENTA"%s "DEF_COLOR, list_front(&command->argv));
+			printf(MAGENTA"%s "DEF_COLOR, (char *) list_front(&command->argv));
 		else if (command->types & PIPE)
-			printf(BLUE"%s "DEF_COLOR, list_front(&command->argv));
+			printf(BLUE"%s "DEF_COLOR, (char *) list_front(&command->argv));
 		else
 		{
 			list_print(&command->argv);
 			print_redirection(command);
 		}
-		cur = (cur + 1) % QUEUE_SIZE;
+		cur = cur->next;
 	}
 	printf("\n");
 }
 
-static void	print_redirection(t_command *command)
+static void	print_redirection(const t_command *command)
 {
 	if (command->in)
 	{
@@ -60,27 +60,31 @@ static void	print_redirection(t_command *command)
 	}
 }
 
-void	print_commands_structure(t_deque *commands)
+void	print_commands_structure(const t_list *commands)
 {
-	int			cur;
+	t_node		*cur;
 	t_command	*command;
 
-	cur = commands->head;
+	cur = commands->head->next;
 	printf(RED"Commands Structure:\t"DEF_COLOR);
-	while (cur != commands->tail)
+	while (cur != NULL)
 	{
-		command = commands->items[cur];
+		command = cur->item;
 		if (list_is_empty(&command->argv))
 			break ;
 		if (command->types & (O_PARENTHESIS | C_PARENTHESIS))
-			printf(CYAN"%s "DEF_COLOR, list_front(&command->argv));
+			printf(CYAN"%s "DEF_COLOR, (char *) list_front(&command->argv));
 		else if (command->types & (AND | OR))
-			printf(MAGENTA"%s "DEF_COLOR, list_front(&command->argv));
+			printf(MAGENTA"%s "DEF_COLOR, (char *) list_front(&command->argv));
 		else if (command->types & PIPE)
-			printf(BLUE"%s "DEF_COLOR, list_front(&command->argv));
+			printf(BLUE"%s "DEF_COLOR, (char *) list_front(&command->argv));
+		else if (command->types & GROUP)
+			printf(YELLOW"GR "DEF_COLOR);
+		else if (command->types & PIPELINE)
+			printf(YELLOW"PL "DEF_COLOR);
 		else
 			printf(YELLOW"CMD "DEF_COLOR);
-		cur = (cur + 1) % QUEUE_SIZE;
+		cur = cur->next;
 	}
 	printf("\n");
 }

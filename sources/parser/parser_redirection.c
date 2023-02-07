@@ -6,21 +6,22 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 00:12:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/04 03:59:57 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/07 07:14:45 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser/parser.h"
 
-// static void	parse_heredoc(t_linked_list *arguments, char *delimiter);
+// static void	parse_heredoc(t_list *arguments, char *delimiter);
 
-void	parse_redirection(t_command *command, t_deque *tokens, int *cur)
+void	parse_redirection(t_command *command, t_node **cur)
 {
 	char	*str;
 	int		redirection_type;
 
-	redirection_type = get_token(tokens, (*cur)++)->types;
-	str = get_connected_str(tokens, cur);
+	redirection_type = ((t_token *)(*cur)->item)->types;
+	*cur = (*cur)->next;
+	str = get_connected_str(cur);
 	if (redirection_type & (REDIR_IN | REDIR_HEREDOC))
 	{
 		free(command->in);
@@ -35,11 +36,11 @@ void	parse_redirection(t_command *command, t_deque *tokens, int *cur)
 	}
 }
 
-// static void	parse_heredoc(t_linked_list *arguments, char *delimiter)
+// static void	parse_heredoc(t_list *arguments, char *delimiter)
 // {
 // 	const int	fd = dup(STDIN_FILENO);
 // 	char		*str;
-// 	t_deque		dq;
+// 	t_list		dq;
 
 // 	dq_init(&dq);
 // 	signal(SIGINT, sigint_heredoc_handler);

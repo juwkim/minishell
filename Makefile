@@ -6,7 +6,7 @@
 #    By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 19:25:02 by juwkim            #+#    #+#              #
-#    Updated: 2023/02/07 00:29:14 by juwkim           ###   ########.fr        #
+#    Updated: 2023/02/07 06:43:16 by juwkim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,6 @@ TOKENIZER_DIR		:=	tokenizer
 LEXER_DIR			:=	lexer
 PARSER_DIR			:=	parser
 EXPANDER_DIR		:=	expander
-COMMAND_TREE_DIR	:=	command_tree
 EXECUTOR_DIR		:=	executor
 BUILTIN_DIR			:=	builtin
 
@@ -63,9 +62,8 @@ SRCS				+= $(addprefix $(SRC_DIR)/$(SIGNAL_HANDLER_DIR)/, signal_handler.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(UTILS_DIR)/, error.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(TOKENIZER_DIR)/, tokenizer.c tokenizer_utils.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(LEXER_DIR)/, lexer.c lexer_utils.c)
-SRCS				+= $(addprefix $(SRC_DIR)/$(PARSER_DIR)/, parser.c parser_make_command.c parser_redirection.c parser_print.c)
+SRCS				+= $(addprefix $(SRC_DIR)/$(PARSER_DIR)/, parser.c parser_make_command.c parser_redirection.c parser_print.c parser_make_commands_tree.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(EXPANDER_DIR)/, expander.c)
-SRCS				+= $(addprefix $(SRC_DIR)/$(COMMAND_TREE_DIR)/, command_tree.c command_tree_utils.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, executor_exit_status.c)
 # SRCS				+= $(addprefix $(SRC_DIR)/$(BUILTIN_DIR)/, builtin_echo.c builtin_cd.c builtin_exit.c builtin_pwd.c builtin_env.c builtin_export.c builtin_unset.c builtin.c)
 
@@ -90,7 +88,7 @@ NAME				:=	minishell
 #	Define the rules														   #
 # ---------------------------------------------------------------------------- #
 
-all:
+all: $(libft) $(data-structures)
 	@$(MAKE) -C $(libft)
 	@$(MAKE) -C $(data-structures)
 	@$(MAKE) -j $(NAME)

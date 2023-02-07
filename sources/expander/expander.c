@@ -6,43 +6,43 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:19:27 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/04 03:24:17 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/07 23:51:48 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander/expander.h"
 
-static char	*get_env_variable(char *str, int *i, int len);
+static char	*get_env_variable(const char *str, int *i, const int len);
 
-char	*expand_env_variable(char *str, int len)
+char	*expand_env_variable(const char *str, const int len)
 {
 	int		i;
-	t_deque	dq;
+	t_list	list;
 
 	i = 0;
-	dq_init(&dq);
+	list_init(&list);
 	while (i < len)
 	{
 		while (str[i] == '$' && str[i + 1] == '$')
 			++i;
 		if (str[i] == '$' && str[i + 1] == '?')
 		{
-			dq_push_back(&dq, ft_itoa(exit_status_get()));
+			list_push_back(&list, ft_itoa(exit_status_get()));
 			++i;
 		}
 		else if (str[i] == '$' && i < len - 1)
 		{
 			++i;
-			dq_push_back(&dq, get_env_variable(str, &i, len));
+			list_push_back(&list, get_env_variable(str, &i, len));
 		}
 		else
-			dq_push_back(&dq, ft_strndup(str + i, 1));
+			list_push_back(&list, ft_strndup(str + i, 1));
 		++i;
 	}
-	return (dq_strjoin(&dq));
+	return (list_strjoin(&list));
 }
 
-static char	*get_env_variable(char *str, int *i, int len)
+static char	*get_env_variable(const char *str, int *i, const int len)
 {
 	const int	start = *i;
 	char		*val;

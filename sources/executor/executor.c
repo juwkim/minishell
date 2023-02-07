@@ -6,18 +6,18 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 03:11:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/07 00:35:33 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/07 07:14:45 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor/executor.h"
 
-static int	execute_group(t_deque *commands, int start, int end);
-static int	execute_pipeline(t_deque *commands, int start, int end);
+static int	execute_group(t_list *commands, int start, int end);
+static int	execute_pipeline(t_list *commands, int start, int end);
 static int	execute_cmd(t_command *command, bool is_subshell);
 // static int	execute_wait_pid(int last_pid, char *name);
 
-int	execute(t_deque *commands, int start, int end, bool is_subshell)
+int	execute(t_list *commands, int start, int end, bool is_subshell)
 {
 	int	next;
 
@@ -48,7 +48,7 @@ static int	execute_cmd(t_command *command, bool is_subshell)
 	return (0);
 }
 
-static int	execute_group(t_deque *commands, int start, int end)
+static int	execute_group(t_list *commands, int start, int end)
 {
 	// int	pid;
 	// int	status;
@@ -73,7 +73,7 @@ static int	execute_group(t_deque *commands, int start, int end)
 	return (0);
 }
 
-static int	execute_pipeline(t_deque *commands, int start, int end)
+static int	execute_pipeline(t_list *commands, int start, int end)
 {
 	(void) commands;
 	(void) start;
@@ -110,7 +110,7 @@ static int	execute_pipeline(t_deque *commands, int start, int end)
 
 // static bool	is_operator_skip(int command_type);
 
-// int	get_operator_skipped_idx(t_deque *commands, int idx)
+// int	get_operator_skipped_idx(t_list *commands, int idx)
 // {
 // 	t_command	*cmd;
 

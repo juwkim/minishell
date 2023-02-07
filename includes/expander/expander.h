@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:19:48 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/04 03:10:45 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/07 23:51:36 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,6 @@
 # include "parser/parser.h"
 # include "executor/executor.h"
 
-char	*expand_env_variable(char *str, int len);
+char	*expand_env_variable(const char *str, const int len);
 
 #endif // EXPANDER_H

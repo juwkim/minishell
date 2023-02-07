@@ -6,13 +6,13 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 15:56:15 by hepple            #+#    #+#             */
-/*   Updated: 2023/01/28 16:40:15 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/07 23:43:20 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils/error.h"
 
-bool	print_error(char *s1, char *s2, char *message)
+bool	print_error(const char *s1, const char *s2, const char *message)
 {
 	write(STDERR_FILENO, SHELL_NAME, ft_strlen(SHELL_NAME));
 	if (s1 != NULL)

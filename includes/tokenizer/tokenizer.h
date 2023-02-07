@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 22:25:43 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/04 03:56:23 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/07 23:44:32 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,8 @@ typedef struct s_token
 }	t_token;
 
 // tokenizer.c
-bool	tokenize(t_deque *tokens, const char *input);
-void	destroy_tokens(t_deque *tokens);
-t_token	*get_token(t_deque *tokens, int cur);
-void	print_tokens(t_deque *tokens);
+bool	tokenize(t_list *tokens, const char *input);
+void	print_tokens(const t_list *tokens);
 
 // tokenizer_utils.c
 bool	is_bin_operator_or_pipe(const char *input, int *idx, t_token *token);

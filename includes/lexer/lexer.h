@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 04:12:19 by juwkim            #+#    #+#             */
-/*   Updated: 2023/01/30 04:09:36 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/07 23:50:14 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@
 # define ERR_SYNTAX "syntax error near unexpected token"
 
 // lexer.c
-bool	lexical_analyze(t_deque *tokens);
+bool	lexical_analyze(t_list *tokens);
 
 // lexer_utils.c
-bool	bin_pipe_open_analyze(t_deque *tokens);
-bool	close_analyze(t_deque *tokens);
-bool	text_analyze(t_deque *tokens);
-bool	parenthesis_analyze(t_deque *tokens);
-bool	redirection_analyze(t_deque *tokens);
+bool	bin_pipe_open_analyze(const t_list *tokens);
+bool	close_analyze(const t_list *tokens);
+bool	text_analyze(const t_list *tokens);
+bool	parenthesis_analyze(const t_list *tokens);
+bool	redirection_analyze(const t_list *tokens);
 
 #endif // LEXER_H
