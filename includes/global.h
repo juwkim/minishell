@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:01:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 03:29:02 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 03:59:16 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ typedef struct s_command
 
 typedef struct s_env
 {
-	char	*key[MAX_TABLE_SIZE];
-	char	*value[MAX_TABLE_SIZE];
+	char	*item[MAX_TABLE_SIZE];
 	int		count;
 }	t_env;
 

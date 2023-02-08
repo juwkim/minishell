@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:08:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 03:27:37 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 04:15:53 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,17 @@
 bool	env_init(void)
 {
 	extern char	**environ;
-	char		*key;
-	char		*value;
-	int			idx;
+	char		*line;
 
 	while (*environ)
 	{
-		idx = ft_strfind(*environ, '=');
-		key = ft_strndup(*environ, idx);
-		value = ft_strdup(*environ + idx + 1);
-		if (key == NULL || value == NULL)
+		line = ft_strdup(*environ);
+		if (line == NULL)
 		{
-			free(key);
-			free(value);
 			env_destroy();
 			return (print_error(NULL, NULL, strerror(ENOMEM)));
 		}
-		env_set(key, value);
+		env_set(line);
 		++environ;
 	}
 	return (true);
@@ -44,63 +38,61 @@ void	env_destroy(void)
 	idx = 0;
 	while (idx < g_env.count)
 	{
-		free(g_env.key[idx]);
-		free(g_env.value[idx]);
+		free(g_env.item[idx]);
 		++idx;
 	}
 }
 
-void	env_set(char *key, char *value)
+void	env_set(char *line)
 {
 	int			idx;
-	const int	len = ft_strlen(key);
+	const int	key_len = ft_strfind(line, '=');
 
 	if (g_env.count == MAX_TABLE_SIZE)
+	{
+		free(line);
 		return ;
+	}
 	idx = 0;
-	while (idx < g_env.count && ft_strncmp(key, g_env.key[idx], len) != 0)
+	while (idx < g_env.count && ft_strncmp(line, g_env.item[idx], key_len) != 0)
 		++idx;
 	if (idx != g_env.count)
-	{
-		free(g_env.key[g_env.count]);
-		free(g_env.value[g_env.count]);
-	}
-	g_env.key[g_env.count] = key;
-	g_env.value[g_env.count] = value;
+		free(g_env.item[g_env.count]);
+	g_env.item[g_env.count] = line;
 	++g_env.count;
 }
 
 char	*env_get(char *key)
 {
 	int			idx;
-	const int	len = ft_strlen(key);
+	const int	key_len = ft_strlen(key);
 
 	idx = 0;
-	while (idx < g_env.count && ft_strncmp(key, g_env.key[idx], len) != 0)
+	while (idx < g_env.count && ft_strncmp(key, g_env.item[idx], key_len) != 0)
 		++idx;
+	free(key);
 	if (idx == g_env.count)
 		return (NULL);
 	else
-		return (g_env.value[idx]);
+		return (ft_strdup(g_env.item[idx] + key_len + 1));
 }
 
 void	env_remove(char *key)
 {
 	int			idx;
-	const int	len = ft_strlen(key);
+	const int	key_len = ft_strlen(key);
 
 	idx = 0;
-	while (idx < g_env.count && ft_strncmp(key, g_env.key[idx], len) != 0)
+	while (idx < g_env.count && ft_strncmp(key, g_env.item[idx], key_len) != 0)
 		++idx;
+	free(key);
 	if (idx == g_env.count)
 		return ;
-	free(g_env.key[idx]);
-	free(g_env.value[idx]);
+	free(g_env.item[idx]);
 	--g_env.count;
 	while (idx < g_env.count)
 	{
-		g_env.key[idx] = g_env.key[idx + 1];
-		g_env.value[idx] = g_env.value[idx + 1];
+		g_env.item[idx] = g_env.item[idx + 1];
 		++idx;
 	}
 }
