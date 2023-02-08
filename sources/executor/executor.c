@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 03:11:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/08 07:04:20 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/08 14:09:19 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ int	execute_wait_pid(int last_pid)
 		exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 	{
-		write(STDERR_FILENO, "\n", ft_strlen("\n"));
+		if (status != SIGPIPE)
+			write(STDERR_FILENO, "\n", ft_strlen("\n"));
 		exit_status = 128 + WTERMSIG(status);
 	}
 	return (exit_status);

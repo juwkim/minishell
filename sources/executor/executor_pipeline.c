@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 02:50:49 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/08 08:46:21 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/08 14:11:39 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	execute_pipeline(t_list *commands)
 		pid = fork();
 		if (pid == 0)
 			execute_pipeline_cmd(cur->item, pipefd, idx, cur->next == NULL);
-		else
+		else if (cur->next != NULL)
 		{
 			close(pipefd[idx & 1][READ]);
 			close(pipefd[idx++ & 1][WRITE]);
@@ -68,24 +68,20 @@ static void	execute_pipe_set(int pipefd[2][2], int idx, bool is_last)
 
 	if (idx == 0)
 	{
-		printf("i am first %d\n", idx);
-		close(pipefd[next][READ]);
 		dup2(pipefd[next][WRITE], STDOUT_FILENO);
-	}
-	else if (is_last)
-	{
-		printf("i am last %d\n", idx);
-		close(pipefd[prev][WRITE]);
 		close(pipefd[next][READ]);
 		close(pipefd[next][WRITE]);
-		dup2(pipefd[prev][READ], STDIN_FILENO);
+		return ;
 	}
+	else if (is_last)
+		dup2(pipefd[prev][READ], STDIN_FILENO);
 	else
 	{
-		printf("i am %d\n", idx);
-		close(pipefd[prev][WRITE]);
-		close(pipefd[next][READ]);
 		dup2(pipefd[prev][READ], STDIN_FILENO);
 		dup2(pipefd[next][WRITE], STDOUT_FILENO);
 	}
+	close(pipefd[prev][READ]);
+	close(pipefd[prev][WRITE]);
+	close(pipefd[next][READ]);
+	close(pipefd[next][WRITE]);
 }
