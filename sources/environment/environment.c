@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:08:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 04:15:53 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 04:42:51 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ bool	env_init(void)
 			env_destroy();
 			return (print_error(NULL, NULL, strerror(ENOMEM)));
 		}
-		env_set(line);
+		g_env.item[g_env.count++] = line;
 		++environ;
 	}
 	return (true);
@@ -43,26 +43,23 @@ void	env_destroy(void)
 	}
 }
 
-void	env_set(char *line)
+void	env_set(const char *key, const char *val)
 {
 	int			idx;
-	const int	key_len = ft_strfind(line, '=');
+	const int	key_len = ft_strlen(key);
 
 	if (g_env.count == MAX_TABLE_SIZE)
-	{
-		free(line);
 		return ;
-	}
 	idx = 0;
-	while (idx < g_env.count && ft_strncmp(line, g_env.item[idx], key_len) != 0)
+	while (idx < g_env.count && ft_strncmp(key, g_env.item[idx], key_len) != 0)
 		++idx;
 	if (idx != g_env.count)
 		free(g_env.item[g_env.count]);
-	g_env.item[g_env.count] = line;
+	g_env.item[g_env.count] = ft_strjoin(key, val, '=');
 	++g_env.count;
 }
 
-char	*env_get(char *key)
+char	*env_get(const char *key)
 {
 	int			idx;
 	const int	key_len = ft_strlen(key);
@@ -70,14 +67,13 @@ char	*env_get(char *key)
 	idx = 0;
 	while (idx < g_env.count && ft_strncmp(key, g_env.item[idx], key_len) != 0)
 		++idx;
-	free(key);
 	if (idx == g_env.count)
 		return (NULL);
 	else
-		return (ft_strdup(g_env.item[idx] + key_len + 1));
+		return (g_env.item[idx] + key_len + 1);
 }
 
-void	env_remove(char *key)
+void	env_remove(const char *key)
 {
 	int			idx;
 	const int	key_len = ft_strlen(key);
@@ -85,7 +81,6 @@ void	env_remove(char *key)
 	idx = 0;
 	while (idx < g_env.count && ft_strncmp(key, g_env.item[idx], key_len) != 0)
 		++idx;
-	free(key);
 	if (idx == g_env.count)
 		return ;
 	free(g_env.item[idx]);
