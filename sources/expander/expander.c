@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:19:27 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/07 23:51:48 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 03:29:58 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static char	*get_env_variable(const char *str, int *i, const int len)
 	while (*i < len && (ft_isalnum(str[*i]) || str[*i] == '_'))
 		++(*i);
 	key = ft_strndup(str + start, *i - start);
-	val = hash_table_search(&g_env, key);
+	val = env_get(key);
 	free(key);
 	--(*i);
 	return (ft_strdup(val));

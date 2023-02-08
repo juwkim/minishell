@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:02:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/08 13:57:46 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 03:01:51 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include "expander/expander.h"
 #include "executor/executor.h"
 
-t_hash_table	g_env;
+t_env	g_env;
 
 static void	process(const char *input);
 
@@ -67,6 +67,6 @@ static void	process(const char *input)
 	list_destroy(&tokens, free);
 	print_commands(&commands);
 	make_commands_tree(&commands);
-	execute(&commands, false);
+	// execute(&commands, false);
 	list_destroy(&commands, destroy_command);
 }

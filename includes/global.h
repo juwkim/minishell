@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:01:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/08 06:14:39 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 03:29:02 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 
 # include "libft.h"
 # include "deque.h"
-# include "hash_table.h"
 # include "linked_list.h"
 # include "utils/error.h"
+# include "environment/environment.h"
 
 # define PROMPT 	"minishell$ "
 # define SHELL_NAME	"minishell"
@@ -71,6 +71,15 @@ typedef struct s_command
 	bool			is_out_append;
 }	t_command;
 
-extern t_hash_table	g_env;
+# define MAX_TABLE_SIZE 24593
+
+typedef struct s_env
+{
+	char	*key[MAX_TABLE_SIZE];
+	char	*value[MAX_TABLE_SIZE];
+	int		count;
+}	t_env;
+
+extern t_env	g_env;
 
 #endif // GLOBAL_H

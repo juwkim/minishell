@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 02:52:32 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 00:20:11 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 03:31:11 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,14 @@ static int	execute_function(t_list *argv, bool is_subshell);
 
 int	execute_cmd(t_command *command, bool is_subshell)
 {
-	const int	pid = fork();
+	int	exit_status;
 
-	if (pid == -1)
-	{
-		print_error(NULL, NULL, strerror(errno));
-		return (EXIT_FAILURE);
-	}
-	if (pid == 0)
-	{
-		// redirection
-		if (list_is_empty(&command->argv))
-			return (EXIT_SUCCESS);
-		exit(execute_function(&command->argv, is_subshell));
-	}
-	return (execute_wait_pid(pid));
+	// redirection
+	if (list_is_empty(&command->argv))
+		return (EXIT_SUCCESS);
+	exit_status = execute_function(&command->argv, is_subshell);
+	// redirection undo
+	return (exit_status);
 }
 
 static int	execute_function(t_list *argv, bool is_subshell)
