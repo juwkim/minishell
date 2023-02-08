@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:35:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/08 06:16:25 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 00:18:00 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,17 @@
 
 # include "global.h"
 # include "parser/parser.h"
+# include "builtin/builtin.h"
 
 # define READ	0
 # define WRITE	1
+
+typedef struct s_builtin
+{
+	const char	*name;
+	int			name_len;
+	int			(*func)(t_list *argv);
+}	t_builtin;
 
 // executor.c
 int		execute(t_list *commands, bool is_subshell);
