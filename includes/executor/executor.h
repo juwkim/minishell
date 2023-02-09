@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:35:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 08:41:00 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 12:37:29 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include "builtin/builtin.h"
 
 // POSIX BASED EXIT STATUS
-# define EXEC_NOEXEC	126
-# define EXEC_NOTFOUND	127
+# define EXEC_NOEXEC	126 // command invoked cannot execute
+# define EXEC_NOTFOUND	127 // command not found
 
 # define READ	0
 # define WRITE	1

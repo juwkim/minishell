@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:20:13 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 12:30:56 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 12:42:04 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,6 @@ static void	execute_not_builtin_func(char **argv)
 		}
 	}
 	execve(argv[0], argv, g_env.item);
-	if (errno == ENOENT)
-		exit(EXEC_NOTFOUND);
-	else
-		exit(EXEC_NOEXEC);
 }
 
 static bool	set_cmd_path(char **argv)
@@ -73,7 +69,7 @@ static bool	set_cmd_path(char **argv)
 			bin_path = ft_strcjoin(splited_path[idx], argv[0], '/');
 		if (bin_path == NULL)
 			return (false);
-		if (access(bin_path, F_OK) == 0 && \
+		if (access(bin_path, X_OK) == 0 && \
 			stat(bin_path, &s) == 0 && S_ISDIR(s.st_mode) == false)
 			break ;
 		free(bin_path);
