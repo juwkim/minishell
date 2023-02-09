@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 03:11:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/08 14:09:19 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 04:10:05 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	execute(t_list *commands, bool is_subshell)
 	{
 		cmd = cur->item;
 		if (cmd->type == CMD)
-			exit_status_set(execute_cmd(cmd, is_subshell));
+			exit_status_set(execute_cmd(cmd, is_subshell, false));
 		else if (cmd->type == GROUP)
 			exit_status_set(execute_group(&cmd->argv));
 		else
@@ -51,7 +51,9 @@ int	execute_wait_pid(int last_pid)
 
 	status = 0;
 	exit_status = 0;
+	// printf("i am waiting pid of %d\n", last_pid);
 	waitpid(last_pid, &status, 0);
+	// printf("i am end pid of %d\n", last_pid);
 	if (WIFEXITED(status))
 		exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))

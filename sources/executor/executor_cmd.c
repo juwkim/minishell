@@ -6,16 +6,16 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 02:52:32 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 14:13:21 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 04:11:27 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor/executor.h"
 
 static char	**get_argv_array(t_list *list);
-static int	execute_function(char **argv, bool is_subshell);
+static int	execute_function(char **argv, bool is_subshell, bool is_pipeline);
 
-int	execute_cmd(t_command *command, bool is_subshell)
+int	execute_cmd(t_command *command, bool is_subshell, bool is_pipeline)
 {
 	int		exit_status;
 	char	**argv;
@@ -29,7 +29,7 @@ int	execute_cmd(t_command *command, bool is_subshell)
 		print_error(NULL, NULL, strerror(ENOMEM));
 		return (EXIT_FAILURE);
 	}
-	exit_status = execute_function(argv, is_subshell);
+	exit_status = execute_function(argv, is_subshell, is_pipeline);
 	free(argv);
 	// redirection undo
 	return (exit_status);
@@ -54,26 +54,25 @@ static char	**get_argv_array(t_list *list)
 	return (argv);
 }
 
-static int	execute_function(char **argv, bool is_subshell)
+static int	execute_function(char **argv, bool is_subshell, bool is_pipeline)
 {
-	// const t_builtin	builtin[6] = \
-	// {
-	// {"echo", 4, builtin_echo}, {"cd", 2, builtin_cd}, \
-	// {"pwd", 3, builtin_pwd}, {"env", 3, builtin_env}, \
-	// {"export", 6, builtin_export}, {"unset", 5, builtin_unset}
-	// };
-	// int				idx;
-	// const char		*name = argv[0];
+	const t_builtin	builtin[6] = \
+	{
+	{"echo", 4, builtin_echo}, {"cd", 2, builtin_cd}, \
+	{"pwd", 3, builtin_pwd}, {"env", 3, builtin_env}, \
+	{"export", 6, builtin_export}, {"unset", 5, builtin_unset}
+	};
+	int				idx;
+	const char		*name = argv[0];
 
-	// if (ft_strncmp(name, "exit", ft_strlen("exit")) == 0)
-	// 	return (builtin_exit(argv, is_subshell));
-	// idx = 0;
-	// while (idx < BUILTIN_FUNC_CNT - 1 && \
-	// 	ft_strncmp(name, builtin[idx].name, builtin[idx].name_len) != 0)
-	// 	++idx;
-	(void)is_subshell;
-	// if (idx == BUILTIN_FUNC_CNT - 1)
-		return (execute_not_builtin(argv));
-	// else
-	// 	return (builtin[idx].func(argv));
+	if (ft_strncmp(name, "exit", ft_strlen("exit")) == 0)
+		return (builtin_exit(argv, is_subshell));
+	idx = 0;
+	while (idx < BUILTIN_FUNC_CNT - 1 && \
+		ft_strncmp(name, builtin[idx].name, builtin[idx].name_len) != 0)
+		++idx;
+	if (idx == BUILTIN_FUNC_CNT - 1)
+		return (execute_not_builtin(argv, is_pipeline));
+	else
+		return (builtin[idx].func(argv));
 }

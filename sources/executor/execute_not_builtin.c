@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:20:13 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 12:42:04 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 04:12:56 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	execute_not_builtin_func(char **argv);
 static bool	set_cmd_path(char **argv);
 static char	**get_splited_path(void);
 
-int	execute_not_builtin(char **argv)
+int	execute_not_builtin(char **argv, bool is_pipeline)
 {
 	const int	pid = fork();
 
@@ -27,7 +27,10 @@ int	execute_not_builtin(char **argv)
 	}
 	if (pid == 0)
 		execute_not_builtin_func(argv);
-	return (execute_wait_pid(pid));
+	if (is_pipeline)
+		return (EXIT_SUCCESS);
+	else
+		return (execute_wait_pid(pid));
 }
 
 static void	execute_not_builtin_func(char **argv)

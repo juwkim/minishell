@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:35:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 12:37:29 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 04:11:49 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ int		execute_group(t_list *commands);
 int		execute_pipeline(t_list *commands);
 
 // executor/executor_cmd.c
-int		execute_cmd(t_command *command, bool is_subshell);
+int		execute_cmd(t_command *command, bool is_subshell, bool is_pipeline);
 
 // executor_exit_status.c
 int		exit_status_get(void);
 void	exit_status_set(int status);
 
 // executor_not_builtin.c
-int		execute_not_builtin(char **argv);
+int		execute_not_builtin(char **argv, bool is_pipeline);
 
 #endif // EXECUTOR_H
