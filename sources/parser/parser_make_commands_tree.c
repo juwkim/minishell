@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 06:41:30 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 11:59:32 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 14:12:58 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ bool	make_commands_tree(t_list *commands)
 		if (exist_group == true)
 			print_commands_structure(commands);
 		exist_pipeline = pipeline_merge(commands);
-		// if (exist_pipeline == MEMORY_ALLOCATE_FAIL)
-		// {
-		// 	list_destroy(commands, destroy_command);
-		// 	return (print_error(NULL, NULL, strerror(ENOMEM)));
-		// }
+		if (exist_pipeline == MEMORY_ALLOCATE_FAIL)
+		{
+			list_destroy(commands, destroy_command);
+			return (print_error(NULL, NULL, strerror(ENOMEM)));
+		}
 		if (exist_pipeline == true)
 			print_commands_structure(commands);
 		if (exist_group == false && exist_pipeline == false)

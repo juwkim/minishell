@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 02:50:49 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/08 14:11:39 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 14:33:09 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,12 @@ int	execute_pipeline(t_list *commands)
 		pid = fork();
 		if (pid == 0)
 			execute_pipeline_cmd(cur->item, pipefd, idx, cur->next == NULL);
-		else if (cur->next != NULL)
-		{
-			close(pipefd[idx & 1][READ]);
-			close(pipefd[idx++ & 1][WRITE]);
-		}
+		// else if (cur->next != NULL)
+		// {
+		// 	close(pipefd[idx & 1][READ]);
+		// 	close(pipefd[idx++ & 1][WRITE]);
+		// }
+		++idx;
 		if (cur->next == NULL)
 			break ;
 		cur = cur->next->next;
@@ -66,6 +67,9 @@ static void	execute_pipe_set(int pipefd[2][2], int idx, bool is_last)
 	const int	prev = (idx + 1) & 1;
 	const int	next = idx & 1;
 
+	printf("%d %d\n", pipefd[0][0], pipefd[0][1]);
+	printf("%d %d\n", pipefd[1][0], pipefd[1][1]);
+	printf("idx: %d\n", idx);
 	if (idx == 0)
 	{
 		dup2(pipefd[next][WRITE], STDOUT_FILENO);
