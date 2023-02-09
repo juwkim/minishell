@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 02:52:32 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 12:04:36 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 13:12:31 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	execute_cmd(t_command *command, bool is_subshell)
 		print_error(NULL, NULL, strerror(ENOMEM));
 		return (EXIT_FAILURE);
 	}
+	printf("%s\n", argv[0]);
 	exit_status = execute_function(argv, is_subshell);
 	free(argv);
 	// redirection undo
