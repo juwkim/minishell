@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:08:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 09:35:21 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 06:53:53 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	env_init(void)
 		if (line == NULL)
 		{
 			env_destroy();
-			return (print_error(NULL, NULL, strerror(ENOMEM)));
+			return (print_error(NULL, NULL, strerror(errno)));
 		}
 		g_env.item[g_env.count++] = line;
 		++environ;
@@ -53,7 +53,7 @@ bool	env_set(const char *key, const char *val)
 		return (print_error(NULL, NULL, "Environment variable table is full"));
 	line = ft_strcjoin(key, val, '=');
 	if (line == NULL)
-		return (print_error(NULL, NULL, strerror(ENOMEM)));
+		return (print_error(NULL, NULL, strerror(errno)));
 	idx = 0;
 	while (idx < g_env.count && ft_strncmp(key, g_env.item[idx], key_len) != 0)
 		++idx;

@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:56:06 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 11:11:39 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 06:53:53 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	tokenize(t_list *tokens, const char *input)
 
 	idx = 0;
 	if (list_init(tokens) == false)
-		return (print_error(NULL, NULL, strerror(ENOMEM)));
+		return (print_error(NULL, NULL, strerror(errno)));
 	while (input[idx] != '\0')
 	{
 		if (ft_isspace(input[idx]))
@@ -34,7 +34,7 @@ bool	tokenize(t_list *tokens, const char *input)
 		{
 			free(token);
 			list_destroy(tokens, free);
-			return (print_error(NULL, NULL, strerror(ENOMEM)));
+			return (print_error(NULL, NULL, strerror(errno)));
 		}
 	}
 	return (true);

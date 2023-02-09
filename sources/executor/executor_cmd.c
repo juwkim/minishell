@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 02:52:32 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 04:11:27 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 07:03:02 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,28 @@ static int	execute_function(char **argv, bool is_subshell, bool is_pipeline);
 
 int	execute_cmd(t_command *command, bool is_subshell, bool is_pipeline)
 {
-	int		exit_status;
-	char	**argv;
+	int			exit_status;
+	char		**argv;
+	const int	oldfd_in = dup(STDIN_FILENO);
+	const int	oldfd_out = dup(STDOUT_FILENO);
 
-	// redirection
-	if (list_is_empty(&command->argv))
-		return (EXIT_SUCCESS);
+	if (oldfd_in == -1 || oldfd_out == -1)
+	{
+		print_error(NULL, NULL, strerror(errno));
+		return (EXIT_FAILURE);
+	}
+	if (redirect(command) == false || list_is_empty(&command->argv))
+		return (EXIT_FAILURE);
 	argv = get_argv_array(&command->argv);
 	if (argv == NULL)
 	{
-		print_error(NULL, NULL, strerror(ENOMEM));
+		print_error(NULL, NULL, strerror(errno));
 		return (EXIT_FAILURE);
 	}
 	exit_status = execute_function(argv, is_subshell, is_pipeline);
 	free(argv);
-	// redirection undo
+	if (redirect_undo(oldfd_in, oldfd_out) == false)
+		return (EXIT_FAILURE);
 	return (exit_status);
 }
 
@@ -57,11 +64,9 @@ static char	**get_argv_array(t_list *list)
 static int	execute_function(char **argv, bool is_subshell, bool is_pipeline)
 {
 	const t_builtin	builtin[6] = \
-	{
-	{"echo", 4, builtin_echo}, {"cd", 2, builtin_cd}, \
+	{{"echo", 4, builtin_echo}, {"cd", 2, builtin_cd}, \
 	{"pwd", 3, builtin_pwd}, {"env", 3, builtin_env}, \
-	{"export", 6, builtin_export}, {"unset", 5, builtin_unset}
-	};
+	{"export", 6, builtin_export}, {"unset", 5, builtin_unset}};
 	int				idx;
 	const char		*name = argv[0];
 

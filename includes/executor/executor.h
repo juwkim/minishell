@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:35:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 04:11:49 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 06:57:02 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,9 @@ void	exit_status_set(int status);
 
 // executor_not_builtin.c
 int		execute_not_builtin(char **argv, bool is_pipeline);
+
+// execute_redirection.c
+bool	redirect(t_command *command);
+bool	redirect_undo(int oldfd_in, int oldfd_out);
 
 #endif // EXECUTOR_H

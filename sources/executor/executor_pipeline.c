@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 02:50:49 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 04:10:18 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 06:01:58 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	execute_pipeline_cmd(t_command *cmd, int pipefd[2][2], \
 												int idx, bool is_last);
 static void	execute_pipe_set(int pipefd[2][2], int idx, bool is_last);
+static bool	close_pipefd(int idx);
 
 int	execute_pipeline(t_list *commands)
 {
@@ -24,7 +25,7 @@ int	execute_pipeline(t_list *commands)
 	int		pipefd[2][2];
 
 	idx = 0;
-	pid = -1;
+	pid = 0;
 	cur = commands->head->next;
 	while (cur)
 	{
@@ -35,11 +36,13 @@ int	execute_pipeline(t_list *commands)
 			break ;
 		if (pid == 0)
 			execute_pipeline_cmd(cur->item, pipefd, idx, cur->next == NULL);
-		++idx;
 		if (cur->next == NULL)
 			break ;
+		++idx;
 		cur = cur->next->next;
 	}
+	if (close_pipefd(idx) == false)
+		print_error(NULL, NULL, strerror(errno));
 	return (execute_wait_pid_all(pid));
 }
 
@@ -73,4 +76,24 @@ static void	execute_pipe_set(int pipefd[2][2], int idx, bool is_last)
 		dup2(pipefd[prev][READ], STDIN_FILENO);
 		dup2(pipefd[next][WRITE], STDOUT_FILENO);
 	}
+	if (close_pipefd(idx) == false)
+		print_error(NULL, NULL, strerror(errno));
+}
+
+static bool	close_pipefd(int idx)
+{
+	int		cnt;
+	bool	res;
+
+	cnt = 0;
+	res = true;
+	while (cnt < idx)
+	{
+		if (close(2 * cnt + 3) == -1)
+			res = false;
+		if (close(2 * cnt + 4) == -1)
+			res = false;
+		++cnt;
+	}
+	return (res);
 }

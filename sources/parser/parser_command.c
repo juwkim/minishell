@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 00:12:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 10:46:33 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 06:35:56 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ bool	parse_complex_command(t_command *command, t_node **cur)
 			((t_token *)(*cur)->next->item)->types & flags)
 			break ;
 		*cur = (*cur)->next;
+		token = (*cur)->item;
 	}
 	return (true);
 }

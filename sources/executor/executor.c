@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 03:11:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 04:10:05 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 04:23:53 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,8 @@ int	execute_wait_pid(int last_pid)
 	int	status;
 	int	exit_status;
 
-	status = 0;
-	exit_status = 0;
-	// printf("i am waiting pid of %d\n", last_pid);
+	signal(SIGINT, SIG_IGN);
 	waitpid(last_pid, &status, 0);
-	// printf("i am end pid of %d\n", last_pid);
 	if (WIFEXITED(status))
 		exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
@@ -62,6 +59,9 @@ int	execute_wait_pid(int last_pid)
 			write(STDERR_FILENO, "\n", ft_strlen("\n"));
 		exit_status = 128 + WTERMSIG(status);
 	}
+	else
+		exit_status = EXIT_SUCCESS;
+	signal(SIGINT, sigint_handler);
 	return (exit_status);
 }
 

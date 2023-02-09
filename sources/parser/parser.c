@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 00:55:19 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 11:10:58 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 06:53:53 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	parse(t_list *commands, const t_list *tokens)
 
 	cur = tokens->head->next;
 	if (list_init(commands) == false)
-		return (print_error(NULL, NULL, strerror(ENOMEM)));
+		return (print_error(NULL, NULL, strerror(errno)));
 	while (cur != NULL)
 	{
 		command = create_command();
@@ -31,7 +31,7 @@ bool	parse(t_list *commands, const t_list *tokens)
 		{
 			destroy_command(command);
 			list_destroy(commands, destroy_command);
-			return (print_error(NULL, NULL, strerror(ENOMEM)));
+			return (print_error(NULL, NULL, strerror(errno)));
 		}
 		cur = cur->next;
 	}
