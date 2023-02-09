@@ -6,27 +6,52 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 02:52:32 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 03:31:11 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 08:01:42 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor/executor.h"
 
-static int	execute_function(t_list *argv, bool is_subshell);
+static char	**get_argv_array(t_list *list);
+static int	execute_function(char **argv, bool is_subshell);
 
 int	execute_cmd(t_command *command, bool is_subshell)
 {
-	int	exit_status;
+	int		exit_status;
+	char	**argv;
 
 	// redirection
 	if (list_is_empty(&command->argv))
 		return (EXIT_SUCCESS);
-	exit_status = execute_function(&command->argv, is_subshell);
+	argv = get_argv_array(&command->argv);
+	if (argv == NULL)
+		return (EXIT_FAILURE);
+	exit_status = execute_function(argv, is_subshell);
+	free(argv);
 	// redirection undo
 	return (exit_status);
 }
 
-static int	execute_function(t_list *argv, bool is_subshell)
+static char	**get_argv_array(t_list *list)
+{
+	char **const	argv = malloc(sizeof(char *) * (list->size + 1));
+	t_node			*cur;
+	int				idx;
+
+	if (argv == NULL)
+		return (NULL);
+	cur = list->head->next;
+	idx = 0;
+	while (cur)
+	{
+		argv[idx++] = cur->item;
+		cur = cur->next;
+	}
+	argv[idx] = NULL;
+	return (argv);
+}
+
+static int	execute_function(char **argv, bool is_subshell)
 {
 	const t_builtin	builtin[6] = \
 	{
@@ -35,7 +60,7 @@ static int	execute_function(t_list *argv, bool is_subshell)
 	{"export", 6, builtin_export}, {"unset", 5, builtin_unset}
 	};
 	int				idx;
-	const char		*name = list_front(argv);
+	const char		*name = argv[0];
 
 	if (ft_strncmp(name, "exit", ft_strlen("exit")) == 0)
 		return (builtin_exit(argv, is_subshell));

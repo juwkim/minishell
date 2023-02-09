@@ -6,13 +6,14 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 00:24:33 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 08:00:53 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin/builtin.h"
 
-int	builtin_cd(t_list *argv)
+int	builtin_cd(char **argv)
 {
+	(void) argv;
 	return (0);
 }

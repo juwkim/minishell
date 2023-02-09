@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:08:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 04:42:51 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 08:22:02 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	env_set(const char *key, const char *val)
 		++idx;
 	if (idx != g_env.count)
 		free(g_env.item[g_env.count]);
-	g_env.item[g_env.count] = ft_strjoin(key, val, '=');
+	g_env.item[g_env.count] = ft_strcjoin(key, val, '=');
 	++g_env.count;
 }
 

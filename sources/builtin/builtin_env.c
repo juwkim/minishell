@@ -6,13 +6,14 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 00:24:08 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 08:00:34 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin/builtin.h"
 
-int	builtin_env(t_list *argv)
+int	builtin_env(char **argv)
 {
+	(void) argv;
 	return (0);
 }

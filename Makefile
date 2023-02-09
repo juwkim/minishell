@@ -6,7 +6,7 @@
 #    By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 19:25:02 by juwkim            #+#    #+#              #
-#    Updated: 2023/02/09 04:31:22 by juwkim           ###   ########.fr        #
+#    Updated: 2023/02/09 08:00:59 by juwkim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,8 +66,8 @@ SRCS				+= $(addprefix $(SRC_DIR)/$(PARSER_DIR)/, parser.c parser_make_command.c
 SRCS				+= $(addprefix $(SRC_DIR)/$(EXPANDER_DIR)/, expander.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, executor_exit_status.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, executor_exit_status.c)
-# SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, executor.c executor_cmd.c executor_group.c executor_pipeline.c executor_exit_status.c execute_not_builtin.c)
-# SRCS				+= $(addprefix $(SRC_DIR)/$(BUILTIN_DIR)/, builtin_exit.c builtin_echo.c builtin_cd.c builtin_pwd.c builtin_env.c builtin_export.c builtin_unset.c)
+SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, executor.c executor_cmd.c executor_group.c executor_pipeline.c executor_exit_status.c execute_not_builtin.c)
+SRCS				+= $(addprefix $(SRC_DIR)/$(BUILTIN_DIR)/, builtin_exit.c builtin_echo.c builtin_cd.c builtin_pwd.c builtin_env.c builtin_export.c builtin_unset.c)
 
 OBJS				:=	$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/$(OBJ_DIR)/%.o, $(SRCS))
 DEPS				:=	$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/$(DEP_DIR)/%.d, $(SRCS))

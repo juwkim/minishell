@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:35:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 00:18:00 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 08:41:00 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,15 @@
 # define EXECUTOR_H
 
 # include <sys/wait.h>
+# include <sys/stat.h>
 
 # include "global.h"
 # include "parser/parser.h"
 # include "builtin/builtin.h"
+
+// POSIX BASED EXIT STATUS
+# define EXEC_NOEXEC	126
+# define EXEC_NOTFOUND	127
 
 # define READ	0
 # define WRITE	1
@@ -26,7 +31,7 @@ typedef struct s_builtin
 {
 	const char	*name;
 	int			name_len;
-	int			(*func)(t_list *argv);
+	int			(*func)(char **argv);
 }	t_builtin;
 
 // executor.c
@@ -46,5 +51,8 @@ int		execute_cmd(t_command *command, bool is_subshell);
 // executor_exit_status.c
 int		exit_status_get(void);
 void	exit_status_set(int status);
+
+// executor_not_builtin.c
+int		execute_not_builtin(char **argv);
 
 #endif // EXECUTOR_H
