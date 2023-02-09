@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:02:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 08:07:37 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 12:00:22 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	main(void)
 		free(input);
 		input = readline(PROMPT);
 	}
-	printf("\nexit\n");
+	printf("exit\n");
 	env_destroy();
 	clear_history();
 	return (EXIT_SUCCESS);
@@ -66,7 +66,9 @@ static void	process(const char *input)
 	print_tokens(&tokens);
 	list_destroy(&tokens, free);
 	print_commands(&commands);
-	make_commands_tree(&commands);
+	if (make_commands_tree(&commands) == false)
+		return ;
+	print_commands_structure(&commands);
 	execute(&commands, false);
 	list_destroy(&commands, destroy_command);
 }

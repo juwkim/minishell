@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 06:41:30 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/08 00:20:48 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 11:59:32 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,33 @@ static bool	group_merge(t_list *commands);
 static void	group_search(const t_list *commands, \
 								t_node **start_node, t_node **end_prev_node);
 
-static bool	pipeline_merge(t_list *commands);
+static int	pipeline_merge(t_list *commands);
 static void	pipeline_search(const t_list *commands, \
 							t_node **start_prev_node, t_node **end_node);
 
-void	make_commands_tree(t_list *commands)
+bool	make_commands_tree(t_list *commands)
 {
-	bool	is_exist_group;
-	bool	is_exist_pipeline;
+	bool	exist_group;
+	int		exist_pipeline;
 
-	is_exist_group = true;
-	is_exist_pipeline = true;
 	print_commands_structure(commands);
-	while (is_exist_group || is_exist_pipeline)
+	while (true)
 	{
-		is_exist_group = group_merge(commands);
-		if (is_exist_group)
+		exist_group = group_merge(commands);
+		if (exist_group == true)
 			print_commands_structure(commands);
-		is_exist_pipeline = pipeline_merge(commands);
-		if (is_exist_pipeline)
+		exist_pipeline = pipeline_merge(commands);
+		// if (exist_pipeline == MEMORY_ALLOCATE_FAIL)
+		// {
+		// 	list_destroy(commands, destroy_command);
+		// 	return (print_error(NULL, NULL, strerror(ENOMEM)));
+		// }
+		if (exist_pipeline == true)
 			print_commands_structure(commands);
+		if (exist_group == false && exist_pipeline == false)
+			break ;
 	}
+	return (true);
 }
 
 static bool	group_merge(t_list *commands)
@@ -88,7 +94,7 @@ static void	group_search(const t_list *commands, \
 	}
 }
 
-static bool	pipeline_merge(t_list *commands)
+static int	pipeline_merge(t_list *commands)
 {
 	t_node		*start_prev_node;
 	t_node		*end_node;
@@ -104,6 +110,11 @@ static bool	pipeline_merge(t_list *commands)
 	cmd->argv.head->next = start_prev_node->next;
 	cmd->argv.size = 1;
 	start_prev_node->next = list_create_node(cmd);
+	if (cmd == NULL || start_prev_node->next == NULL)
+	{
+		free(cmd);
+		return (MEMORY_ALLOCATE_FAIL);
+	}
 	start_prev_node->next->next = end_node->next;
 	end_node->next = NULL;
 	return (true);

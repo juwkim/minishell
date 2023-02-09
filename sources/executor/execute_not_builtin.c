@@ -6,14 +6,14 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:20:13 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 09:07:50 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 12:30:56 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor/executor.h"
 
 static void	execute_not_builtin_func(char **argv);
-static char	*get_cmd_path(char *file);
+static bool	set_cmd_path(char **argv);
 static char	**get_splited_path(void);
 
 int	execute_not_builtin(char **argv)
@@ -36,7 +36,11 @@ static void	execute_not_builtin_func(char **argv)
 	signal(SIGQUIT, SIG_DFL);
 	if (ft_strchr(argv[0], '/') == NULL)
 	{
-		argv[0] = get_cmd_path(argv[0]);
+		if (set_cmd_path(argv) == false)
+		{
+			print_error(NULL, NULL, strerror(ENOMEM));
+			exit(EXIT_FAILURE);
+		}
 		if (argv[0] == NULL)
 		{
 			print_error(argv[0], NULL, "command not found");
@@ -50,7 +54,7 @@ static void	execute_not_builtin_func(char **argv)
 		exit(EXEC_NOEXEC);
 }
 
-static char	*get_cmd_path(char *file)
+static bool	set_cmd_path(char **argv)
 {
 	char		**splited_path;
 	char		*bin_path;
@@ -59,23 +63,24 @@ static char	*get_cmd_path(char *file)
 
 	splited_path = get_splited_path();
 	if (splited_path == NULL)
-		return (NULL);
-	idx = 0;
-	while (splited_path[idx])
+		return (false);
+	idx = -1;
+	while (splited_path[++idx])
 	{
 		if (splited_path[idx][ft_strlen(splited_path[idx]) - 1] == '/')
-			bin_path = ft_strjoin(splited_path[idx], file);
+			bin_path = ft_strjoin(splited_path[idx], argv[0]);
 		else
-			bin_path = ft_strcjoin(splited_path[idx], file, '/');
-		if (access(bin_path, F_OK) == 0 && stat(bin_path, &s) == 0 && \
-											S_ISDIR(s.st_mode) == false)
+			bin_path = ft_strcjoin(splited_path[idx], argv[0], '/');
+		if (bin_path == NULL)
+			return (false);
+		if (access(bin_path, F_OK) == 0 && \
+			stat(bin_path, &s) == 0 && S_ISDIR(s.st_mode) == false)
 			break ;
 		free(bin_path);
 		bin_path = NULL;
-		++idx;
 	}
-	ft_free_array(splited_path);
-	return (bin_path);
+	argv[0] = bin_path;
+	return (true);
 }
 
 static char	**get_splited_path(void)

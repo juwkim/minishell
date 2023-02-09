@@ -6,37 +6,34 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 00:55:19 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/08 15:59:03 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 11:10:58 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser/parser.h"
 
+static bool	parse_command(t_command *command, t_node **cur);
+
 bool	parse(t_list *commands, const t_list *tokens)
 {
 	t_node		*cur;
-	t_token		*token;
 	t_command	*command;
 
 	cur = tokens->head->next;
-	list_init(commands);
+	if (list_init(commands) == false)
+		return (print_error(NULL, NULL, strerror(ENOMEM)));
 	while (cur != NULL)
 	{
 		command = create_command();
-		if (command == NULL)
+		if (command == NULL || \
+			parse_command(command, &cur) == false || \
+			list_push_back(commands, command) == false)
 		{
+			destroy_command(command);
 			list_destroy(commands, destroy_command);
-			return (false);
+			return (print_error(NULL, NULL, strerror(ENOMEM)));
 		}
-		token = cur->item;
-		if (token->types & (AND | OR | PIPE | O_PARENTHESIS | C_PARENTHESIS))
-		{
-			make_simple_command(command, token);
-			cur = cur->next;
-		}
-		else
-			make_complex_command(command, &cur);
-		list_push_back(commands, command);
+		cur = cur->next;
 	}
 	return (true);
 }
@@ -45,12 +42,11 @@ t_command	*create_command(void)
 {
 	t_command *const	cmd = malloc(sizeof(t_command));
 
-	if (cmd == NULL)
+	if (cmd == NULL || list_init(&cmd->argv) == false)
 	{
-		print_error(NULL, NULL, strerror(ENOMEM));
+		free(cmd);
 		return (NULL);
 	}
-	list_init(&cmd->argv);
 	cmd->in = NULL;
 	cmd->out = NULL;
 	cmd->is_in_heredoc = false;
@@ -58,10 +54,22 @@ t_command	*create_command(void)
 	return (cmd);
 }
 
+static bool	parse_command(t_command *command, t_node **cur)
+{
+	const t_token	*token = (*cur)->item;
+
+	if (token->types & (AND | OR | PIPE | O_PARENTHESIS | C_PARENTHESIS))
+		return (parse_simple_command(command, token));
+	else
+		return (parse_complex_command(command, cur));
+}
+
 void	destroy_command(void *command)
 {
 	t_command	*cmd;
 
+	if (command == NULL)
+		return ;
 	cmd = command;
 	if (cmd->type & (GROUP | PIPELINE))
 		list_destroy(&cmd->argv, destroy_command);
@@ -78,15 +86,20 @@ char	*get_connected_str(t_node **cur)
 {
 	t_token	*token;
 	t_list	list;
+	bool	ret;
 
-	list_init(&list);
+	if (list_init(&list) == false)
+		return (NULL);
 	while (*cur != NULL)
 	{
 		token = (*cur)->item;
 		if (token->types & SINGLE_QUOTE)
-			list_push_back(&list, ft_strndup(token->str, token->len));
+			ret = list_push_back(&list, ft_strndup(token->str, token->len));
 		else
-			list_push_back(&list, expand_env_variable(token->str, token->len));
+			ret = list_push_back(&list, \
+						expand_env_variable(token->str, token->len));
+		if (ret == false)
+			return (NULL);
 		if ((token->types & CONNECTED) == 0)
 			break ;
 		*cur = (*cur)->next;

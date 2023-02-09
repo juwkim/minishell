@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:08:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 08:22:02 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 09:35:21 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,24 @@ void	env_destroy(void)
 	}
 }
 
-void	env_set(const char *key, const char *val)
+bool	env_set(const char *key, const char *val)
 {
+	char		*line;
 	int			idx;
 	const int	key_len = ft_strlen(key);
 
 	if (g_env.count == MAX_TABLE_SIZE)
-		return ;
+		return (print_error(NULL, NULL, "Environment variable table is full"));
+	line = ft_strcjoin(key, val, '=');
+	if (line == NULL)
+		return (print_error(NULL, NULL, strerror(ENOMEM)));
 	idx = 0;
 	while (idx < g_env.count && ft_strncmp(key, g_env.item[idx], key_len) != 0)
 		++idx;
-	if (idx != g_env.count)
-		free(g_env.item[g_env.count]);
-	g_env.item[g_env.count] = ft_strcjoin(key, val, '=');
-	++g_env.count;
+	free(g_env.item[idx]);
+	g_env.item[idx] = line;
+	g_env.count += (idx == g_env.count);
+	return (true);
 }
 
 char	*env_get(const char *key)

@@ -6,7 +6,7 @@
 #    By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 19:25:02 by juwkim            #+#    #+#              #
-#    Updated: 2023/02/09 08:00:59 by juwkim           ###   ########.fr        #
+#    Updated: 2023/02/09 11:53:55 by juwkim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ SRCS				+= $(addprefix $(SRC_DIR)/$(SIGNAL_HANDLER_DIR)/, signal_handler.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(UTILS_DIR)/, error.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(TOKENIZER_DIR)/, tokenizer.c tokenizer_utils.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(LEXER_DIR)/, lexer.c lexer_utils.c)
-SRCS				+= $(addprefix $(SRC_DIR)/$(PARSER_DIR)/, parser.c parser_make_command.c parser_redirection.c parser_print.c parser_make_commands_tree.c)
+SRCS				+= $(addprefix $(SRC_DIR)/$(PARSER_DIR)/, parser.c parser_command.c parser_redirection.c parser_print.c parser_make_commands_tree.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(EXPANDER_DIR)/, expander.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, executor_exit_status.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, executor_exit_status.c)

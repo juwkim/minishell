@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:56:06 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/07 23:46:53 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 11:11:39 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ bool	tokenize(t_list *tokens, const char *input)
 	t_token	*token;
 
 	idx = 0;
-	list_init(tokens);
+	if (list_init(tokens) == false)
+		return (print_error(NULL, NULL, strerror(ENOMEM)));
 	while (input[idx] != '\0')
 	{
 		if (ft_isspace(input[idx]))
@@ -29,12 +30,12 @@ bool	tokenize(t_list *tokens, const char *input)
 			continue ;
 		}
 		token = create_token(input, &idx);
-		if (token == NULL)
+		if (list_push_back(tokens, token) == false)
 		{
+			free(token);
 			list_destroy(tokens, free);
-			return (false);
+			return (print_error(NULL, NULL, strerror(ENOMEM)));
 		}
-		list_push_back(tokens, token);
 	}
 	return (true);
 }
@@ -44,10 +45,7 @@ static t_token	*create_token(const char *input, int *idx)
 	t_token *const	token = malloc(sizeof(t_token));
 
 	if (token == NULL)
-	{
-		print_error(NULL, NULL, strerror(ENOMEM));
 		return (NULL);
-	}
 	token->str = (char *) input + *idx;
 	if (is_bin_operator_or_pipe(input, idx, token) == true)
 		return (token);
@@ -69,18 +67,18 @@ void	print_tokens(const t_list *tokens)
 	t_token		*token;
 
 	cur = tokens->head->next;
-	write(STDIN_FILENO, RED"Token:\t\t\t"DEF_COLOR, 23);
+	write(STDOUT_FILENO, RED"Token:\t\t\t"DEF_COLOR, 23);
 	while (cur->next != NULL)
 	{
 		token = cur->item;
-		write(STDIN_FILENO, token->str, token->len);
+		write(STDOUT_FILENO, token->str, token->len);
 		if (token->types & CONNECTED)
-			write(STDIN_FILENO, GREEN" + "DEF_COLOR, 17);
+			write(STDOUT_FILENO, GREEN" + "DEF_COLOR, 17);
 		else
-			write(STDIN_FILENO, GREEN" : "DEF_COLOR, 17);
+			write(STDOUT_FILENO, GREEN" : "DEF_COLOR, 17);
 		cur = cur->next;
 	}
 	token = cur->item;
-	write(STDIN_FILENO, token->str, token->len);
-	write(STDIN_FILENO, "\n", 1);
+	write(STDOUT_FILENO, token->str, token->len);
+	write(STDOUT_FILENO, "\n", 1);
 }

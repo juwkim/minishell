@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 00:12:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/07 07:14:45 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/09 10:33:52 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // static void	parse_heredoc(t_list *arguments, char *delimiter);
 
-void	parse_redirection(t_command *command, t_node **cur)
+bool	parse_redirection(t_command *command, t_node **cur)
 {
 	char	*str;
 	int		redirection_type;
@@ -22,6 +22,8 @@ void	parse_redirection(t_command *command, t_node **cur)
 	redirection_type = ((t_token *)(*cur)->item)->types;
 	*cur = (*cur)->next;
 	str = get_connected_str(cur);
+	if (str == NULL)
+		return (false);
 	if (redirection_type & (REDIR_IN | REDIR_HEREDOC))
 	{
 		free(command->in);
@@ -34,6 +36,7 @@ void	parse_redirection(t_command *command, t_node **cur)
 		command->out = str;
 		command->is_out_append = (redirection_type & REDIR_OUT_APP) != 0;
 	}
+	return (true);
 }
 
 // static void	parse_heredoc(t_list *arguments, char *delimiter)
