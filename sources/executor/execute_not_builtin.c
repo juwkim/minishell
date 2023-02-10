@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:20:13 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 08:28:50 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 17:23:16 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,6 @@ static void	execute_not_builtin_func(char **argv)
 	{
 		if (set_cmd_path(argv) == false)
 		{
-			print_error(NULL, NULL, strerror(errno));
-			exit(EXIT_FAILURE);
-		}
-		if (argv[0] == NULL)
-		{
 			print_error(argv[0], NULL, "command not found");
 			exit(EXEC_NOTFOUND);
 		}
@@ -79,7 +74,7 @@ static bool	set_cmd_path(char **argv)
 		bin_path = NULL;
 	}
 	argv[0] = bin_path;
-	return (true);
+	return (argv[0] != NULL);
 }
 
 static char	**get_splited_path(void)
