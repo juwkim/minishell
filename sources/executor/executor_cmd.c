@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 02:52:32 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 17:02:57 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 17:06:33 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static char	**get_argv_array(t_list *list)
 	}
 	if (ft_strncmp(argv[0], "ls", 2) == 0 || \
 		ft_strncmp(argv[0], "grep", 2) == 0)
-		argv[idx++] = "--color";
+		argv[idx++] = "--color=auto";
 	argv[idx] = NULL;
 	return (argv);
 }
