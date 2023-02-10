@@ -1,38 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   is_valid_variable_name.h                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 07:41:46 by juwkim           ###   ########.fr       */
+/*   Created: 2023/02/11 07:12:32 by juwkim            #+#    #+#             */
+/*   Updated: 2023/02/11 07:15:14 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin/builtin.h"
+#ifndef IS_VALID_VARIABLE_NAME_H
+# define IS_VALID_VARIABLE_NAME_H
 
-int	builtin_echo(char **argv)
-{
-	bool	newline;
+# include <stdbool.h>
+# include "libft.h"
 
-	newline = true;
-	++argv;
-	if (*argv && ft_strncmp(*argv, "-n", 2) == 0)
-	{
-		++argv;
-		newline = false;
-	}
-	if (*argv)
-	{
-		while (*(argv + 1))
-		{
-			printf("%s ", *argv);
-			++argv;
-		}
-		printf("%s", *argv);
-	}
-	if (newline)
-		printf("\n");
-	return (EXIT_SUCCESS);
-}
+bool	is_valid_variable_name(const char *name);
+
+#endif // IS_VALID_VARIABLE_NAME_H

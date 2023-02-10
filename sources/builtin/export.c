@@ -6,52 +6,49 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 07:07:14 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 08:10:49 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin/builtin.h"
 
-// static void	print_vars(void);
-static bool	is_valid_argument(const char *const arg);
+static int	_env(void);
 
 int	builtin_export(char **argv)
 {
-	int	i;
-	int	exit_status;
+	char	*equal_sign;
 
-	exit_status = EXIT_SUCCESS;
-	if (argv[1] == NULL)
+	++argv;
+	if (*argv == NULL)
+		return (_env());
+	while (*argv)
 	{
-		// print_vars();
-		return (exit_status);
-	}
-	i = 1;
-	while (argv[i])
-	{
-		if (is_valid_argument(argv[i]) == false)
+		if (is_valid_variable_name(*argv) == false)
 		{
-			print_error(NULL, NULL);
-			exit_status = EXIT_FAILURE;
+			print_error(*argv, "bad variable name");
+			return (EXIT_MISUSE_SHELL_BUILTIN);
 		}
-		// else if (ft_strchr(argv[i], '='))
-		// 	env_set(argv[i]);
-		++i;
+		equal_sign = ft_strchr(*argv, '=');
+		if (equal_sign)
+		{
+			*equal_sign = '\0';
+			if (env_set(*argv, equal_sign + 1) == false)
+				return (EXIT_FAILURE);
+		}
+		++argv;
 	}
-	return (exit_status);
+	return (EXIT_SUCCESS);
 }
 
-static bool	is_valid_argument(const char *const arg)
+static int	_env(void)
 {
 	int	i;
 
-	if (arg[0] == '\0' || arg[0] == '=')
-		return (false);
 	i = 0;
-	// while (arg[i] != '\0' && arg[i] != '=' && env_is_var_char(arg[i]))
-	// 	i++;
-	if (arg[i] == '\0' || arg[i] == '=')
-		return (true);
-	else
-		return (false);
+	while (i < g_env.count)
+	{
+		printf("export %s\n", g_env.item[i]);
+		++i;
+	}
+	return (EXIT_SUCCESS);
 }

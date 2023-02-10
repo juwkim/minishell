@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 05:37:00 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 07:40:16 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	builtin_exit(char **argv, bool is_subshell)
 	if (_atoi(argv[1], &exit_status) == false)
 	{
 		print_error("exit", "Illegal number");
-		exit(2);
+		exit(EXIT_MISUSE_SHELL_BUILTIN);
 	}
 	exit(exit_status);
 }

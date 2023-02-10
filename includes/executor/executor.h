@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:35:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 07:04:17 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 07:23:12 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@
 # include "utils/signal_handler.h"
 
 // POSIX BASED EXIT STATUS
-# define EXEC_NOEXEC	126 // command invoked cannot execute
-# define EXEC_NOTFOUND	127 // command not found
+# define EXIT_MISUSE_SHELL_BUILTIN	2 // misuse of shell builtins
+# define EXIT_NOEXEC				126 // command invoked cannot execute
+# define EXIT_NOTFOUND				127 // command not found
 
 # define READ	0
 # define WRITE	1

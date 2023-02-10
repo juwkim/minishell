@@ -6,7 +6,7 @@
 #    By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 19:25:02 by juwkim            #+#    #+#              #
-#    Updated: 2023/02/11 06:46:51 by juwkim           ###   ########.fr        #
+#    Updated: 2023/02/11 07:11:47 by juwkim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ SRCS				+= $(addprefix $(SRC_DIR)/$(PARSER_DIR)/, parser.c redirection.c command
 SRCS				+= $(addprefix $(SRC_DIR)/$(EXPANDER_DIR)/, expander.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, executor.c cmd.c group.c pipeline.c exit_status.c not_builtin.c redirection.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(BUILTIN_DIR)/, cd.c echo.c env.c exit.c export.c pwd.c unset.c)
-SRCS				+= $(addprefix $(SRC_DIR)/$(UTILS_DIR)/, environment.c print.c signal_handler.c)
+SRCS				+= $(addprefix $(SRC_DIR)/$(UTILS_DIR)/, environment.c is_valid_variable_name.c print.c signal_handler.c)
 
 OBJS				:=	$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/$(OBJ_DIR)/%.o, $(SRCS))
 DEPS				:=	$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/$(DEP_DIR)/%.d, $(SRCS))

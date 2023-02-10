@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:20:13 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 06:54:04 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 07:24:22 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	execute_not_builtin_func(char **argv)
 		if (set_cmd_path(argv) == false)
 		{
 			print_error(argv[0], "command not found");
-			exit(EXEC_NOTFOUND);
+			exit(EXIT_NOTFOUND);
 		}
 	}
 	execve(argv[0], argv, g_env.item);

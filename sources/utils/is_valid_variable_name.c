@@ -1,38 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   is_valid_variable_name.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 07:41:46 by juwkim           ###   ########.fr       */
+/*   Created: 2023/02/11 07:11:50 by juwkim            #+#    #+#             */
+/*   Updated: 2023/02/11 07:52:25 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin/builtin.h"
+#include "utils/is_valid_variable_name.h"
 
-int	builtin_echo(char **argv)
+bool	is_valid_variable_name(const char *name)
 {
-	bool	newline;
-
-	newline = true;
-	++argv;
-	if (*argv && ft_strncmp(*argv, "-n", 2) == 0)
-	{
-		++argv;
-		newline = false;
-	}
-	if (*argv)
-	{
-		while (*(argv + 1))
-		{
-			printf("%s ", *argv);
-			++argv;
-		}
-		printf("%s", *argv);
-	}
-	if (newline)
-		printf("\n");
-	return (EXIT_SUCCESS);
+	if (*name == '\0' || (ft_isalpha(*name) == false && *name != '_'))
+		return (false);
+	while (ft_isalnum(*name) == true || *name == '_')
+		++name;
+	return (*name == '\0' || *name == '=');
 }

@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:05:24 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 06:58:27 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 07:22:59 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <limits.h>
 # include "global.h"
 # include "executor/executor.h"
+# include "utils/is_valid_variable_name.h"
 
 # define BUILTIN_FUNC_CNT 7
 
