@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:35:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 06:57:02 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 07:47:13 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 
 # define READ	0
 # define WRITE	1
+
+# define EVERYTING_IS_GOOD 2 // preprocessing is good
 
 typedef struct s_builtin
 {
@@ -56,7 +58,7 @@ void	exit_status_set(int status);
 int		execute_not_builtin(char **argv, bool is_pipeline);
 
 // execute_redirection.c
-bool	redirect(t_command *command);
+bool	redirect(t_command *command, int *oldfd_in, int *oldfd_out);
 bool	redirect_undo(int oldfd_in, int oldfd_out);
 
 #endif // EXECUTOR_H

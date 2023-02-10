@@ -6,40 +6,59 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 02:52:32 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 07:03:02 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 07:51:29 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor/executor.h"
 
+static int	execute_preprocessing(t_command *command, \
+								char ***argv, int *oldfd_in, int *oldfd_out);
 static char	**get_argv_array(t_list *list);
 static int	execute_function(char **argv, bool is_subshell, bool is_pipeline);
 
 int	execute_cmd(t_command *command, bool is_subshell, bool is_pipeline)
 {
-	int			exit_status;
+	int			oldfd_in;
+	int			oldfd_out;
 	char		**argv;
-	const int	oldfd_in = dup(STDIN_FILENO);
-	const int	oldfd_out = dup(STDOUT_FILENO);
+	int			exit_status;
 
-	if (oldfd_in == -1 || oldfd_out == -1)
-	{
-		print_error(NULL, NULL, strerror(errno));
-		return (EXIT_FAILURE);
-	}
-	if (redirect(command) == false || list_is_empty(&command->argv))
-		return (EXIT_FAILURE);
-	argv = get_argv_array(&command->argv);
-	if (argv == NULL)
-	{
-		print_error(NULL, NULL, strerror(errno));
-		return (EXIT_FAILURE);
-	}
+	exit_status = execute_preprocessing(command, &argv, &oldfd_in, &oldfd_out);
+	if (exit_status != EVERYTING_IS_GOOD)
+		return (exit_status);
 	exit_status = execute_function(argv, is_subshell, is_pipeline);
 	free(argv);
 	if (redirect_undo(oldfd_in, oldfd_out) == false)
 		return (EXIT_FAILURE);
 	return (exit_status);
+}
+
+static int	execute_preprocessing(t_command *command, \
+								char ***argv, int *oldfd_in, int *oldfd_out)
+{
+	if (redirect(command, oldfd_in, oldfd_out) == false)
+	{
+		if (redirect_undo(*oldfd_in, *oldfd_out) == false)
+			print_error(NULL, NULL, strerror(errno));
+		return (EXIT_FAILURE);
+	}
+	if (list_is_empty(&command->argv) == true)
+	{
+		if (redirect_undo(*oldfd_in, *oldfd_out) == false)
+		{
+			print_error(NULL, NULL, strerror(errno));
+			return (EXIT_FAILURE);
+		}
+		return (EXIT_SUCCESS);
+	}
+	*argv = get_argv_array(&command->argv);
+	if (argv == NULL)
+	{
+		print_error(NULL, NULL, strerror(errno));
+		return (EXIT_FAILURE);
+	}
+	return (EVERYTING_IS_GOOD);
 }
 
 static char	**get_argv_array(t_list *list)

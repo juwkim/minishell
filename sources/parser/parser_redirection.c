@@ -6,28 +6,34 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 00:12:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 06:37:25 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 09:05:58 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser/parser.h"
 
-// static void	parse_heredoc(t_list *arguments, char *delimiter);
+static char	*parse_heredoc(char *delimiter);
+static bool	parse_heredoc_prepare(char **file_name, \
+										int *stdin_fd, int *file_fd);
 
 bool	parse_redirection(t_command *command, t_node **cur)
 {
-	char	*str;
-	int		redirection_type;
+	char		*str;
+	const int	redirection_type = ((t_token *)(*cur)->item)->types;
 
-	redirection_type = ((t_token *)(*cur)->item)->types;
 	*cur = (*cur)->next;
 	str = get_connected_str(cur);
 	if (str == NULL)
 		return (false);
+	if (redirection_type & REDIR_HEREDOC)
+		unlink(command->in);
 	if (redirection_type & (REDIR_IN | REDIR_HEREDOC))
 	{
 		free(command->in);
-		command->in = str;
+		if (redirection_type & REDIR_IN)
+			command->in = str;
+		else
+			command->in = parse_heredoc(str);
 		command->is_in_heredoc = (redirection_type & REDIR_HEREDOC) != 0;
 	}
 	else
@@ -39,25 +45,55 @@ bool	parse_redirection(t_command *command, t_node **cur)
 	return (true);
 }
 
-// static void	parse_heredoc(t_list *arguments, char *delimiter)
-// {
-// 	const int	fd = dup(STDIN_FILENO);
-// 	char		*str;
-// 	t_list		dq;
+static char	*parse_heredoc(char *delimiter)
+{
+	int			stdin_fd;
+	char		*file_name;
+	int			file_fd;
+	char		*str;
+	const int	len = ft_strlen(delimiter);
 
-// 	dq_init(&dq);
-// 	signal(SIGINT, sigint_heredoc_handler);
-// 	while (true)
-// 	{
-// 		str = readline("> ");
-// 		if (str == NULL || !ft_strncmp(str, delimiter, ft_strlen(delimiter)))
-// 			break ;
-// 		dq_push_back(&dq, str);
-// 		dq_push_back(&dq, ft_strdup("\n"));
-// 	}
-// 	list_push_back(arguments, dq_strjoin(&dq));
-// 	free(delimiter);
-// 	dup2(fd, STDIN_FILENO);
-// 	close(fd);
-// 	signal(SIGINT, sigint_handler);
-// }
+	signal(SIGINT, sigint_heredoc_handler);
+	if (parse_heredoc_prepare(&file_name, &stdin_fd, &file_fd) == false)
+		return (NULL);
+	str = readline("> ");
+	while (str != NULL && ft_strncmp(str, delimiter, len) != 0)
+	{
+		write(file_fd, str, ft_strlen(str));
+		write(file_fd, "\n", 1);
+		free(str);
+		str = readline("> ");
+	}
+	free(str);
+	free(delimiter);
+	close(file_fd);
+	close(STDIN_FILENO);
+	dup2(stdin_fd, STDIN_FILENO);
+	signal(SIGINT, sigint_handler);
+	return (file_name);
+}
+
+static bool	parse_heredoc_prepare(char **file_name, int *stdin_fd, int *file_fd)
+{
+	static int	num;
+	char		*stred_num;
+	bool		res;
+
+	*stdin_fd = dup(STDIN_FILENO);
+	res = true;
+	*file_fd = -1;
+	while (*file_fd == -1)
+	{
+		stred_num = ft_itoa(num++);
+		*file_name = ft_strjoin("heredoc_temp_file_", stred_num);
+		free(stred_num);
+		if (*file_name == NULL)
+		{
+			res = false;
+			print_error(NULL, NULL, strerror(errno));
+			break ;
+		}
+		*file_fd = open(*file_name, O_WRONLY | O_CREAT | O_EXCL, 0600);
+	}
+	return (res);
+}
