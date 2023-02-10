@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 02:52:32 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 16:45:56 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 17:02:57 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ static char	**get_argv_array(t_list *list)
 		argv[idx++] = cur->item;
 		cur = cur->next;
 	}
-	if (ft_strncmp("ls", argv[0], 1) == 0)
+	if (ft_strncmp(argv[0], "ls", 2) == 0 || \
+		ft_strncmp(argv[0], "grep", 2) == 0)
 		argv[idx++] = "--color";
 	argv[idx] = NULL;
 	return (argv);
