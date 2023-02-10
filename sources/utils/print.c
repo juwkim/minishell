@@ -1,18 +1,56 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_print.c                                     :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/31 00:39:03 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/08 00:20:48 by juwkim           ###   ########.fr       */
+/*   Created: 2023/02/11 06:20:00 by juwkim            #+#    #+#             */
+/*   Updated: 2023/02/11 06:55:53 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser/parser.h"
+#include "utils/print.h"
 
 static void	print_redirection(const t_command *command);
+
+bool	print_error(const char *program_name, const char *message)
+{
+	write(STDERR_FILENO, SHELL_NAME, ft_strlen(SHELL_NAME));
+	if (program_name != NULL)
+	{
+		write(STDERR_FILENO, ": ", ft_strlen(": "));
+		write(STDERR_FILENO, program_name, ft_strlen(program_name));
+	}
+	if (message == NULL)
+		message = strerror(errno);
+	write(STDERR_FILENO, ": ", ft_strlen(": "));
+	write(STDERR_FILENO, message, ft_strlen(message));
+	write(STDERR_FILENO, "\n", ft_strlen("\n"));
+	return (false);
+}
+
+void	print_tokens(const t_list *tokens)
+{
+	t_node		*cur;
+	t_token		*token;
+
+	cur = tokens->head->next;
+	write(STDOUT_FILENO, RED"Token:\t\t\t"DEF_COLOR, 23);
+	while (cur->next != NULL)
+	{
+		token = cur->item;
+		write(STDOUT_FILENO, token->str, token->len);
+		if (token->types & CONNECTED)
+			write(STDOUT_FILENO, GREEN" + "DEF_COLOR, 17);
+		else
+			write(STDOUT_FILENO, GREEN" : "DEF_COLOR, 17);
+		cur = cur->next;
+	}
+	token = cur->item;
+	write(STDOUT_FILENO, token->str, token->len);
+	write(STDOUT_FILENO, "\n", 1);
+}
 
 void	print_commands(const t_list *commands)
 {

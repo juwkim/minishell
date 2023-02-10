@@ -1,37 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 11:19:27 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 06:54:04 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin/builtin.h"
 
-int	builtin_echo(char **argv)
+int	builtin_pwd(char **argv)
 {
-	bool	newline;
-	int		i;
+	char	buf[PATH_MAX];
 
-	newline = true;
-	i = 1;
-	if (argv[i] && ft_strncmp(argv[i], "-n", 2))
+	(void) argv;
+	if (getcwd(buf, sizeof(buf)) == NULL)
 	{
-		newline = false;
-		++i;
+		print_error(NULL, NULL);
+		return (EXIT_FAILURE);
 	}
-	while (argv[i])
-	{
-		printf("%s", argv[i]);
-		if (argv[i + 1])
-			printf(" ");
-		++i;
-	}
-	if (newline)
-		printf("\n");
+	printf("%s\n", buf);
 	return (EXIT_SUCCESS);
 }

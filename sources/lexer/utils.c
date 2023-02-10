@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 04:05:10 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/07 23:49:57 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 17:43:22 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ bool	bin_pipe_open_analyze(const t_list *tokens)
 		if (prev_bin_pipe_open == true && (token->types & bin_pipe_close))
 		{
 			*(token->str + token->len) = '\0';
-			return (print_error(ERR_SYNTAX, NULL, token->str));
+			return (print_error(ERR_SYNTAX, token->str));
 		}
 		prev_bin_pipe_open = (token->types & bin_pipe_open) != 0;
 		cur = cur->next;
@@ -37,7 +37,7 @@ bool	bin_pipe_open_analyze(const t_list *tokens)
 	if (prev_bin_pipe_open == false)
 		return (true);
 	*(token->str + token->len) = '\0';
-	return (print_error(ERR_SYNTAX, NULL, token->str));
+	return (print_error(ERR_SYNTAX, token->str));
 }
 
 bool	close_analyze(const t_list *tokens)
@@ -54,7 +54,7 @@ bool	close_analyze(const t_list *tokens)
 			(((t_token *)(cur->next->item))->types & text_redir_open))
 		{
 			*(token->str + token->len) = '\0';
-			return (print_error(ERR_SYNTAX, NULL, token->str));
+			return (print_error(ERR_SYNTAX, token->str));
 		}
 		cur = cur->next;
 	}
@@ -74,7 +74,7 @@ bool	text_analyze(const t_list *tokens)
 			((t_token *)(cur->next->item))->types & O_PARENTHESIS)
 		{
 			*(token->str + token->len) = '\0';
-			return (print_error(ERR_SYNTAX, NULL, token->str));
+			return (print_error(ERR_SYNTAX, token->str));
 		}
 		cur = cur->next;
 	}
@@ -103,7 +103,7 @@ bool	parenthesis_analyze(const t_list *tokens)
 	if (opened != 0)
 	{
 		*(token->str + token->len) = '\0';
-		return (print_error(ERR_SYNTAX, NULL, token->str));
+		return (print_error(ERR_SYNTAX, token->str));
 	}
 	return (true);
 }
@@ -125,13 +125,13 @@ bool	redirection_analyze(const t_list *tokens)
 				(token->types & O_PARENTHESIS))
 			{
 				*(token->str + token->len) = '\0';
-				return (print_error(ERR_SYNTAX, NULL, token->str));
+				return (print_error(ERR_SYNTAX, token->str));
 			}
 		}
 		prev_redirection = (((t_token *)(cur->item))->types & REDIR) != 0;
 		cur = cur->next;
 	}
 	if (prev_redirection == true)
-		return (print_error(ERR_SYNTAX, NULL, "\'newline\'"));
+		return (print_error(ERR_SYNTAX, "\'newline\'"));
 	return (true);
 }

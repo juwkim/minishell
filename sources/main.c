@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:02:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 09:07:59 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 06:33:09 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 #include "../../../readline/readline.h"
 
 #include "global.h"
-#include "environment/environment.h"
-#include "signal_handler/signal_handler.h"
+#include "linked_list.h"
 #include "tokenizer/tokenizer.h"
 #include "lexer/lexer.h"
 #include "parser/parser.h"
 #include "expander/expander.h"
 #include "executor/executor.h"
+#include "utils/print.h"
+#include "utils/environment.h"
+#include "utils/signal_handler.h"
 
 t_env	g_env;
 

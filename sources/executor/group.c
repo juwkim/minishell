@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handler.h                                   :+:      :+:    :+:   */
+/*   group.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 00:01:43 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/06 06:15:03 by juwkim           ###   ########.fr       */
+/*   Created: 2023/02/08 02:49:26 by juwkim            #+#    #+#             */
+/*   Updated: 2023/02/11 06:54:04 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNAL_HANDLER_H
-# define SIGNAL_HANDLER_H
+#include "executor/executor.h"
 
-# include <stdio.h>
-# include <signal.h>
-# include <unistd.h>
+int	execute_group(t_list *commands)
+{
+	int	pid;
+	int	exit_status;
 
-# include "../../../readline/readline.h"
-# include "global.h"
-
-void	sigint_handler(int sig);
-void	sigint_heredoc_handler(int sig);
-
-#endif // SIGNAL_HANDLER_H
+	pid = fork();
+	if (pid == -1)
+	{
+		print_error(NULL, NULL);
+		return (EXIT_FAILURE);
+	}
+	if (pid == 0)
+	{
+		exit_status = execute(commands, true);
+		exit(exit_status);
+	}
+	return (execute_wait_pid(pid));
+}

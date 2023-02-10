@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   environment.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 11:18:51 by juwkim           ###   ########.fr       */
+/*   Created: 2023/01/28 00:07:57 by juwkim            #+#    #+#             */
+/*   Updated: 2023/02/11 07:05:07 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin/builtin.h"
+#ifndef ENVIRONMENT_H
+# define ENVIRONMENT_H
 
-int	builtin_pwd(char **argv)
-{
-	char	buf[PATH_MAX];
+# include "global.h"
+# include "utils/print.h"
 
-	(void) argv;
-	if (getcwd(buf, sizeof(buf)))
-	{
-		printf("%s\n", buf);
-		return (EXIT_SUCCESS);
-	}
-	else
-	{
-		print_error(NULL, NULL, strerror(errno));
-		return (EXIT_FAILURE);
-	}
-}
+bool	env_init(void);
+void	env_destroy(void);
+bool	env_set(const char *key, const char *val);
+char	*env_get(const char *key);
+void	env_remove(const char *key);
+
+#endif // ENVIRONMENT_H

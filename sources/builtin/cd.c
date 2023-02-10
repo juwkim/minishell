@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 16:44:23 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 06:54:04 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	builtin_cd(char **argv)
 	// 	return (EXIT_FAILURE);
 	// if (chdir(dir) == NULL)
 	// {
-	// 	print_error(NULL, NULL, strerror(errno));
+	// 	print_error(NULL, NULL);
 	// 	return (EXIT_FAILURE);
 	// }
 	// if (argv[1] && ft_strncmp(argv[1], "-", 1) == 0)
@@ -48,13 +48,13 @@ int	builtin_cd(char **argv)
 // 	{
 // 		dir = env_get("HOME");
 // 		if (dir == NULL)
-// 			print_error(NULL, NULL, strerror(errno));
+// 			print_error(NULL, NULL);
 // 	}
 // 	else if (argv[1] && ft_strncmp(argv[1], "-", 1) == 0)
 // 	{
 // 		dir = env_get("OLDPWD");
 // 		if (dir == NULL)
-// 			print_error(NULL, NULL, strerror(errno));
+// 			print_error(NULL, NULL);
 // 	}
 // 	else
 // 		dir = argv[1];
@@ -72,7 +72,7 @@ int	builtin_cd(char **argv)
 // 	{
 // 		if (getcwd(buf, sizeof(buf)) == NULL)
 // 		{
-// 			print_error(NULL, NULL, strerror(errno));
+// 			print_error(NULL, NULL);
 // 			return (false);
 // 		}
 // 		env_set("OLDPWD", pwd);

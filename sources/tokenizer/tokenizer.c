@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:56:06 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 11:08:43 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 06:54:06 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	tokenize(t_list *tokens, const char *input)
 
 	idx = 0;
 	if (list_init(tokens) == false)
-		return (print_error(NULL, NULL, strerror(errno)));
+		return (print_error(NULL, NULL));
 	while (input[idx] != '\0')
 	{
 		if (ft_isspace(input[idx]))
@@ -34,7 +34,7 @@ bool	tokenize(t_list *tokens, const char *input)
 		{
 			free(token);
 			list_destroy(tokens, free);
-			return (print_error(NULL, NULL, strerror(errno)));
+			return (print_error(NULL, NULL));
 		}
 	}
 	return (true);
@@ -59,26 +59,4 @@ static t_token	*create_token(const char *input, int *idx)
 		return (token);
 	free(token);
 	return (NULL);
-}
-
-void	print_tokens(const t_list *tokens)
-{
-	t_node		*cur;
-	t_token		*token;
-
-	cur = tokens->head->next;
-	write(STDOUT_FILENO, RED"Token:\t\t\t"DEF_COLOR, 23);
-	while (cur->next != NULL)
-	{
-		token = cur->item;
-		write(STDOUT_FILENO, token->str, token->len);
-		if (token->types & CONNECTED)
-			write(STDOUT_FILENO, GREEN" + "DEF_COLOR, 17);
-		else
-			write(STDOUT_FILENO, GREEN" : "DEF_COLOR, 17);
-		cur = cur->next;
-	}
-	token = cur->item;
-	write(STDOUT_FILENO, token->str, token->len);
-	write(STDOUT_FILENO, "\n", 1);
 }

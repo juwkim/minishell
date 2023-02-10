@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 22:25:43 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/08 06:14:57 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 07:05:04 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,10 @@
 # include "global.h"
 # include "lexer/lexer.h"
 
-typedef struct s_token
-{
-	char	*str;
-	int		len;
-	int		types;
-}	t_token;
-
 // tokenizer.c
 bool	tokenize(t_list *tokens, const char *input);
-void	print_tokens(const t_list *tokens);
 
-// tokenizer_utils.c
+// utils.c
 bool	is_bin_operator_or_pipe(const char *input, int *idx, t_token *token);
 bool	is_parenthesis(const char *input, int *idx, t_token *token);
 bool	is_redirection(const char *input, int *idx, t_token *token);

@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment.h                                      :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 00:07:57 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 09:29:59 by juwkim           ###   ########.fr       */
+/*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
+/*   Updated: 2023/02/10 17:48:28 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENVIRONMENT_H
-# define ENVIRONMENT_H
+#include "builtin/builtin.h"
 
-# include "global.h"
+int	builtin_env(char **argv)
+{
+	int	i;
 
-bool	env_init(void);
-void	env_destroy(void);
-bool	env_set(const char *key, const char *val);
-char	*env_get(const char *key);
-void	env_remove(const char *key);
-
-#endif // ENVIRONMENT_H
+	(void) argv;
+	i = 0;
+	while (i < g_env.count)
+	{
+		printf("%s\n", g_env.item[i]);
+		++i;
+	}
+	return (EXIT_SUCCESS);
+}

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_redirection.c                               :+:      :+:    :+:   */
+/*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 00:12:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 09:05:58 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 06:54:04 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static bool	parse_heredoc_prepare(char **file_name, int *stdin_fd, int *file_fd)
 		if (*file_name == NULL)
 		{
 			res = false;
-			print_error(NULL, NULL, strerror(errno));
+			print_error(NULL, NULL);
 			break ;
 		}
 		*file_fd = open(*file_name, O_WRONLY | O_CREAT | O_EXCL, 0600);

@@ -6,13 +6,14 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:05:24 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 16:44:56 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 06:58:27 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
+# include <limits.h>
 # include "global.h"
 # include "executor/executor.h"
 

@@ -6,7 +6,7 @@
 #    By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 19:25:02 by juwkim            #+#    #+#              #
-#    Updated: 2023/02/10 05:26:16 by juwkim           ###   ########.fr        #
+#    Updated: 2023/02/11 06:46:51 by juwkim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,15 +38,13 @@ data-structures		:= data-structures
 
 SRC_DIR				:=	sources
 
-ENVIRONMENT_DIR		:=	environment
-SIGNAL_HANDLER_DIR	:=	signal_handler
-UTILS_DIR			:=	utils
 TOKENIZER_DIR		:=	tokenizer
 LEXER_DIR			:=	lexer
 PARSER_DIR			:=	parser
 EXPANDER_DIR		:=	expander
 EXECUTOR_DIR		:=	executor
 BUILTIN_DIR			:=	builtin
+UTILS_DIR			:=	utils
 
 BUILD_DIR			:=	build
 OBJ_DIR				:=	obj
@@ -57,15 +55,13 @@ DEP_DIR				:=	dep
 # ---------------------------------------------------------------------------- #
 
 SRCS				:= $(addprefix $(SRC_DIR)/, main.c)
-SRCS				+= $(addprefix $(SRC_DIR)/$(ENVIRONMENT_DIR)/, environment.c)
-SRCS				+= $(addprefix $(SRC_DIR)/$(SIGNAL_HANDLER_DIR)/, signal_handler.c)
-SRCS				+= $(addprefix $(SRC_DIR)/$(UTILS_DIR)/, error.c)
-SRCS				+= $(addprefix $(SRC_DIR)/$(TOKENIZER_DIR)/, tokenizer.c tokenizer_utils.c)
-SRCS				+= $(addprefix $(SRC_DIR)/$(LEXER_DIR)/, lexer.c lexer_utils.c)
-SRCS				+= $(addprefix $(SRC_DIR)/$(PARSER_DIR)/, parser.c parser_command.c parser_redirection.c parser_print.c parser_make_commands_tree.c)
+SRCS				+= $(addprefix $(SRC_DIR)/$(TOKENIZER_DIR)/, tokenizer.c utils.c)
+SRCS				+= $(addprefix $(SRC_DIR)/$(LEXER_DIR)/, lexer.c utils.c)
+SRCS				+= $(addprefix $(SRC_DIR)/$(PARSER_DIR)/, parser.c redirection.c command.c commands_tree.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(EXPANDER_DIR)/, expander.c)
-SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, executor.c executor_cmd.c executor_group.c executor_pipeline.c executor_exit_status.c execute_not_builtin.c execute_redirection.c)
-SRCS				+= $(addprefix $(SRC_DIR)/$(BUILTIN_DIR)/, builtin_exit.c builtin_echo.c builtin_cd.c builtin_pwd.c builtin_env.c builtin_export.c builtin_unset.c)
+SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, executor.c cmd.c group.c pipeline.c exit_status.c not_builtin.c redirection.c)
+SRCS				+= $(addprefix $(SRC_DIR)/$(BUILTIN_DIR)/, cd.c echo.c env.c exit.c export.c pwd.c unset.c)
+SRCS				+= $(addprefix $(SRC_DIR)/$(UTILS_DIR)/, environment.c print.c signal_handler.c)
 
 OBJS				:=	$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/$(OBJ_DIR)/%.o, $(SRCS))
 DEPS				:=	$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/$(DEP_DIR)/%.d, $(SRCS))
@@ -124,12 +120,12 @@ re: fclean
 	@printf "$(GREEN)[$(NAME)] Cleaned and rebuilt everything!\n$(DEF_COLOR)"
 
 dir_guard:
-	@mkdir -p $(addprefix $(BUILD_DIR)/$(OBJ_DIR)/, $(ENVIRONMENT_DIR) \
-	$(SIGNAL_HANDLER_DIR) $(UTILS_DIR) $(TOKENIZER_DIR) $(LEXER_DIR) \
-	$(PARSER_DIR) $(EXPANDER_DIR) $(EXECUTOR_DIR) $(BUILTIN_DIR))
-	@mkdir -p $(addprefix $(BUILD_DIR)/$(DEP_DIR)/, $(ENVIRONMENT_DIR) \
-	$(SIGNAL_HANDLER_DIR) $(UTILS_DIR) $(TOKENIZER_DIR) $(LEXER_DIR) \
-	$(PARSER_DIR) $(EXPANDER_DIR) $(EXECUTOR_DIR) $(BUILTIN_DIR))
+	@mkdir -p $(addprefix $(BUILD_DIR)/$(OBJ_DIR)/, $(TOKENIZER_DIR) \
+	$(LEXER_DIR) $(PARSER_DIR) $(EXPANDER_DIR) $(EXECUTOR_DIR) \
+	$(BUILTIN_DIR) $(UTILS_DIR))
+	@mkdir -p $(addprefix $(BUILD_DIR)/$(DEP_DIR)/, $(TOKENIZER_DIR) \
+	$(LEXER_DIR) $(PARSER_DIR) $(EXPANDER_DIR) $(EXECUTOR_DIR) \
+	$(BUILTIN_DIR) $(UTILS_DIR))
 
 norm:
 	@(norminette | grep Error) || (printf "$(GREEN)[$(NAME)] Norminette Success\n$(DEF_COLOR)")

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor_cmd.c                                     :+:      :+:    :+:   */
+/*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 02:52:32 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 17:06:33 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 06:54:04 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ static int	execute_preprocessing(t_command *command, \
 	if (redirect(command, oldfd_in, oldfd_out) == false)
 	{
 		if (redirect_undo(*oldfd_in, *oldfd_out) == false)
-			print_error(NULL, NULL, strerror(errno));
+			print_error(NULL, NULL);
 		return (EXIT_FAILURE);
 	}
 	if (list_is_empty(&command->argv) == true)
 	{
 		if (redirect_undo(*oldfd_in, *oldfd_out) == false)
 		{
-			print_error(NULL, NULL, strerror(errno));
+			print_error(NULL, NULL);
 			return (EXIT_FAILURE);
 		}
 		return (EXIT_SUCCESS);
@@ -55,7 +55,7 @@ static int	execute_preprocessing(t_command *command, \
 	*argv = get_argv_array(&command->argv);
 	if (argv == NULL)
 	{
-		print_error(NULL, NULL, strerror(errno));
+		print_error(NULL, NULL);
 		return (EXIT_FAILURE);
 	}
 	return (EVERYTING_IS_GOOD);

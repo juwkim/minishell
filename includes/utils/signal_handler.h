@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handler.c                                   :+:      :+:    :+:   */
+/*   signal_handler.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 00:02:07 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/01 07:10:01 by juwkim           ###   ########.fr       */
+/*   Created: 2023/01/28 00:01:43 by juwkim            #+#    #+#             */
+/*   Updated: 2023/02/11 07:05:21 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "signal_handler/signal_handler.h"
+#ifndef SIGNAL_HANDLER_H
+# define SIGNAL_HANDLER_H
 
-void	sigint_handler(int sig)
-{
-	(void) sig;
-	write(STDERR_FILENO, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
+# include <stdio.h>
+# include <signal.h>
 
-void	sigint_heredoc_handler(int sig)
-{
-	(void) sig;
-	close(STDIN_FILENO);
-	write(STDERR_FILENO, "\n", 1);
-}
+# include "../../../readline/readline.h"
+# include "global.h"
+
+void	sigint_handler(int sig);
+void	sigint_heredoc_handler(int sig);
+
+#endif // SIGNAL_HANDLER_H

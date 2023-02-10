@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_not_builtin.c                              :+:      :+:    :+:   */
+/*   not_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:20:13 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 17:23:16 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 06:54:04 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	execute_not_builtin(char **argv, bool is_pipeline)
 
 	if (pid == -1)
 	{
-		print_error(NULL, NULL, strerror(errno));
+		print_error(NULL, NULL);
 		return (EXIT_FAILURE);
 	}
 	if (pid == 0)
@@ -41,7 +41,7 @@ static void	execute_not_builtin_func(char **argv)
 	{
 		if (set_cmd_path(argv) == false)
 		{
-			print_error(argv[0], NULL, "command not found");
+			print_error(argv[0], "command not found");
 			exit(EXEC_NOTFOUND);
 		}
 	}

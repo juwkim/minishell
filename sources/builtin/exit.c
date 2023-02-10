@@ -6,57 +6,41 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 16:44:32 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 05:37:00 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin/builtin.h"
 
-static bool	num_is_numeric(char *str);
+static bool	_atoi(char *str, int *num);
 
 int	builtin_exit(char **argv, bool is_subshell)
 {
-	int	argc;
 	int	exit_status;
 
 	if (is_subshell == false)
-		write(STDERR_FILENO, "exit\n", 5);
-	argc = 0;
-	while (argv[argc])
-		++argc;
-	exit_status = exit_status_get();
-	if (argc >= 2 && num_is_numeric(argv[1]) == false)
-		exit_status = 255;
-	else if (argc == 2)
-		exit_status = ft_atoi(argv[1]);
-	else if (argc > 2)
+		printf("exit\n");
+	if (argv[1] == NULL)
+		exit(exit_status_get());
+	if (_atoi(argv[1], &exit_status) == false)
 	{
-		print_error(NULL, NULL, strerror(errno));
-		return (EXIT_FAILURE);
+		print_error("exit", "Illegal number");
+		exit(2);
 	}
-	exit (exit_status);
+	exit(exit_status);
 }
 
-static bool	num_is_numeric(char *str)
+static bool	_atoi(char *str, int *num)
 {
-	int	i;
-
-	i = 0;
-	if (str[0] == '\0')
-	{
-		print_error(NULL, NULL, strerror(errno));
+	if (ft_isdigit(*str) == false)
 		return (false);
-	}
-	else if ((str[0] == '-' || str[0] == '+') && str[1] != '\0')
-		++i;
-	while (str[i])
+	*num = 0;
+	while (ft_isdigit(*str) == true)
 	{
-		if (ft_isdigit(str[i]) == 0)
-		{
-			print_error(NULL, NULL, strerror(errno));
+		if (ft_is_mul_overflow(*num, 10) == true || \
+			ft_is_add_overflow(*num * 10, *str - '0') == true)
 			return (false);
-		}
-		++i;
+		*num = *num * 10 + (*str++ - '0');
 	}
-	return (true);
+	return (*str == '\0');
 }
