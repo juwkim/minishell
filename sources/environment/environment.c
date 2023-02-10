@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:08:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 08:28:30 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 16:47:13 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,11 @@ bool	env_set(const char *key, const char *val)
 char	*env_get(const char *key)
 {
 	int			idx;
-	const int	key_len = ft_strlen(key) - 1;
+	const int	key_len = ft_strlen(key);
 
 	idx = 0;
-	while (idx < g_env.count && ft_strncmp(key, g_env.item[idx], key_len) != 0)
+	while (idx < g_env.count && \
+			ft_strncmp(key, g_env.item[idx], key_len - 1) != 0)
 		++idx;
 	if (idx == g_env.count)
 		return (NULL);

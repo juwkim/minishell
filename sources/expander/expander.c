@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:19:27 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 10:57:45 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 16:41:52 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*expand_env_variable(const char *str, const int len)
 			++i;
 			ret = list_push_back(&list, ft_itoa(exit_status_get()));
 		}
-		else if (str[i] == '$' && i < len - 1)
+		else if (str[i] == '$')
 			ret = list_push_back(&list, get_env_variable(str, &i, len));
 		else
 			ret = list_push_back(&list, ft_strndup(str + i, 1));

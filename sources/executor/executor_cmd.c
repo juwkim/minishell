@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 02:52:32 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 07:51:29 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 16:45:56 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	execute_preprocessing(t_command *command, \
 
 static char	**get_argv_array(t_list *list)
 {
-	char **const	argv = malloc(sizeof(char *) * (list->size + 1));
+	char **const	argv = malloc(sizeof(char *) * (list->size + 2));
 	t_node			*cur;
 	int				idx;
 
@@ -76,6 +76,8 @@ static char	**get_argv_array(t_list *list)
 		argv[idx++] = cur->item;
 		cur = cur->next;
 	}
+	if (ft_strncmp("ls", argv[0], 1) == 0)
+		argv[idx++] = "--color";
 	argv[idx] = NULL;
 	return (argv);
 }

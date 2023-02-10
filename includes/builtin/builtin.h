@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:05:24 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/09 05:08:14 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 16:44:56 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define BUILTIN_H
 
 # include "global.h"
+# include "executor/executor.h"
 
 # define BUILTIN_FUNC_CNT 7
 
