@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:08:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 16:47:13 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/10 16:51:40 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ bool	env_set(const char *key, const char *val)
 	if (line == NULL)
 		return (print_error(NULL, NULL, strerror(errno)));
 	idx = 0;
-	while (idx < g_env.count && ft_strncmp(key, g_env.item[idx], key_len) != 0)
+	while (idx < g_env.count && \
+				ft_strncmp(key, g_env.item[idx], key_len - 1) != 0)
 		++idx;
 	free(g_env.item[idx]);
 	g_env.item[idx] = line;
@@ -84,7 +85,8 @@ void	env_remove(const char *key)
 	const int	key_len = ft_strlen(key);
 
 	idx = 0;
-	while (idx < g_env.count && ft_strncmp(key, g_env.item[idx], key_len) != 0)
+	while (idx < g_env.count && \
+				ft_strncmp(key, g_env.item[idx], key_len - 1) != 0)
 		++idx;
 	if (idx == g_env.count)
 		return ;
