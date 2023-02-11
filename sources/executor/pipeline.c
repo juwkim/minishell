@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 02:50:49 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 06:54:04 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 08:58:51 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	execute_pipeline(t_list *commands)
 		cur = cur->next->next;
 	}
 	if (close_pipefd(idx) == false)
-		print_error(NULL, NULL);
+		print_error(NULL, NULL, NULL);
 	return (execute_wait_pid_all(pid));
 }
 
@@ -77,7 +77,7 @@ static void	execute_pipe_set(int pipefd[2][2], int idx, bool is_last)
 		dup2(pipefd[next][WRITE], STDOUT_FILENO);
 	}
 	if (close_pipefd(idx) == false)
-		print_error(NULL, NULL);
+		print_error(NULL, NULL, NULL);
 }
 
 static bool	close_pipefd(int idx)

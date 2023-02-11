@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 08:10:49 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 08:59:21 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	builtin_export(char **argv)
 	{
 		if (is_valid_variable_name(*argv) == false)
 		{
-			print_error(*argv, "bad variable name");
+			print_error(*argv, NULL, "bad variable name");
 			return (EXIT_MISUSE_SHELL_BUILTIN);
 		}
 		equal_sign = ft_strchr(*argv, '=');

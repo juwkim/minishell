@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 07:40:16 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 08:59:24 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	builtin_exit(char **argv, bool is_subshell)
 		exit(exit_status_get());
 	if (_atoi(argv[1], &exit_status) == false)
 	{
-		print_error("exit", "Illegal number");
+		print_error("exit", NULL, "Illegal number");
 		exit(EXIT_MISUSE_SHELL_BUILTIN);
 	}
 	exit(exit_status);

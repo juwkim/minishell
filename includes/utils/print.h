@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 06:20:25 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 07:05:19 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 08:55:49 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@
 # define CYAN		"\033[1;96m"
 # define WHITE		"\033[1;97m"
 
-bool	print_error(const char *program_name, const char *message);
+bool	print_error(const char *program_name, const char *file, \
+												const char *message);
 void	print_tokens(const t_list *tokens);
 void	print_commands(const t_list *commands);
 void	print_commands_structure(const t_list *commands);

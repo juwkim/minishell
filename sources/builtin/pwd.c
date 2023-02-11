@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 07:23:35 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 08:59:18 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	builtin_pwd(char **argv)
 	(void) argv;
 	if (getcwd(buf, sizeof(buf)) == NULL)
 	{
-		print_error(NULL, NULL);
+		print_error(NULL, NULL, NULL);
 		return (EXIT_FAILURE);
 	}
 	printf("%s\n", buf);

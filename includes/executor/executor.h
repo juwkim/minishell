@@ -6,14 +6,13 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:35:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 07:23:12 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 08:58:43 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
-# include <errno.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
 

@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 06:41:30 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 06:54:04 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 08:57:45 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool	make_commands_tree(t_list *commands)
 		if (exist_pipeline == MEMORY_ALLOCATE_FAIL)
 		{
 			list_destroy(commands, destroy_command);
-			return (print_error(NULL, NULL));
+			return (print_error(NULL, NULL, NULL));
 		}
 		if (exist_pipeline == true)
 			print_commands_structure(commands);
