@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 08:59:24 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 07:36:48 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static bool	_atoi(char *str, int *num);
 
-int	builtin_exit(char **argv, bool is_subshell)
+void	builtin_exit(char **argv, bool is_subshell)
 {
 	int	exit_status;
 
@@ -32,8 +32,10 @@ int	builtin_exit(char **argv, bool is_subshell)
 
 static bool	_atoi(char *str, int *num)
 {
-	if (ft_isdigit(*str) == false)
+	if (*str != '+' && ft_isdigit(*str) == false)
 		return (false);
+	if (*str == '+')
+		++str;
 	*num = 0;
 	while (ft_isdigit(*str) == true)
 	{

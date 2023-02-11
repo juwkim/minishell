@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 02:50:49 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 08:58:51 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 06:01:52 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	execute_pipeline_cmd(t_command *cmd, int pipefd[2][2], \
 												int idx, bool is_last);
 static void	execute_pipe_set(int pipefd[2][2], int idx, bool is_last);
-static bool	close_pipefd(int idx);
+static void	close_pipefd(int idx);
 
 int	execute_pipeline(t_list *commands)
 {
@@ -41,25 +41,20 @@ int	execute_pipeline(t_list *commands)
 		++idx;
 		cur = cur->next->next;
 	}
-	if (close_pipefd(idx) == false)
-		print_error(NULL, NULL, NULL);
+	close_pipefd(idx);
 	return (execute_wait_pid_all(pid));
 }
 
 static void	execute_pipeline_cmd(t_command *cmd, int pipefd[2][2], \
 												int idx, bool is_last)
 {
-	int	exit_status;
-
-	exit_status = 0;
 	execute_pipe_set(pipefd, idx, is_last);
 	if (cmd->type == CMD)
-		exit_status = execute_cmd(cmd, true, true);
+		execute_pipeline_single_cmd(cmd, true);
 	else if (cmd->type == GROUP)
-		exit_status = execute_group(&cmd->argv);
+		exit(execute_group(&cmd->argv));
 	else if (cmd->type == PIPELINE)
-		exit_status = execute_pipeline(&cmd->argv);
-	exit(exit_status);
+		exit(execute_pipeline(&cmd->argv));
 }
 
 static void	execute_pipe_set(int pipefd[2][2], int idx, bool is_last)
@@ -76,24 +71,24 @@ static void	execute_pipe_set(int pipefd[2][2], int idx, bool is_last)
 		dup2(pipefd[prev][READ], STDIN_FILENO);
 		dup2(pipefd[next][WRITE], STDOUT_FILENO);
 	}
-	if (close_pipefd(idx) == false)
-		print_error(NULL, NULL, NULL);
+	close_pipefd(idx);
 }
 
-static bool	close_pipefd(int idx)
+static void	close_pipefd(int idx)
 {
-	int		cnt;
-	bool	res;
+	int	cnt;
+	int	res;
 
 	cnt = 0;
-	res = true;
+	res = EXIT_SUCCESS;
 	while (cnt < idx)
 	{
 		if (close(2 * cnt + 3) == -1)
-			res = false;
+			res = EXIT_FAILURE;
 		if (close(2 * cnt + 4) == -1)
-			res = false;
+			res = EXIT_FAILURE;
 		++cnt;
 	}
-	return (res);
+	if (res == EXIT_FAILURE)
+		print_error("Executor", "close_pipefd", NULL);
 }

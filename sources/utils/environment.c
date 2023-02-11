@@ -6,13 +6,13 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:08:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 08:57:17 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 06:08:40 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils/environment.h"
 
-bool	env_init(void)
+int	env_init(void)
 {
 	extern char	**environ;
 	char		*line;
@@ -28,7 +28,7 @@ bool	env_init(void)
 		g_env.item[g_env.count++] = line;
 		++environ;
 	}
-	return (true);
+	return (EXIT_SUCCESS);
 }
 
 void	env_destroy(void)
@@ -43,7 +43,7 @@ void	env_destroy(void)
 	}
 }
 
-bool	env_set(const char *key, const char *val)
+int	env_set(const char *key, const char *val)
 {
 	char		*line;
 	int			idx;
@@ -61,7 +61,7 @@ bool	env_set(const char *key, const char *val)
 	free(g_env.item[idx]);
 	g_env.item[idx] = line;
 	g_env.count += (idx == g_env.count);
-	return (true);
+	return (EXIT_SUCCESS);
 }
 
 char	*env_get(const char *key)

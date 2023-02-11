@@ -6,49 +6,35 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:20:13 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 08:58:58 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 07:46:34 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor/executor.h"
 
-static void	execute_not_builtin_func(char **argv);
-static bool	set_cmd_path(char **argv);
+static int	set_cmd_path(char **argv);
 static char	**get_splited_path(void);
 
-int	execute_not_builtin(char **argv, bool is_pipeline)
+void	execute_not_builtin(char **argv)
 {
-	const int	pid = fork();
+	const char	*cmd_name = argv[0];
 
-	if (pid == -1)
-	{
-		print_error(NULL, NULL, NULL);
-		return (EXIT_FAILURE);
-	}
-	if (pid == 0)
-		execute_not_builtin_func(argv);
-	if (is_pipeline)
-		return (EXIT_SUCCESS);
-	else
-		return (execute_wait_pid(pid));
-}
-
-static void	execute_not_builtin_func(char **argv)
-{
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	if (ft_strchr(argv[0], '/') == NULL)
+	if (ft_strchr(argv[0], '/') == NULL && set_cmd_path(argv) == EXIT_FAILURE)
 	{
-		if (set_cmd_path(argv) == false)
-		{
-			print_error(argv[0], NULL, "command not found");
-			exit(EXIT_NOTFOUND);
-		}
+		print_error(cmd_name, NULL, "command not found");
+		exit(EXIT_NOTFOUND);
 	}
 	execve(argv[0], argv, g_env.item);
+	print_error(cmd_name, NULL, NULL);
+	if (errno == ENOENT)
+		exit(EXIT_NOTFOUND);
+	else
+		exit(EXIT_NOEXEC);
 }
 
-static bool	set_cmd_path(char **argv)
+static int	set_cmd_path(char **argv)
 {
 	char		**splited_path;
 	char		*bin_path;
@@ -57,7 +43,7 @@ static bool	set_cmd_path(char **argv)
 
 	splited_path = get_splited_path();
 	if (splited_path == NULL)
-		return (false);
+		return (EXIT_FAILURE);
 	idx = -1;
 	while (splited_path[++idx])
 	{
@@ -66,7 +52,7 @@ static bool	set_cmd_path(char **argv)
 		else
 			bin_path = ft_strcjoin(splited_path[idx], argv[0], '/');
 		if (bin_path == NULL)
-			return (false);
+			return (EXIT_FAILURE);
 		if (access(bin_path, X_OK) == 0 && \
 			stat(bin_path, &s) == 0 && S_ISDIR(s.st_mode) == false)
 			break ;
@@ -74,7 +60,7 @@ static bool	set_cmd_path(char **argv)
 		bin_path = NULL;
 	}
 	argv[0] = bin_path;
-	return (argv[0] != NULL);
+	return (argv[0] == NULL);
 }
 
 static char	**get_splited_path(void)

@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:35:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 08:58:43 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 07:35:02 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,18 @@
 
 # include "global.h"
 # include "builtin/builtin.h"
+# include "utils/exit_status.h"
 # include "utils/environment.h"
 # include "utils/signal_handler.h"
 
-// POSIX BASED EXIT STATUS
-# define EXIT_MISUSE_SHELL_BUILTIN	2 // misuse of shell builtins
-# define EXIT_NOEXEC				126 // command invoked cannot execute
-# define EXIT_NOTFOUND				127 // command not found
-
 # define READ	0
 # define WRITE	1
-
-# define EVERYTING_IS_GOOD 2 // preprocessing is good
 
 typedef struct s_builtin
 {
 	const char	*name;
 	int			name_len;
-	int			(*func)(char **argv);
+	void		(*func)(char **argv);
 }	t_builtin;
 
 // executor.c
@@ -49,18 +43,14 @@ int		execute_group(t_list *commands);
 // pipeline.c
 int		execute_pipeline(t_list *commands);
 
-// cmd.c
-int		execute_cmd(t_command *command, bool is_subshell, bool is_pipeline);
-
-// exit_status.c
-int		exit_status_get(void);
-void	exit_status_set(int status);
+// single_cmd.c
+int		execute_single_cmd(t_command *command, bool is_subshell);
+void	execute_pipeline_single_cmd(t_command *command, bool is_subshell);
 
 // not_builtin.c
-int		execute_not_builtin(char **argv, bool is_pipeline);
+void	execute_not_builtin(char **argv);
 
 // redirection.c
-bool	redirect(t_command *command, int *oldfd_in, int *oldfd_out);
-bool	redirect_undo(int oldfd_in, int oldfd_out);
+int		redirect(t_command *command);
 
 #endif // EXECUTOR_H

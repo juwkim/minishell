@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 02:49:26 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 08:59:01 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 05:39:04 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,11 @@
 
 int	execute_group(t_list *commands)
 {
-	int	pid;
-	int	exit_status;
+	const int	pid = fork();
 
-	pid = fork();
 	if (pid == -1)
-	{
-		print_error(NULL, NULL, NULL);
-		return (EXIT_FAILURE);
-	}
+		return (print_error(NULL, NULL, NULL));
 	if (pid == 0)
-	{
-		exit_status = execute(commands, true);
-		exit(exit_status);
-	}
+		exit(execute(commands, true));
 	return (execute_wait_pid(pid));
 }

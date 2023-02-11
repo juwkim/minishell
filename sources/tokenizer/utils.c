@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 03:25:15 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 08:57:24 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/11 09:39:48 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,8 @@ bool	is_quote(const char *input, int *idx, t_token *token)
 		else
 			token->types = TEXT | DOUBLE_QUOTE;
 		*idx += len;
-		if (ft_strchr("<>()|&", input[*idx]) == NULL)
+		if (ft_strchr("<>()|&", input[*idx]) == NULL && \
+			ft_isspace(input[*idx]) == false)
 			token->types |= CONNECTED;
 		return (true);
 	}

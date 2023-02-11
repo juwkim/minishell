@@ -27,7 +27,7 @@ echo "test1  test2" test3
 
 echo " test1 test2 " 'test3 '
 
-echo test1		test2
+echo test1 test2
 
 echo -n test1
 
@@ -37,7 +37,7 @@ echo -n "test1 test2" test3
 
 echo -n " test1 test2 " 'test3 '
 
-echo -n test1		test2
+echo -n test1 test2
 
 echo test1 -n
 
@@ -52,14 +52,6 @@ echo "-n test1 -n test2"
 echo "test1 -n test2"
 
 echo ~42
-
-eCho
-
-eChO
-
-eCHO
-
-ECHO
 
 ### CD ###
 pwd

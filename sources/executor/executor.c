@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 03:11:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 07:56:50 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 06:51:25 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	execute(t_list *commands, bool is_subshell)
 	{
 		cmd = cur->item;
 		if (cmd->type == CMD)
-			exit_status_set(execute_cmd(cmd, is_subshell, false));
+			exit_status_set(execute_single_cmd(cmd, is_subshell));
 		else if (cmd->type == GROUP)
 			exit_status_set(execute_group(&cmd->argv));
 		else
@@ -52,7 +52,9 @@ int	execute_wait_pid(int last_pid)
 	signal(SIGINT, SIG_IGN);
 	waitpid(last_pid, &status, 0);
 	if (WIFEXITED(status))
+	{
 		exit_status = WEXITSTATUS(status);
+	}
 	else if (WIFSIGNALED(status))
 	{
 		if (status != SIGPIPE)
@@ -60,7 +62,7 @@ int	execute_wait_pid(int last_pid)
 		exit_status = 128 + WTERMSIG(status);
 	}
 	else
-		exit_status = EXIT_SUCCESS;
+		exit_status = EXIT_FAILURE;
 	signal(SIGINT, sigint_handler);
 	return (exit_status);
 }

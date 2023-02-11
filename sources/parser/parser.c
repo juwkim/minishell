@@ -6,15 +6,15 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 00:55:19 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 08:57:42 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 06:12:46 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser/parser.h"
 
-static bool	parse_command(t_command *command, t_node **cur);
+static int	parse_command(t_command *command, t_node **cur);
 
-bool	parse(t_list *commands, const t_list *tokens)
+int	parse(t_list *commands, const t_list *tokens)
 {
 	t_node		*cur;
 	t_command	*command;
@@ -26,7 +26,7 @@ bool	parse(t_list *commands, const t_list *tokens)
 	{
 		command = create_command();
 		if (command == NULL || \
-			parse_command(command, &cur) == false || \
+			parse_command(command, &cur) == EXIT_FAILURE || \
 			list_push_back(commands, command) == false)
 		{
 			destroy_command(command);
@@ -35,7 +35,7 @@ bool	parse(t_list *commands, const t_list *tokens)
 		}
 		cur = cur->next;
 	}
-	return (true);
+	return (EXIT_SUCCESS);
 }
 
 t_command	*create_command(void)
@@ -54,7 +54,7 @@ t_command	*create_command(void)
 	return (cmd);
 }
 
-static bool	parse_command(t_command *command, t_node **cur)
+static int	parse_command(t_command *command, t_node **cur)
 {
 	const t_token	*token = (*cur)->item;
 

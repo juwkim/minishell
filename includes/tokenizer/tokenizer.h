@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 22:25:43 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 07:05:04 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 07:34:00 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "lexer/lexer.h"
 
 // tokenizer.c
-bool	tokenize(t_list *tokens, const char *input);
+int		tokenize(t_list *tokens, const char *input);
 
 // utils.c
 bool	is_bin_operator_or_pipe(const char *input, int *idx, t_token *token);

@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:56:06 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 08:57:31 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 05:13:46 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 static t_token	*create_token(const char *input, int *idx);
 
-bool	tokenize(t_list *tokens, const char *input)
+int	tokenize(t_list *tokens, const char *input)
 {
 	int		idx;
 	t_token	*token;
 
 	idx = 0;
 	if (list_init(tokens) == false)
-		return (print_error(NULL, NULL, NULL));
+		return (print_error("Tokenizer", "list_init", NULL));
 	while (input[idx] != '\0')
 	{
-		if (ft_isspace(input[idx]))
+		if (ft_isspace(input[idx]) == true)
 		{
 			++idx;
 			continue ;
@@ -34,10 +34,10 @@ bool	tokenize(t_list *tokens, const char *input)
 		{
 			free(token);
 			list_destroy(tokens, free);
-			return (print_error(NULL, NULL, NULL));
+			return (print_error("Tokenizer", "list_push_back", NULL));
 		}
 	}
-	return (true);
+	return (EXIT_SUCCESS);
 }
 
 static t_token	*create_token(const char *input, int *idx)

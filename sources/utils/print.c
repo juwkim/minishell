@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 06:20:00 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 08:56:22 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 05:09:35 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	print_redirection(const t_command *command);
 
-bool	print_error(const char *program_name, const char *file, \
+int	print_error(const char *program_name, const char *file, \
 												const char *message)
 {
 	write(STDERR_FILENO, SHELL_NAME, ft_strlen(SHELL_NAME));
@@ -33,7 +33,7 @@ bool	print_error(const char *program_name, const char *file, \
 	write(STDERR_FILENO, ": ", ft_strlen(": "));
 	write(STDERR_FILENO, message, ft_strlen(message));
 	write(STDERR_FILENO, "\n", ft_strlen("\n"));
-	return (false);
+	return (EXIT_FAILURE);
 }
 
 void	print_tokens(const t_list *tokens)

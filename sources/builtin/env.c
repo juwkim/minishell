@@ -6,13 +6,13 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 08:31:35 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 04:53:01 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin/builtin.h"
 
-int	builtin_env(char **argv)
+void	builtin_env(char **argv)
 {
 	int	i;
 
@@ -29,5 +29,5 @@ int	builtin_env(char **argv)
 		printf("%s\n", *argv);
 		++argv;
 	}
-	return (EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }

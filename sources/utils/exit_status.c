@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor_exit_status.c                             :+:      :+:    :+:   */
+/*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 03:11:41 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/04 03:11:42 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 07:28:49 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor/executor.h"
+#include "utils/exit_status.h"
 
 static int	*exit_status(void);
 

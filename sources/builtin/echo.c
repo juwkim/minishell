@@ -6,13 +6,13 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 07:41:46 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 04:52:50 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin/builtin.h"
 
-int	builtin_echo(char **argv)
+void	builtin_echo(char **argv)
 {
 	bool	newline;
 
@@ -34,5 +34,5 @@ int	builtin_echo(char **argv)
 	}
 	if (newline)
 		printf("\n");
-	return (EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }

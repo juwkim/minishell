@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   exit_status.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 06:18:06 by juwkim           ###   ########.fr       */
+/*   Created: 2023/02/12 07:27:48 by juwkim            #+#    #+#             */
+/*   Updated: 2023/02/12 07:31:10 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin/builtin.h"
+#ifndef EXIT_STATUS_H
+# define EXIT_STATUS_H
 
-void	builtin_pwd(char **argv)
-{
-	char	buf[PATH_MAX];
+// POSIX BASED EXIT STATUS
+# define EXIT_MISUSE_SHELL_BUILTIN	2 // misuse of shell builtins
+# define EXIT_NOEXEC				126 // command invoked cannot execute
+# define EXIT_NOTFOUND				127 // command not found
 
-	(void) argv;
-	if (getcwd(buf, sizeof(buf)) == NULL)
-	{
-		print_error(*argv, NULL, NULL);
-		exit(EXIT_FAILURE);
-	}
-	printf("%s\n", buf);
-	exit(EXIT_SUCCESS);
-}
+int		exit_status_get(void);
+void	exit_status_set(int status);
+
+#endif // EXIT_STATUS_H

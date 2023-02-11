@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_command.c                                   :+:      :+:    :+:   */
+/*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 00:12:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/10 06:35:56 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 05:27:34 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser/parser.h"
 
-bool	parse_simple_command(t_command *command, const t_token *token)
+int	parse_simple_command(t_command *command, const t_token *token)
 {
 	command->type = token->types;
-	return (list_push_back(&command->argv, ft_strndup(token->str, token->len)));
+	if (list_push_back(&command->argv, \
+		ft_strndup(token->str, token->len)) == true)
+		return (EXIT_SUCCESS);
+	else
+		return (EXIT_FAILURE);
 }
 
-bool	parse_complex_command(t_command *command, t_node **cur)
+int	parse_complex_command(t_command *command, t_node **cur)
 {
 	t_token		*token;
 	const int	flags = (AND | OR | PIPE | O_PARENTHESIS | C_PARENTHESIS);
@@ -29,13 +33,13 @@ bool	parse_complex_command(t_command *command, t_node **cur)
 	{
 		if (token->types & REDIR)
 		{
-			if (parse_redirection(command, cur) == false)
-				return (false);
+			if (parse_redirection(command, cur) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
 		}
 		else
 		{
 			if (list_push_back(&command->argv, get_connected_str(cur)) == false)
-				return (false);
+				return (EXIT_FAILURE);
 		}
 		if ((*cur)->next == NULL || \
 			((t_token *)(*cur)->next->item)->types & flags)
@@ -43,5 +47,5 @@ bool	parse_complex_command(t_command *command, t_node **cur)
 		*cur = (*cur)->next;
 		token = (*cur)->item;
 	}
-	return (true);
+	return (EXIT_SUCCESS);
 }

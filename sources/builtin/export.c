@@ -6,41 +6,41 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 08:59:21 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 06:37:46 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin/builtin.h"
 
-static int	_env(void);
+static void	_env(void);
 
-int	builtin_export(char **argv)
+void	builtin_export(char **argv)
 {
 	char	*equal_sign;
 
 	++argv;
 	if (*argv == NULL)
-		return (_env());
+		_env();
 	while (*argv)
 	{
 		if (is_valid_variable_name(*argv) == false)
 		{
-			print_error(*argv, NULL, "bad variable name");
-			return (EXIT_MISUSE_SHELL_BUILTIN);
+			print_error("export", *argv, "not a valid identifier");
+			exit(EXIT_FAILURE);
 		}
 		equal_sign = ft_strchr(*argv, '=');
 		if (equal_sign)
 		{
 			*equal_sign = '\0';
-			if (env_set(*argv, equal_sign + 1) == false)
-				return (EXIT_FAILURE);
+			if (env_set(*argv, equal_sign + 1) == EXIT_FAILURE)
+				exit(EXIT_FAILURE);
 		}
 		++argv;
 	}
-	return (EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }
 
-static int	_env(void)
+static void	_env(void)
 {
 	int	i;
 
@@ -50,5 +50,5 @@ static int	_env(void)
 		printf("export %s\n", g_env.item[i]);
 		++i;
 	}
-	return (EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }

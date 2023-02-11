@@ -6,13 +6,13 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 04:05:10 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 08:58:10 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 06:12:03 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer/lexer.h"
 
-bool	bin_pipe_open_analyze(const t_list *tokens)
+int	bin_pipe_open_analyze(const t_list *tokens)
 {
 	bool		prev_bin_pipe_open;
 	const int	bin_pipe_open = AND | OR | PIPE | O_PARENTHESIS;
@@ -35,12 +35,12 @@ bool	bin_pipe_open_analyze(const t_list *tokens)
 		cur = cur->next;
 	}
 	if (prev_bin_pipe_open == false)
-		return (true);
+		return (EXIT_SUCCESS);
 	*(token->str + token->len) = '\0';
 	return (print_error(ERR_SYNTAX, NULL, token->str));
 }
 
-bool	close_analyze(const t_list *tokens)
+int	close_analyze(const t_list *tokens)
 {
 	const int	text_redir_open = TEXT | REDIR | O_PARENTHESIS;
 	t_node		*cur;
@@ -58,10 +58,10 @@ bool	close_analyze(const t_list *tokens)
 		}
 		cur = cur->next;
 	}
-	return (true);
+	return (EXIT_SUCCESS);
 }
 
-bool	text_analyze(const t_list *tokens)
+int	text_analyze(const t_list *tokens)
 {
 	t_node		*cur;
 	t_token		*token;
@@ -78,10 +78,10 @@ bool	text_analyze(const t_list *tokens)
 		}
 		cur = cur->next;
 	}
-	return (true);
+	return (EXIT_SUCCESS);
 }
 
-bool	parenthesis_analyze(const t_list *tokens)
+int	parenthesis_analyze(const t_list *tokens)
 {
 	int			opened;
 	t_node		*cur;
@@ -105,10 +105,10 @@ bool	parenthesis_analyze(const t_list *tokens)
 		*(token->str + token->len) = '\0';
 		return (print_error(ERR_SYNTAX, NULL, token->str));
 	}
-	return (true);
+	return (EXIT_SUCCESS);
 }
 
-bool	redirection_analyze(const t_list *tokens)
+int	redirection_analyze(const t_list *tokens)
 {
 	bool		prev_redirection;
 	t_node		*cur;
@@ -133,5 +133,5 @@ bool	redirection_analyze(const t_list *tokens)
 	}
 	if (prev_redirection == true)
 		return (print_error(ERR_SYNTAX, NULL, "\'newline\'"));
-	return (true);
+	return (EXIT_SUCCESS);
 }
