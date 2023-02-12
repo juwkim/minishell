@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:02:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 16:10:59 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 17:07:48 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 t_env	g_env;
 
-static void	process(const char *input);
+static int	process(const char *input);
 
 int	main(void)
 {
@@ -44,7 +44,7 @@ int	main(void)
 		if (input[0] != '\0')
 		{
 			add_history(input);
-			process(input);
+			exit_status_set(process(input));
 		}
 		free(input);
 		input = readline(PROMPT);
@@ -55,22 +55,24 @@ int	main(void)
 	exit(exit_status_get());
 }
 
-static void	process(const char *input)
+static int	process(const char *input)
 {
 	t_list	tokens;
 	t_list	commands;
+	int		exit_status;
 
 	if (tokenize(&tokens, input) == EXIT_FAILURE)
-		return ;
+		return (EXIT_FAILURE);
 	if (lexical_analyze(&tokens) == EXIT_FAILURE)
-		return ;
+		return (EXIT_SYNTAX_ERROR);
 	if (parse(&commands, &tokens) == EXIT_FAILURE)
-		return ;
+		return (EXIT_FAILURE);
 	// print_tokens(&tokens);
 	list_destroy(&tokens, free);
 	// print_commands(&commands);
 	if (make_commands_tree(&commands) == EXIT_FAILURE)
-		return ;
-	exit_status_set(execute(&commands, false));
+		return (EXIT_FAILURE);
+	exit_status = execute(&commands, false);
 	list_destroy(&commands, destroy_command);
+	return (exit_status);
 }
