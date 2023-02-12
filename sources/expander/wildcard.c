@@ -6,159 +6,86 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:17:39 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 07:52:15 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 16:03:00 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include <strings.h>
-#include <stdlib.h>
-​
-static int	count_word(char const *str, char charset)
+#include "expander/expander.h"
+
+static int		set_cur_dir_files(t_list *list);
+static t_list	*get_pattern_matched_files(t_list *cur_dir_files, \
+													char *pattern);
+static t_node	*list_merge(t_list *list1, t_node *prev, t_list *matched_files);
+
+int	expand_wildcard(t_list *argv)
 {
-	int	i;
-	int	cnt;
-​
-	cnt = 0;
-	i = 0;
-	while (str[i])
+	t_list	cur_dir_files;
+	t_list	*matched_files;
+	t_node	*prev;
+	t_node	*cur;
+
+	if (set_cur_dir_files(&cur_dir_files) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	prev = argv->head->next;
+	cur = argv->head->next->next;
+	while (cur != NULL)
 	{
-		while (str[i] == charset)
-			i++;
-		if (str[i])
-			cnt++;
-		while (str[i] != charset && str[i])
-			i++;
+		matched_files = get_pattern_matched_files(&cur_dir_files, cur->item);
+		prev = list_merge(argv, prev, matched_files);
+		cur = prev->next;
 	}
-	return (cnt);
+	list_destroy(&cur_dir_files, free);
+	return (EXIT_SUCCESS);
 }
-​
-static int	word_len(char const *str, char charset)
+
+static int	set_cur_dir_files(t_list *list)
 {
-	int	i;
-​
-	i = 0;
-	while (str[i] && str[i] != charset)
-		i++;
-	return (i);
-}
-​
-static char	*word_cpy(char const *src, char charset)
-{
-	int		i;
-	int		size;
-	char	*res;
-​
-	size = word_len(src, charset);
-	res = (char *)malloc(sizeof(char) * (size + 1));
-	i = 0;
-	while (i < size)
+	DIR				*dir;
+	struct dirent	*dirent;
+
+	dir = opendir("./");
+	if (dir == NULL)
+		return (print_error("expander", "get_current_dir_files", NULL));
+	list_init(list);
+	dirent = readdir(dir);
+	while (dirent != NULL)
 	{
-		res[i] = src[i];
-		i++;
-	}
-	res[i] = '\0';
-	return (res);
-}
-​
-static char	**free_word(char **word)
-{
-	int	i;
-​
-	i = 0;
-	while (word[i])
-		free(word[i++]);
-	free(word);
-	return (0);
-}
-​
-char	**ft_split(char const *s, char c)
-{
-	char	**res;
-	int		i;
-	int		j;
-​
-	if (!s)
-		return (0);
-	res = (char **)malloc(sizeof(char *) * (count_word(s, c) + 1));
-	if (!res)
-		return (0);
-	i = 0;
-	j = 0;
-	while (s[i])
-	{
-		while (s[i] == c)
-			i++;
-		if (!s[i])
-			break ;
-		res[j] = word_cpy(&s[i], c);
-		if (!res[j++])
-			return (free_word(res));
-		while (s[i] != c && s[i])
-			i++;
-	}
-	res[j] = 0;
-	return (res);
-}
-​
-#include <stdio.h>
-​
-int main(int argc, char **argv)
-{
-	char **wildcard;
-	int	check[argc];
-	int	i;
-	int	j;
-	int k;
-​
-	bzero(check, sizeof(check));
-	if (strcmp(argv[1], "*") == 0)
-	{
-		i = 2;
-		while (argv[i])
+		if (list_push_back(list, ft_strdup(dirent->d_name)) == false)
 		{
-			printf("%s : true\n", argv[i]);
-			++i;
+			list_destroy(list, free);
+			return (print_error("expander", "get_current_dir_files", NULL));
 		}
-		return (0);
+		dirent = readdir(dir);
 	}
-	wildcard = ft_split(argv[1], '*');
-	i = 2;
-	while (i < argc)
+	closedir(dir);
+	return (EXIT_SUCCESS);
+}
+
+static t_list	*get_pattern_matched_files(t_list *cur_dir_files, char *pattern)
+{
+	t_list *const	matched_files = malloc(sizeof(t_list));
+	t_node			*cur;
+	const int		pattern_len = ft_strlen(pattern);
+
+	if (matched_files == NULL || list_init(matched_files) == false)
+		return (NULL);
+	cur = cur_dir_files->head->next;
+	while (cur != NULL)
 	{
-		j = 0;
-		k = 0;
-		while (argv[i][j])
-		{
-			if (wildcard[k + 1] != NULL)
-			{
-				if (strncmp(&argv[i][j], wildcard[k], strlen(wildcard[k]) - 1) == 0)
-				{
-					j += strlen(wildcard[k]) - 1;
-					++k;
-				}
-				else
-					++j;
-			}
-			else
-			{
-				if (strncmp(&argv[i][j], wildcard[k], strlen(wildcard[k])) == 0)
-				{
-					check[i] = 1;
-					break ;
-				}
-				++j;
-			}
-		}
-		++i;
+		if (is_pattern_match(cur->item, pattern, pattern_len) == true)
+			list_push_back(matched_files, ft_strdup(cur->item));
+		cur = cur->next;
 	}
-	i = 2;
-	while (i < argc)
-	{
-		if (check[i])
-			printf("%s : true\n", argv[i]);
-		else
-			printf("%s : false\n", argv[i]);
-		++i;
-	}
+	if (list_is_empty(matched_files) == true)
+		list_push_back(matched_files, ft_strdup(pattern));
+	return (matched_files);
+}
+
+static t_node	*list_merge(t_list *list1, t_node *prev, t_list *matched_files)
+{
+	list_pop_next(prev, free);
+	prev = list_insert_list(list1, prev, matched_files);
+	free(matched_files->head);
+	free(matched_files);
+	return (prev);
 }

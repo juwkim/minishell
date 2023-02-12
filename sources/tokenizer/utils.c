@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 03:25:15 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 09:39:48 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 08:50:30 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ bool	is_text(const char *input, int *idx, t_token *token)
 	len = 0;
 	while (input[*idx + len] && ft_isspace(input[*idx + len]) == false && \
 			ft_strchr("<>()|\'\"", input[*idx + len]) == NULL && \
-			ft_strncmp("&&", input + *idx + len, 1) != 0)
+			ft_strncmp("&&", input + *idx + len, 2) != 0)
 		++len;
 	if (len == 0)
 		return (false);

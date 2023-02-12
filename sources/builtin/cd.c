@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 06:22:03 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 08:41:08 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	builtin_cd(char **argv)
 		print_error("cd", dir, NULL);
 		exit(EXIT_FAILURE);
 	}
-	if (argv[1] && ft_strncmp(argv[1], "-", 1) == 0)
+	if (argv[1] && ft_strcmp(argv[1], "-") == 0)
 		printf("%s\n", dir);
 	exit(update_pwd());
 }

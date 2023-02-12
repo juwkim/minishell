@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 00:12:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 06:32:21 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 08:53:11 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,22 @@ int	parse_redirection(t_command *command, t_node **cur)
 
 static char	*parse_heredoc(char *delimiter)
 {
-	int			stdin_fd;
 	char		*file_name;
+	int			stdin_fd;
 	int			file_fd;
 	char		*str;
-	const int	len = ft_strlen(delimiter);
+	char		*expanded;
 
-	signal(SIGINT, sigint_heredoc_handler);
 	if (parse_heredoc_prepare(&file_name, &stdin_fd, &file_fd) == EXIT_FAILURE)
 		return (NULL);
 	str = readline("> ");
-	while (str != NULL && ft_strncmp(str, delimiter, len) != 0)
+	while (str != NULL && ft_strcmp(str, delimiter) != 0)
 	{
-		write(file_fd, str, ft_strlen(str));
+		expanded = expand_env_variable(str, ft_strlen(str));
+		write(file_fd, expanded, ft_strlen(expanded));
 		write(file_fd, "\n", 1);
 		free(str);
+		free(expanded);
 		str = readline("> ");
 	}
 	free(str);
@@ -79,6 +80,7 @@ static int	parse_heredoc_prepare(char **file_name, int *stdin_fd, int *file_fd)
 	char		*stred_num;
 	int			res;
 
+	signal(SIGINT, sigint_heredoc_handler);
 	*stdin_fd = dup(STDIN_FILENO);
 	res = EXIT_SUCCESS;
 	*file_fd = -1;

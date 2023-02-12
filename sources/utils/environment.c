@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:08:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 06:08:40 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 09:03:12 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ int	env_set(const char *key, const char *val)
 	if (line == NULL)
 		return (print_error(NULL, NULL, NULL));
 	idx = 0;
-	while (idx < g_env.count && \
-				ft_strncmp(key, g_env.item[idx], key_len - 1) != 0)
+	while (idx < g_env.count && (ft_strncmp(key, g_env.item[idx], key_len) != 0 \
+											|| g_env.item[idx][key_len] != '='))
 		++idx;
 	free(g_env.item[idx]);
 	g_env.item[idx] = line;
@@ -70,13 +70,12 @@ char	*env_get(const char *key)
 	const int	key_len = ft_strlen(key);
 
 	idx = 0;
-	while (idx < g_env.count && \
-			ft_strncmp(key, g_env.item[idx], key_len - 1) != 0)
+	while (idx < g_env.count && (ft_strncmp(key, g_env.item[idx], key_len) != 0 \
+											|| g_env.item[idx][key_len] != '='))
 		++idx;
 	if (idx == g_env.count)
 		return (NULL);
-	else
-		return (g_env.item[idx] + key_len + 1);
+	return (g_env.item[idx] + key_len + 1);
 }
 
 void	env_remove(const char *key)
@@ -85,8 +84,8 @@ void	env_remove(const char *key)
 	const int	key_len = ft_strlen(key);
 
 	idx = 0;
-	while (idx < g_env.count && \
-				ft_strncmp(key, g_env.item[idx], key_len - 1) != 0)
+	while (idx < g_env.count && (ft_strncmp(key, g_env.item[idx], key_len) != 0 \
+											|| g_env.item[idx][key_len] != '='))
 		++idx;
 	if (idx == g_env.count)
 		return ;

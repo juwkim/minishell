@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:35:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 07:35:02 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 10:53:38 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <sys/stat.h>
 
 # include "global.h"
+# include "expander/expander.h"
 # include "builtin/builtin.h"
 # include "utils/exit_status.h"
 # include "utils/environment.h"
@@ -28,7 +29,6 @@
 typedef struct s_builtin
 {
 	const char	*name;
-	int			name_len;
 	void		(*func)(char **argv);
 }	t_builtin;
 

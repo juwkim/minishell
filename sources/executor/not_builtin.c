@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:20:13 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 07:46:34 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 16:34:18 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@ void	execute_not_builtin(char **argv)
 {
 	const char	*cmd_name = argv[0];
 
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
 	if (ft_strchr(argv[0], '/') == NULL && set_cmd_path(argv) == EXIT_FAILURE)
 	{
 		print_error(cmd_name, NULL, "command not found");
 		exit(EXIT_NOTFOUND);
 	}
+	print_error("i am started", argv[0], NULL);
 	execve(argv[0], argv, g_env.item);
 	print_error(cmd_name, NULL, NULL);
 	if (errno == ENOENT)

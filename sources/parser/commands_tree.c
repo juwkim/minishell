@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 06:41:30 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 07:39:17 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 16:10:06 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,21 @@ int	make_commands_tree(t_list *commands)
 	int	exist_group;
 	int	exist_pipeline;
 
-	print_commands_structure(commands);
+	// print_commands_structure(commands);
 	while (true)
 	{
 		exist_group = group_merge(commands);
-		if (exist_group == EXIT_SUCCESS)
-			print_commands_structure(commands);
+		// if (exist_group == EXIT_SUCCESS)
+		// 	print_commands_structure(commands);
 		exist_pipeline = pipeline_merge(commands);
 		if (exist_pipeline == MEMORY_ALLOCATE_FAIL)
 		{
 			list_destroy(commands, destroy_command);
+			exit_status_set(EXIT_FAILURE);
 			return (print_error("parser", "make_commands_tree", NULL));
 		}
-		if (exist_pipeline == EXIT_SUCCESS)
-			print_commands_structure(commands);
+		// if (exist_pipeline == EXIT_SUCCESS)
+		// 	print_commands_structure(commands);
 		if (exist_group == EXIT_FAILURE && exist_pipeline == EXIT_FAILURE)
 			break ;
 	}

@@ -1,0 +1,2 @@
+minishell$ (/bin/echo 1))
+minishell$ exit

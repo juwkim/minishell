@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 04:52:50 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/12 08:41:21 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	builtin_echo(char **argv)
 
 	newline = true;
 	++argv;
-	if (*argv && ft_strncmp(*argv, "-n", 2) == 0)
+	if (*argv && ft_strcmp(*argv, "-n") == 0)
 	{
 		++argv;
 		newline = false;
