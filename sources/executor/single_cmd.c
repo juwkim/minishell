@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 02:52:32 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/13 09:24:56 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/13 10:39:40 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	execute_single_cmd(t_command *command, bool is_subshell)
 {
 	int			pid;
-	const int	idx = get_builtin_function_idx(list_front(&command->argv));
+	const int	idx = get_builtin_function_idx(&command->argv);
 
 	if (idx != NOT_BUILTIN)
 		return (execute_builtin(command, idx, is_subshell));
@@ -29,7 +29,7 @@ int	execute_single_cmd(t_command *command, bool is_subshell)
 
 void	execute_pipeline_single_cmd(t_command *command, bool is_subshell)
 {
-	const int	idx = get_builtin_function_idx(list_front(&command->argv));
+	const int	idx = get_builtin_function_idx(&command->argv);
 
 	if (idx != NOT_BUILTIN)
 		exit(execute_builtin(command, idx, is_subshell));

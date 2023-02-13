@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:35:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/13 09:45:27 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/13 10:40:02 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	**get_argv_array(t_list *list);
 
 // builtin.c
 int		execute_builtin(t_command *command, int idx, bool is_subshell);
-int		get_builtin_function_idx(char *name);
+int		get_builtin_function_idx(t_list *argv);
 
 // not_builtin.c
 void	execute_not_builtin(t_command *command);
