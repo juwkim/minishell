@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 02:52:32 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/13 10:39:40 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/14 05:51:08 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	execute_pipeline_single_cmd(t_command *command, bool is_subshell)
 
 char	**get_argv_array(t_list *list)
 {
-	char **const	argv = malloc(sizeof(char *) * (list->size + 2));
+	char **const	argv = malloc(sizeof(char *) * (list->size + 1));
 	t_node			*cur;
 	int				idx;
 
@@ -49,9 +49,6 @@ char	**get_argv_array(t_list *list)
 		argv[idx++] = cur->item;
 		cur = cur->next;
 	}
-	if (ft_strcmp(argv[0], "ls") == 0 || \
-		ft_strcmp(argv[0], "grep") == 0)
-		argv[idx++] = "--color=auto";
 	argv[idx] = NULL;
 	return (argv);
 }

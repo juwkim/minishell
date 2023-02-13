@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:08:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 09:03:12 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/14 06:31:29 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,5 @@ void	env_remove(const char *key)
 		g_env.item[idx] = g_env.item[idx + 1];
 		++idx;
 	}
+	g_env.item[g_env.count] = NULL;
 }

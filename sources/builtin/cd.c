@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/13 09:55:07 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/13 22:53:48 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static const char	*get_dir(char **argv)
 		if (dir == NULL)
 			print_error("cd", NULL, "HOME not set");
 	}
-	else if (argv[1] && ft_strncmp(argv[1], "-", 1) == 0)
+	else if (ft_strncmp(argv[1], "-", 1) == 0)
 	{
 		dir = env_get("OLDPWD");
 		if (dir == NULL)

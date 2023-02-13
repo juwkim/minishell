@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 03:11:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/13 11:08:17 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/13 22:43:09 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,9 @@ int	execute_wait_pid(int last_pid)
 int	execute_wait_pid_all(int last_pid)
 {
 	const int	exit_status = execute_wait_pid(last_pid);
-	int			pid;
 
-	printf("last_pid: %d, exit_status: %d\n", last_pid, exit_status);
-	while (true)
-	{
-		pid = wait(NULL);
-		printf("pid: %d\n", pid);
-		if (pid == -1)
-			break ;
-	}
+	while (wait(NULL) != -1)
+		;
 	errno = 0;
 	return (exit_status);
 }
