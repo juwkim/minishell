@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:04:40 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 08:41:08 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/13 09:55:07 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 static const char	*get_dir(char **argv);
 static int			update_pwd(void);
 
-void	builtin_cd(char **argv)
+int	builtin_cd(char **argv)
 {
 	const char	*dir = get_dir(argv);
 
 	if (dir == NULL)
-		exit(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	if (chdir(dir) == -1)
 	{
 		print_error("cd", dir, NULL);
-		exit(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	}
 	if (argv[1] && ft_strcmp(argv[1], "-") == 0)
 		printf("%s\n", dir);
-	exit(update_pwd());
+	return (update_pwd());
 }
 
 static const char	*get_dir(char **argv)

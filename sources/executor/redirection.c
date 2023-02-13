@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 05:25:08 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 05:37:45 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/13 09:43:38 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,25 @@ int	redirect(t_command *command)
 	if (command->out && redirect_out(command) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
+}
+
+int	redirect_builtin(t_command *command, int *old_fd_in, int *old_fd_out)
+{
+	*old_fd_in = dup(STDIN_FILENO);
+	*old_fd_out = dup(STDOUT_FILENO);
+	if (command->in && redirect_in(command) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (command->out && redirect_out(command) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
+void	redirect_undo(int old_fd_in, int old_fd_out)
+{
+	if (dup2(old_fd_in, STDIN_FILENO) == -1 || close(old_fd_in) == -1)
+		print_error(NULL, NULL, NULL);
+	if (dup2(old_fd_out, STDOUT_FILENO) == -1 || close(old_fd_out) == -1)
+		print_error(NULL, NULL, NULL);
 }
 
 static int	redirect_in(t_command *command)

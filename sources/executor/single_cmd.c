@@ -6,62 +6,37 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 02:52:32 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 16:56:12 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/13 09:24:56 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor/executor.h"
 
-static char	**get_argv_array(t_list *list);
-static void	execute_function(char **argv);
-
 int	execute_single_cmd(t_command *command, bool is_subshell)
 {
-	int		pid;
-	char	**argv;
+	int			pid;
+	const int	idx = get_builtin_function_idx(list_front(&command->argv));
 
-	if (ft_strncmp(list_front(&command->argv), "exit", ft_strlen("exit")) != 0)
-	{
-		pid = fork();
-		if (pid == -1)
-			return (EXIT_FAILURE);
-		if (pid != 0)
-			return (execute_wait_pid(pid));
-	}
-	if (redirect(command) == EXIT_FAILURE)
+	if (idx != NOT_BUILTIN)
+		return (execute_builtin(command, idx, is_subshell));
+	pid = fork();
+	if (pid == -1)
 		return (EXIT_FAILURE);
-	if (list_is_empty(&command->argv) == true)
-		return (EXIT_SUCCESS);
-	if (expand_wildcard(&command->argv) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	argv = get_argv_array(&command->argv);
-	if (argv == NULL)
-		return (EXIT_FAILURE);
-	if (ft_strcmp(argv[0], "exit") == 0)
-		builtin_exit(argv, is_subshell);
-	execute_function(argv);
-	return (EXIT_SUCCESS);
+	if (pid == 0)
+		execute_not_builtin(command);
+	return (execute_wait_pid(pid));
 }
 
 void	execute_pipeline_single_cmd(t_command *command, bool is_subshell)
 {
-	char	**argv;
+	const int	idx = get_builtin_function_idx(list_front(&command->argv));
 
-	if (redirect(command) == EXIT_FAILURE)
-		exit(EXIT_FAILURE);
-	if (list_is_empty(&command->argv) == true)
-		exit(EXIT_SUCCESS);
-	if (expand_wildcard(&command->argv) == EXIT_FAILURE)
-		exit(EXIT_FAILURE);
-	argv = get_argv_array(&command->argv);
-	if (argv == NULL)
-		exit(EXIT_FAILURE);
-	if (ft_strncmp(argv[0], "exit", ft_strlen("exit")) == 0)
-		builtin_exit(argv, is_subshell);
-	execute_function(argv);
+	if (idx != NOT_BUILTIN)
+		exit(execute_builtin(command, idx, is_subshell));
+	execute_not_builtin(command);
 }
 
-static char	**get_argv_array(t_list *list)
+char	**get_argv_array(t_list *list)
 {
 	char **const	argv = malloc(sizeof(char *) * (list->size + 2));
 	t_node			*cur;
@@ -79,22 +54,4 @@ static char	**get_argv_array(t_list *list)
 		argv[idx++] = "--color=auto";
 	argv[idx] = NULL;
 	return (argv);
-}
-
-static void	execute_function(char **argv)
-{
-	const t_builtin	builtin[6] = \
-	{{"echo", builtin_echo}, {"cd", builtin_cd}, {"pwd", builtin_pwd}, \
-	{"env", builtin_env}, {"export", builtin_export}, {"unset", builtin_unset}};
-	int				idx;
-
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	idx = 0;
-	while (idx < BUILTIN_FUNC_CNT - 1 && ft_strcmp(argv[0], builtin[idx].name))
-		++idx;
-	if (idx == BUILTIN_FUNC_CNT - 1)
-		execute_not_builtin(argv);
-	else
-		builtin[idx].func(argv);
 }

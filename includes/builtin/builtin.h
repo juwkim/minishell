@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:05:24 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 07:31:44 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/13 09:55:44 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@
 
 void	builtin_exit(char **argv, bool is_subshell);
 
-void	builtin_echo(char **argv);
+int		builtin_echo(char **argv);
 
-void	builtin_cd(char **argv);
+int		builtin_cd(char **argv);
 
-void	builtin_pwd(char **argv);
+int		builtin_pwd(char **argv);
 
-void	builtin_env(char **argv);
+int		builtin_env(char **argv);
 
-void	builtin_export(char **argv);
+int		builtin_export(char **argv);
 
-void	builtin_unset(char **argv);
+int		builtin_unset(char **argv);
 
 #endif // BUILTIN_H

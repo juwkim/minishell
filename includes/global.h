@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:01:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 07:05:53 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/13 10:03:39 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "linked_list.h"
 
-# define PROMPT 	"minishell$ "
+# define PROMPT 	"$> "
 
 # define TEXT			1
 # define PIPE			2

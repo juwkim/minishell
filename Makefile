@@ -6,7 +6,7 @@
 #    By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 19:25:02 by juwkim            #+#    #+#              #
-#    Updated: 2023/02/12 16:31:39 by juwkim           ###   ########.fr        #
+#    Updated: 2023/02/13 09:57:25 by juwkim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,7 @@ SRCS				+= $(addprefix $(SRC_DIR)/$(TOKENIZER_DIR)/, tokenizer.c utils.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(LEXER_DIR)/, lexer.c utils.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(PARSER_DIR)/, parser.c redirection.c command.c commands_tree.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(EXPANDER_DIR)/, env_variable.c wildcard.c is_pattern_match.c)
-SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, executor.c single_cmd.c group.c pipeline.c not_builtin.c redirection.c)
+SRCS				+= $(addprefix $(SRC_DIR)/$(EXECUTOR_DIR)/, executor.c single_cmd.c group.c pipeline.c builtin.c not_builtin.c redirection.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(BUILTIN_DIR)/, cd.c echo.c env.c exit.c export.c pwd.c unset.c)
 SRCS				+= $(addprefix $(SRC_DIR)/$(UTILS_DIR)/, environment.c exit_status.c is_valid_variable_name.c print.c signal_handler.c)
 

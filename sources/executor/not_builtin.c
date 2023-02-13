@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:20:13 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 17:01:17 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/13 09:15:44 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,23 @@
 static int	set_cmd_path(char **argv);
 static char	**get_splited_path(void);
 
-void	execute_not_builtin(char **argv)
+void	execute_not_builtin(t_command *command)
 {
-	const char	*cmd_name = argv[0];
+	char	**argv;
+	char	*cmd_name;
 
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	if (redirect(command) == EXIT_FAILURE)
+		exit(EXIT_FAILURE);
+	if (list_is_empty(&command->argv) == true)
+		exit(EXIT_SUCCESS);
+	if (expand_wildcard(&command->argv) == EXIT_FAILURE)
+		exit(EXIT_FAILURE);
+	argv = get_argv_array(&command->argv);
+	if (argv == NULL)
+		exit(EXIT_FAILURE);
+	cmd_name = argv[0];
 	if (ft_strchr(argv[0], '/') == NULL && set_cmd_path(argv) == EXIT_FAILURE)
 	{
 		print_error(cmd_name, NULL, "command not found");
@@ -28,8 +41,7 @@ void	execute_not_builtin(char **argv)
 	print_error(cmd_name, NULL, NULL);
 	if (errno == ENOENT)
 		exit(EXIT_NOTFOUND);
-	else
-		exit(EXIT_NOEXEC);
+	exit(EXIT_NOEXEC);
 }
 
 static int	set_cmd_path(char **argv)

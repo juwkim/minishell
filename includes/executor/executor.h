@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:35:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 10:53:38 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/13 09:45:27 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,7 @@
 # define READ	0
 # define WRITE	1
 
-typedef struct s_builtin
-{
-	const char	*name;
-	void		(*func)(char **argv);
-}	t_builtin;
+# define NOT_BUILTIN -1
 
 // executor.c
 int		execute(t_list *commands, bool is_subshell);
@@ -46,11 +42,18 @@ int		execute_pipeline(t_list *commands);
 // single_cmd.c
 int		execute_single_cmd(t_command *command, bool is_subshell);
 void	execute_pipeline_single_cmd(t_command *command, bool is_subshell);
+char	**get_argv_array(t_list *list);
+
+// builtin.c
+int		execute_builtin(t_command *command, int idx, bool is_subshell);
+int		get_builtin_function_idx(char *name);
 
 // not_builtin.c
-void	execute_not_builtin(char **argv);
+void	execute_not_builtin(t_command *command);
 
 // redirection.c
 int		redirect(t_command *command);
+int		redirect_builtin(t_command *command, int *old_fd_in, int *old_fd_out);
+void	redirect_undo(int old_fd_in, int old_fd_out);
 
 #endif // EXECUTOR_H
