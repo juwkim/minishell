@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:35:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/13 10:40:02 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/13 11:16:16 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ int		execute_group(t_list *commands);
 
 // pipeline.c
 int		execute_pipeline(t_list *commands);
+
+// pipeline_utils.c
+void	init_pipefd(int pipefd[2][2]);
+void	set_pipe(int pipefd[2][2], int idx, bool is_last);
+void	close_pipe(int pipefd[2][2], int idx, bool is_last);
+void	close_pipe_all(int pipefd[2][2]);
 
 // single_cmd.c
 int		execute_single_cmd(t_command *command, bool is_subshell);
