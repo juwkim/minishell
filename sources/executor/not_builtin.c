@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 00:20:13 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/13 09:15:44 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/14 07:31:26 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,10 @@ void	execute_not_builtin(t_command *command)
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	if (redirect(command) == EXIT_FAILURE)
-		exit(EXIT_FAILURE);
 	if (list_is_empty(&command->argv) == true)
 		exit(EXIT_SUCCESS);
-	if (expand_wildcard(&command->argv) == EXIT_FAILURE)
+	if (redirect(command) == EXIT_FAILURE || \
+		expand_wildcard(&command->argv) == EXIT_FAILURE)
 		exit(EXIT_FAILURE);
 	argv = get_argv_array(&command->argv);
 	if (argv == NULL)

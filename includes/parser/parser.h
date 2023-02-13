@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 00:56:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 05:20:11 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/14 07:25:33 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "global.h"
 # include "expander/expander.h"
+# include "executor/executor.h"
 
 # define MEMORY_ALLOCATE_FAIL 2
 
@@ -31,6 +32,7 @@ int			parse_complex_command(t_command *command, t_node **cur);
 
 // redirection.c
 int			parse_redirection(t_command *command, t_node **cur);
+char		*parse_heredoc(char *delimiter);
 
 // make_commands_tree
 int			make_commands_tree(t_list *commands);

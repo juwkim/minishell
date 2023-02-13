@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:02:07 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/11 06:04:39 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/14 07:12:35 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ void	sigint_handler(int sig)
 void	sigint_heredoc_handler(int sig)
 {
 	(void) sig;
-	close(STDIN_FILENO);
 	write(STDERR_FILENO, "\n", 1);
+	exit(130);
 }

@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:35:50 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/13 11:16:16 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/14 07:24:59 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <sys/stat.h>
 
 # include "global.h"
+# include "parser/parser.h"
 # include "expander/expander.h"
 # include "builtin/builtin.h"
 # include "utils/exit_status.h"

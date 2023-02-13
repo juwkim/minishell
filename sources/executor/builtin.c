@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:02:23 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/13 10:40:47 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/14 07:31:09 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,10 @@ int	execute_builtin(t_command *command, int idx, bool is_subshell)
 	static int		(*func[6])(char **argv) = {builtin_echo, builtin_cd, \
 				builtin_pwd, builtin_env, builtin_export, builtin_unset};
 
-	if (redirect_builtin(command, &old_fd_in, &old_fd_out) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
 	if (list_is_empty(&command->argv) == true)
-	{
-		redirect_undo(old_fd_in, old_fd_out);
 		return (EXIT_SUCCESS);
-	}
-	if (expand_wildcard(&command->argv) == EXIT_FAILURE)
+	if (redirect_builtin(command, &old_fd_in, &old_fd_out) == EXIT_FAILURE || \
+		expand_wildcard(&command->argv) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	argv = get_argv_array(&command->argv);
 	if (argv == NULL)

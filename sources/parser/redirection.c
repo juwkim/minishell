@@ -6,15 +6,14 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 00:12:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/13 10:51:36 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/14 07:26:21 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser/parser.h"
 
-static char	*parse_heredoc(char *delimiter);
-static int	parse_heredoc_prepare(char **file_name, \
-										int *stdin_fd, int *file_fd);
+static int	parse_heredoc_prepare(char **file_name, int *file_fd);
+static void	read_heredoc(int file_fd, char *delimiter);
 
 int	parse_redirection(t_command *command, t_node **cur)
 {
@@ -30,10 +29,7 @@ int	parse_redirection(t_command *command, t_node **cur)
 	if (redirection_type & (REDIR_IN | REDIR_HEREDOC))
 	{
 		free(command->in);
-		if (redirection_type & REDIR_IN)
-			command->in = str;
-		else
-			command->in = parse_heredoc(str);
+		command->in = str;
 		command->is_in_heredoc = (redirection_type & REDIR_HEREDOC) != 0;
 	}
 	else
@@ -45,43 +41,34 @@ int	parse_redirection(t_command *command, t_node **cur)
 	return (EXIT_SUCCESS);
 }
 
-static char	*parse_heredoc(char *delimiter)
+char	*parse_heredoc(char *delimiter)
 {
-	char		*file_name;
-	int			stdin_fd;
 	int			file_fd;
-	char		*str;
-	char		*expanded;
+	char		*file_name;
+	int			pid;
 
-	if (parse_heredoc_prepare(&file_name, &stdin_fd, &file_fd) == EXIT_FAILURE)
+	parse_heredoc_prepare(&file_name, &file_fd);
+	pid = fork();
+	if (pid == -1)
 		return (NULL);
-	str = readline("> ");
-	while (str != NULL && ft_strcmp(str, delimiter) != 0)
+	if (pid == 0)
 	{
-		expanded = expand_env_variable(str, ft_strlen(str));
-		write(file_fd, expanded, ft_strlen(expanded));
-		write(file_fd, "\n", 1);
-		free(str);
-		free(expanded);
-		str = readline("> ");
+		signal(SIGINT, sigint_heredoc_handler);
+		read_heredoc(file_fd, delimiter);
+		exit(EXIT_SUCCESS);
 	}
-	free(str);
 	free(delimiter);
 	close(file_fd);
-	close(STDIN_FILENO);
-	dup2(stdin_fd, STDIN_FILENO);
-	signal(SIGINT, sigint_handler);
+	exit_status_set(execute_wait_pid(pid));
 	return (file_name);
 }
 
-static int	parse_heredoc_prepare(char **file_name, int *stdin_fd, int *file_fd)
+static int	parse_heredoc_prepare(char **file_name, int *file_fd)
 {
 	static int	num;
 	char		*stred_num;
 	int			res;
 
-	signal(SIGINT, sigint_heredoc_handler);
-	*stdin_fd = dup(STDIN_FILENO);
 	res = EXIT_SUCCESS;
 	*file_fd = -1;
 	while (*file_fd == -1)
@@ -98,4 +85,21 @@ static int	parse_heredoc_prepare(char **file_name, int *stdin_fd, int *file_fd)
 		*file_fd = open(*file_name, O_WRONLY | O_CREAT | O_EXCL, 0600);
 	}
 	return (res);
+}
+
+static void	read_heredoc(int file_fd, char *delimiter)
+{
+	char		*str;
+	char		*expanded;
+
+	str = readline("> ");
+	while (str != NULL && ft_strcmp(str, delimiter) != 0)
+	{
+		expanded = expand_env_variable(str, ft_strlen(str));
+		write(file_fd, expanded, ft_strlen(expanded));
+		write(file_fd, "\n", 1);
+		free(str);
+		free(expanded);
+		str = readline("> ");
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 05:25:08 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/13 09:43:38 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/14 07:26:08 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,11 @@ void	redirect_undo(int old_fd_in, int old_fd_out)
 
 static int	redirect_in(t_command *command)
 {
-	const int	fd = open(command->in, O_RDONLY, S_IRUSR);
+	int	fd;
 
+	if (command->is_in_heredoc)
+		command->in = parse_heredoc(command->in);
+	fd = open(command->in, O_RDONLY, S_IRUSR);
 	if (fd < 0)
 		return (print_error(command->in, NULL, NULL));
 	if (command->is_in_heredoc == true && unlink(command->in) == -1)
