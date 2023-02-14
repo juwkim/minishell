@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 03:11:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/13 22:43:09 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/14 11:13:46 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	execute(t_list *commands, bool is_subshell)
 		if (cur != NULL)
 			cur = cur->next;
 	}
+	list_destroy(commands, destroy_command);
 	return (exit_status_get());
 }
 

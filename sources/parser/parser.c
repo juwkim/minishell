@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 00:55:19 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/14 07:23:42 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/14 11:13:33 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	parse_command(t_command *command, t_node **cur);
 
-int	parse(t_list *commands, const t_list *tokens)
+int	parse(t_list *commands, t_list *tokens)
 {
 	t_node		*cur;
 	t_command	*command;
@@ -35,7 +35,10 @@ int	parse(t_list *commands, const t_list *tokens)
 		}
 		cur = cur->next;
 	}
-	return (EXIT_SUCCESS);
+	print_tokens(tokens);
+	list_destroy(tokens, free);
+	print_commands(commands);
+	return (make_commands_tree(commands));
 }
 
 t_command	*create_command(void)

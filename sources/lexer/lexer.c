@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 04:12:00 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 07:25:57 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/14 11:13:05 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	lexical_analyze(t_list *tokens)
 		redirection_analyze(tokens) == EXIT_FAILURE)
 	{
 		list_destroy(tokens, free);
-		return (EXIT_FAILURE);
+		return (EXIT_SYNTAX_ERROR);
 	}
 	return (EXIT_SUCCESS);
 }

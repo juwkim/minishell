@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 00:56:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/14 07:25:33 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/14 10:54:57 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define MEMORY_ALLOCATE_FAIL 2
 
 // parser.c
-int			parse(t_list *commands, const t_list *tokens);
+int			parse(t_list *commands, t_list *tokens);
 t_command	*create_command(void);
 void		destroy_command(void *command);
 char		*get_connected_str(t_node **cur);

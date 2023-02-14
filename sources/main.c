@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:02:01 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/14 07:28:44 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/14 11:12:48 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,17 @@ static int	process(const char *input)
 {
 	t_list	tokens;
 	t_list	commands;
-	int		exit_status;
 
 	if (tokenize(&tokens, input) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (lexical_analyze(&tokens) == EXIT_FAILURE)
+	if (list_is_empty(&tokens) == true)
+	{
+		list_destroy(&tokens, free);
+		return (EXIT_SUCCESS);
+	}
+	if (lexical_analyze(&tokens) == EXIT_SYNTAX_ERROR)
 		return (EXIT_SYNTAX_ERROR);
 	if (parse(&commands, &tokens) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	// print_tokens(&tokens);
-	list_destroy(&tokens, free);
-	// print_commands(&commands);
-	if (make_commands_tree(&commands) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	exit_status = execute(&commands, false);
-	list_destroy(&commands, destroy_command);
-	return (exit_status);
+	return (execute(&commands, false));
 }
