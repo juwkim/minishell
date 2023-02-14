@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 04:05:10 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 06:12:03 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/14 11:18:10 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	bin_pipe_open_analyze(const t_list *tokens)
 
 int	close_analyze(const t_list *tokens)
 {
-	const int	text_redir_open = TEXT | REDIR | O_PARENTHESIS;
+	const int	text_redir_open = TEXT | O_PARENTHESIS;
 	t_node		*cur;
 	t_token		*token;
 
