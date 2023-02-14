@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:19:27 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 08:55:32 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/14 10:40:23 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char	*expand_env_variable(const char *str, const int len)
 {
 	t_list	list;
 	int		i;
-	int		ret;
 
 	if (list_init(&list) == false)
 		return (NULL);
@@ -28,14 +27,17 @@ char	*expand_env_variable(const char *str, const int len)
 		if (str[i] == '$' && str[i + 1] == '?')
 		{
 			++i;
-			ret = list_push_back(&list, ft_itoa(exit_status_get()));
+			list_push_back(&list, ft_itoa(exit_status_get()));
 		}
-		else if (str[i] == '$' && str[i + 1] != '\0' && str[i + 1] != ' ')
-			ret = list_push_back(&list, get_env_variable(str, &i, len));
+		else if (str[i] == '$' && str[i + 1] == '$')
+		{
+			++i;
+			list_push_back(&list, ft_itoa(42));
+		}
+		else if (str[i] == '$' && ft_strchr(" \'\"", str[i + 1]) == NULL)
+			list_push_back(&list, get_env_variable(str, &i, len));
 		else
-			ret = list_push_back(&list, ft_strndup(str + i, 1));
-		if (ret == false)
-			return (NULL);
+			list_push_back(&list, ft_strndup(str + i, 1));
 	}
 	return (list_strjoin(&list));
 }

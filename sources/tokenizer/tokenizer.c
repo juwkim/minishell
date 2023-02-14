@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 00:56:06 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/12 05:13:46 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/14 10:29:42 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	tokenize(t_list *tokens, const char *input)
 			continue ;
 		}
 		token = create_token(input, &idx);
+		if (token == NULL)
+			return (EXIT_FAILURE);
 		if (list_push_back(tokens, token) == false)
 		{
 			free(token);
@@ -47,15 +49,15 @@ static t_token	*create_token(const char *input, int *idx)
 	if (token == NULL)
 		return (NULL);
 	token->str = (char *) input + *idx;
-	if (is_bin_operator_or_pipe(input, idx, token) == true)
+	if (is_bin_operator_or_pipe(input, idx, token) == EXIT_SUCCESS)
 		return (token);
-	if (is_parenthesis(input, idx, token) == true)
+	if (is_parenthesis(input, idx, token) == EXIT_SUCCESS)
 		return (token);
-	if (is_redirection(input, idx, token) == true)
+	if (is_redirection(input, idx, token) == EXIT_SUCCESS)
 		return (token);
-	if (is_text(input, idx, token) == true)
+	if (is_text(input, idx, token) == EXIT_SUCCESS)
 		return (token);
-	if (is_quote(input, idx, token) == true)
+	if (is_quote(input, idx, token) == EXIT_SUCCESS)
 		return (token);
 	free(token);
 	return (NULL);
