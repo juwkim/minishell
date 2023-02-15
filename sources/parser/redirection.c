@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 00:12:46 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/14 07:26:21 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/15 21:05:48 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ int	parse_redirection(t_command *command, t_node **cur)
 	if (redirection_type & (REDIR_IN | REDIR_HEREDOC))
 	{
 		free(command->in);
-		command->in = str;
+		if (redirection_type & REDIR_HEREDOC)
+			command->in = parse_heredoc(str);
+		else
+			command->in = str;
 		command->is_in_heredoc = (redirection_type & REDIR_HEREDOC) != 0;
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: juwkim <juwkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 05:25:08 by juwkim            #+#    #+#             */
-/*   Updated: 2023/02/14 07:26:08 by juwkim           ###   ########.fr       */
+/*   Updated: 2023/02/15 21:04:51 by juwkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ static int	redirect_in(t_command *command)
 {
 	int	fd;
 
-	if (command->is_in_heredoc)
-		command->in = parse_heredoc(command->in);
 	fd = open(command->in, O_RDONLY, S_IRUSR);
 	if (fd < 0)
 		return (print_error(command->in, NULL, NULL));
